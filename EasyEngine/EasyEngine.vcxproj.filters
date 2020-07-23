@@ -1,17 +1,36 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
 <Project ToolsVersion="4.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
   <ItemGroup>
-    <Filter Include="ソース ファイル">
-      <UniqueIdentifier>{4FC737F1-C7A5-4376-A066-2A32D752A2FF}</UniqueIdentifier>
-      <Extensions>cpp;c;cc;cxx;c++;def;odl;idl;hpj;bat;asm;asmx</Extensions>
-    </Filter>
-    <Filter Include="ヘッダー ファイル">
-      <UniqueIdentifier>{93995380-89BD-4b04-88EB-625FBE52EBFB}</UniqueIdentifier>
-      <Extensions>h;hh;hpp;hxx;h++;hm;inl;inc;ipp;xsd</Extensions>
-    </Filter>
     <Filter Include="リソース ファイル">
       <UniqueIdentifier>{67DA6AB6-F800-4c08-8B7A-83BB121AAD01}</UniqueIdentifier>
       <Extensions>rc;ico;cur;bmp;dlg;rc2;rct;bin;rgs;gif;jpg;jpeg;jpe;resx;tiff;tif;png;wav;mfcribbon-ms</Extensions>
     </Filter>
+    <Filter Include="EGEG">
+      <UniqueIdentifier>{4FC737F1-C7A5-4376-A066-2A32D752A2FF}</UniqueIdentifier>
+      <Extensions>cpp;c;cc;cxx;c++;def;odl;idl;hpj;bat;asm;asmx</Extensions>
+    </Filter>
+    <Filter Include="EGEG\Audio">
+      <UniqueIdentifier>{1288fcc7-4199-49f6-a125-0bd0315b90e4}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="EGEG\Graphics">
+      <UniqueIdentifier>{78463174-8c76-46b8-a7b6-add9933c5b8b}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="EGEG\Math">
+      <UniqueIdentifier>{8565d6d8-cd5f-4070-b7aa-473e0008ab06}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="EGEG\Template">
+      <UniqueIdentifier>{e8e592f7-3a74-4c61-9b0f-5baf8fd7f644}</UniqueIdentifier>
+    </Filter>
+  </ItemGroup>
+  <ItemGroup>
+    <ClInclude Include="event_container.hpp">
+      <Filter>EGEG\Template</Filter>
+    </ClInclude>
+    <ClInclude Include="id.hpp">
+      <Filter>EGEG\Template</Filter>
+    </ClInclude>
+    <ClInclude Include="egeg.hpp">
+      <Filter>EGEG</Filter>
+    </ClInclude>
   </ItemGroup>
 </Project>

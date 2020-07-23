@@ -1,0 +1,34 @@
+///
+/// \file   egeg.hpp
+/// \brief  EasyEngineの機能を全て含むヘッダーファイル
+/// \author 板場
+///
+/// \par    履歴
+///         - 2020/7/23
+///             - ヘッダー追加
+///             - 名前空間を定義
+///
+#ifndef INCLUDED_EGEG_HEADER_
+#define INCLUDED_EGEG_HEADER_
+
+/******************************************************************************
+
+    namespace
+
+******************************************************************************/
+namespace easy_engine { ///< EasyEngine用名前空間
+    namespace a_lib{}   ///< AudioLIBrary       オーディオライブラリ用名前空間
+    namespace g_lib{}   ///< GraphicsLIBrary    描画ライブラリ用名前空間
+    namespace m_lib{}   ///< MathLIBrary        数学ライブラリ用名前空間
+    namespace t_lib{}   ///< TemplateLIBrary    テンプレートライブラリ用名前空間
+}
+namespace egeg = easy_engine;
+
+/******************************************************************************
+
+    include
+
+******************************************************************************/
+
+#endif // !INCLUDED_EGEG_HEADER_
+// EOF
