@@ -144,6 +144,7 @@
     <ClInclude Include="egeg.hpp" />
     <ClInclude Include="event_container.hpp" />
     <ClInclude Include="id.hpp" />
+    <ClInclude Include="noncopyable.hpp" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">

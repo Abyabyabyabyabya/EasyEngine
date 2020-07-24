@@ -1,6 +1,6 @@
 ///
 /// \file   egeg.hpp
-/// \brief  EasyEngineの機能を全て含むヘッダーファイル
+/// \brief  EasyEngineの機能を全て含むヘッダ
 /// \author 板場
 ///
 /// \par    履歴
@@ -16,11 +16,11 @@
     namespace
 
 ******************************************************************************/
-namespace easy_engine { ///< EasyEngine用名前空間
-    namespace a_lib{}   ///< AudioLIBrary       オーディオライブラリ用名前空間
-    namespace g_lib{}   ///< GraphicsLIBrary    描画ライブラリ用名前空間
-    namespace m_lib{}   ///< MathLIBrary        数学ライブラリ用名前空間
-    namespace t_lib{}   ///< TemplateLIBrary    テンプレートライブラリ用名前空間
+namespace easy_engine { // EasyEngine用名前空間
+    namespace a_lib{}   // AudioLIBrary       オーディオライブラリ用名前空間
+    namespace g_lib{}   // GraphicsLIBrary    描画ライブラリ用名前空間
+    namespace m_lib{}   // MathLIBrary        数学ライブラリ用名前空間
+    namespace t_lib{}   // TemplateLIBrary    テンプレートライブラリ用名前空間
 }
 namespace egeg = easy_engine;
 

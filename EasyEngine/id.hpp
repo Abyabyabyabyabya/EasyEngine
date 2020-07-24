@@ -1,12 +1,12 @@
 ///
 /// \file   id.hpp
-/// \brief  ID関連クラス定義
+/// \brief  ID関連クラス定義ヘッダ
 /// \author 板場
 ///
 /// \par    履歴
 ///         - 2020/7/23
-///             - ヘッダー追加
-///             - ConstantGenerator, TypeIDGenerator, StringGenerator及び、それに付随するクラスと関数の定義
+///             - ヘッダ追加
+///             - ConstantGenerator, TypeIDGenerator, StringGenerator及び、それに付随するクラスと関数を定義
 ///
 #ifndef INCLUDED_EGEG_TLIB_ID_HEADER_
 #define INCLUDED_EGEG_TLIB_ID_HEADER_
@@ -46,7 +46,7 @@ std::uintptr_t uniqueID(const Ty& Instance) noexcept {
 ///
 /// \brief  定数ジェネレーター
 ///
-/// 汎整数型定数、スコープ無し列挙型定数、及びスコープ付き列挙型定数に対応しています。
+/// 汎整数型定数、スコープ無し列挙型定数、及びスコープ付き列挙型定数に対応しています。\n
 /// その他の型については対応していません。(例. float, char* etc...)
 ///
 /// \tparam Value : 生成する定数値
@@ -67,8 +67,9 @@ using TypeIDGenerator = impl::Generator<impl::TypeID<Ty>>;
 ///
 /// \brief  文字列ジェネレーター
 ///
-/// 使用例) static const chat kName[] = "hogehoge";               <- 文字列
-///        static const StringGenerator<kName> kNameGenerator{}; <- 文字列の生成者
+/// 使用例)\n
+///         static const chat kName[] = "hogehoge";               <- 文字列\n
+///         static const StringGenerator<kName> kNameGenerator{}; <- 文字列の生成者
 ///
 /// \tparam Str : 生成する文字列
 ///

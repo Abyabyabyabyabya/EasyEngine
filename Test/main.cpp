@@ -2,7 +2,7 @@
 #include "egeg.hpp"
 #include "id.hpp"
 #include "event_container.hpp"
-
+#include <array>
 static char moji[] = "hogehoge";
 static constexpr auto name = egeg::t_lib::StringGenerator<moji>{};
 static constexpr int gen = egeg::t_lib::ConstantGenerator<0>{};
@@ -29,15 +29,23 @@ public :
 int main() {
     //egeg::t_lib::EventStack<void()> stack;
     std::deque<std::function<void()>> stack;
-    stack.push_back([](){std::cout << "call 0" << '\n';});
-    stack.push_front([](){std::cout << "call 1" << '\n';});
+    stack.push_back([]()noexcept{std::cout << "call 0" << '\n';});
+    stack.push_front([]()noexcept{std::cout << "call 1" << '\n';});
 
-    egeg::t_lib::EventStack<void()> events(std::move(stack));
-    events.pop_with_call();
+    egeg::t_lib::EventQueue<void()> events(std::move(stack));
+    noexcept(events.pop_with_call());
+    noexcept(events.call());
+    noexcept(events.top());
     events.pop_with_call();
     try {
     events.pop_with_call();
-    } catch(egeg::t_lib::BadEventCall&) {
-        std::cout << "handle exception" << std::endl;
-    }
+    } catch(std::exception& e) {
+        std::cout << e.what() << std::endl;
+    }   
+    egeg::t_lib::EventStack<int(), std::list> a;
+    using event_type = std::function<void()>;
+    egeg::t_lib::EventStack<void()> c;
+    egeg::t_lib::EventStack<void(), std::list> e;
+    using STDMap = std::map<int, std::function<void()>>;
+    using EGEGMap = egeg::t_lib::EventMap<int, void()>;
 }
