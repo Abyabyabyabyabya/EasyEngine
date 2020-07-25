@@ -35,5 +35,8 @@
     <ClInclude Include="noncopyable.hpp">
       <Filter>EGEG\Template</Filter>
     </ClInclude>
+    <ClInclude Include="task_manager.hpp">
+      <Filter>EGEG\Template</Filter>
+    </ClInclude>
   </ItemGroup>
 </Project>

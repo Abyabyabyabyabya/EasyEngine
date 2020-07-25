@@ -1,12 +1,14 @@
 ///
-/// \file   noncpyable.hpp
+/// \file   noncopyable.hpp
 /// \brief  コピー禁止ミックスイン定義ヘッダ
 /// \author 板場
 ///
 /// \par    履歴
 ///         - 2020/7/24
 ///             - ヘッダ追加
-///             - Noncopyable 定義
+///             - Noncopyable<…> 定義(未完)
+///         - 2020/7/25
+///             - Noncopyable<…> 完成
 ///
 #ifndef INCLUDED_EGEG_TLIB_NONCOPYABLE_HEADER_
 #define INCLUDED_EGEG_TLIB_NONCOPYABLE_HEADER_
@@ -28,7 +30,7 @@ template <class DerivedTy>
 class Noncopyable {
 public :
     Noncopyable(const Noncopyable&) = delete;
-    Noncopyable& (const Noncopyable&) = delete;
+    Noncopyable& operator=(const Noncopyable&) = delete;
 
 protected :
     Noncopyable() = default;

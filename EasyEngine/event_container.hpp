@@ -1,10 +1,15 @@
 ///
 /// \file   event_container.hpp
 /// \brief  イベント(関数オブジェクト)コンテナ群定義ヘッダ
+///
+///         標準のコンテナに関数オブジェクトをメンバとして持たせたい場合に
+///         少し簡単に記述できるようにするための定義群です。
+///         Container<std::function<void()>> と記述するところを Container<void()> のように記述することができます。
+///
 /// \author 板場
 ///
-/// \note   std::unordered_set<…>及び std::unordered_multiset<…>は、コンパイルが通らないため無し。\n
-///         std::hash<std::function<…>>がエラーの原因だと予想。
+/// \note   set系コンテナは、コンパイルが通らないため無し。\n
+///         std::function<…>が必要な演算子を定義していないことが原因だと予想。
 ///
 /// \par    履歴
 ///         - 2020/7/23
@@ -14,6 +19,9 @@
 ///             - EventQueue<…> 定義
 ///             - EventStack, EventQueue : イベント呼び出し時の例外を、より詳細なものに変更
 ///             - 引くに引けなくなり、全コンテナについて簡易記述用エイリアスを追加(一部例外あり)
+///         - 2020/7/25
+///             - set系コンテナに関する別名を削除
+///             - 呼び出し可能オブジェクト型を指定できる EventType<…>を定義
 ///
 #ifndef INCLUDED_EGEG_TLIB_FACTORY_HEADER_
 #define INCLUDED_EGEG_TLIB_FACTORY_HEADER_
@@ -30,12 +38,14 @@
 #include <forward_list>
 #include <map>
 #include <unordered_map>
-#include <set>
 
 namespace easy_engine {
 namespace t_lib {
   namespace impl {
-    template <class FTy> struct Event;
+    template <class FTy> struct Event {
+        static_assert(std::is_invocable_v<FTy>, "'FTy' must be invocable object type");
+        using Type = FTy;
+    };
     template <class RetTy, class ...ArgTypes>
     struct Event<RetTy(ArgTypes...)> {
         using Type = std::function<RetTy(ArgTypes...)>;
@@ -125,8 +135,7 @@ public :
 
 private :
     [[noreturn]] void error(std::string&& Func) const {
-        throw std::logic_error(
-            "call to invalid event. func: "+Func );
+        throw std::logic_error("call to invalid event. func: "+Func);
     }
 };
     
@@ -227,8 +236,7 @@ public :
 
 private :
     [[noreturn]] void error(std::string&& Func) const {
-        throw std::logic_error(
-            "call to invalid event. func: "+Func);
+        throw std::logic_error("call to invalid event. func: "+Func);
     }
 };
     
@@ -255,12 +263,6 @@ using EventUnorderedMap = std::unordered_map<KeyTy, impl::EventType<FTy>, Hasher
 
 template <class KeyTy, class FTy, class HasherTy=std::hash<KeyTy>, class KeyeqTy=std::equal_to<KeyTy>, class AllocTy=std::allocator<std::pair<const KeyTy, impl::EventType<FTy>>>>
 using EventUnorderedMultimap = std::unordered_multimap<KeyTy, impl::EventType<FTy>, HasherTy, KeyeqTy, AllocTy>;
-
-template <class FTy, class Comp=std::less<impl::EventType<FTy>>, class Alloc=std::allocator<impl::EventType<FTy>>>
-using EventSet = std::set<impl::EventType<FTy>, Comp, Alloc>;
-
-template <class FTy, class Comp=std::less<impl::EventType<FTy>>, class Alloc=std::allocator<impl::EventType<FTy>>>
-using EventMultiset = std::multiset<impl::EventType<FTy>, Comp, Alloc>;
 
 } // namespace t_lib
 } // namespace easy_engine

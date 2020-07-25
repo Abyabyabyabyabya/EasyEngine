@@ -145,6 +145,7 @@
     <ClInclude Include="event_container.hpp" />
     <ClInclude Include="id.hpp" />
     <ClInclude Include="noncopyable.hpp" />
+    <ClInclude Include="task_manager.hpp" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">
