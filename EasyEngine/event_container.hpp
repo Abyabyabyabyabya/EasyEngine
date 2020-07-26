@@ -239,7 +239,13 @@ private :
         throw std::logic_error("call to invalid event. func: "+Func);
     }
 };
-    
+
+
+/******************************************************************************
+
+    other containers
+
+******************************************************************************/
 template <class FTy, size_t Size>
 using EventArray = std::array<impl::EventType<FTy>, Size>;
 

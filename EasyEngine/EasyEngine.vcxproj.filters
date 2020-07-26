@@ -38,5 +38,11 @@
     <ClInclude Include="task_manager.hpp">
       <Filter>EGEG\Template</Filter>
     </ClInclude>
+    <ClInclude Include="field.hpp">
+      <Filter>EGEG\Template</Filter>
+    </ClInclude>
+    <ClInclude Include="property.hpp">
+      <Filter>EGEG\Template</Filter>
+    </ClInclude>
   </ItemGroup>
 </Project>
