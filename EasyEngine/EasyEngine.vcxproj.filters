@@ -50,5 +50,8 @@
     <ClInclude Include="utility_function.hpp">
       <Filter>EGEG\Template</Filter>
     </ClInclude>
+    <ClInclude Include="angle.hpp">
+      <Filter>EGEG\Math</Filter>
+    </ClInclude>
   </ItemGroup>
 </Project>

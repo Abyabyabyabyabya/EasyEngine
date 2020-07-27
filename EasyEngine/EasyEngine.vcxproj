@@ -141,6 +141,7 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
+    <ClInclude Include="angle.hpp" />
     <ClInclude Include="egeg.hpp" />
     <ClInclude Include="event_container.hpp" />
     <ClInclude Include="id.hpp" />

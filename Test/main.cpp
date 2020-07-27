@@ -7,11 +7,13 @@
 #include "property.hpp"
 #include "result.hpp"
 #include "utility_function.hpp"
+#include "angle.hpp"
 
 using namespace easy_engine::t_lib;
+using namespace easy_engine::m_lib;
 
-    int arr[10];
-    static constexpr size_t size = arraySize(arr);
+Degrees deg{180.0F};
+Radians rad{deg};
 
 struct Temp {
     Temp(int) {}
@@ -28,4 +30,8 @@ int main() {
 
     std::cout << r->handle << std::endl;
     (*r).handle;
+
+    std::cout << deg << " " << rad << std::endl;
+    std::cout << deg++ << " " << deg << std::endl; 
+
 }
