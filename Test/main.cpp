@@ -38,31 +38,38 @@ using Ptr0 = FieldTag<std::unique_ptr<int>, 0>;
 using Ptr1 = FieldTag<std::unique_ptr<int>, 1>;
 using Ptr2 = FieldTag<std::unique_ptr<int>, 2>;
 using Ptr3 = FieldTag<std::unique_ptr<int>, 3>;
+using Ptr4 = FieldTag<std::unique_ptr<int>, 4>;
+using Ptr5 = FieldTag<std::unique_ptr<int>, 5>;
+
+using UniqueProp = Property<Ptr0, Ptr1, Ptr2, Ptr3>;
+using UniqueEx = Property<UniqueProp, Ptr4, Ptr5>;
 
 int main() {
-    Property<Int0, Int1, Int2> prop{};
-    Property<Ptr0, decltype(prop)> p;
-    //Property<setter> p1;
+    UniqueEx p0{};
+    UniqueEx p1{};
 
-    prop.field<Int0>() = 1;
-    int value = prop.field<Int0>();
+    p0.field<Ptr0>() = std::make_unique<int>();
+    p0.field<Ptr1>() = std::make_unique<int>();
+    p0.field<Ptr2>() = std::make_unique<int>();
+    p0.field<Ptr3>() = std::make_unique<int>();
+    p0.field<Ptr4>() = std::make_unique<int>();
+    p0.field<Ptr5>() = std::make_unique<int>();
 
-    auto output = [](const Property<Int0, Int1, Int2>& P) {
-        std::cout << P.field<Int0>() << std::endl;
+    auto show = [](const UniqueEx& Prop, const char* P) {
+        std::cout << P << "'s status\n" <<
+            Prop.field<Ptr0>().get() << '\n' <<
+            Prop.field<Ptr1>().get() << '\n' <<
+            Prop.field<Ptr2>().get() << '\n' <<
+            Prop.field<Ptr3>().get() << '\n' <<
+            Prop.field<Ptr4>().get() << '\n' <<
+            Prop.field<Ptr5>().get() << std::endl;
     };
 
-    //prop.field<int>();
-    p.field<Int0>();
-    prop.field<Int0>().setPredicate(setter{5});
-    
-    std::cin >> prop.field<Int0>();
+    show(p0, "p0");
 
-    std::cout << value << std::endl;
-    std::cout << std::move(prop).field<Int0>() << std::endl;
+    std::cout << "move" << std::endl;
+    p1 = std::move(p0);
 
-    std::cin >> prop;
-    std::cout << 
-        prop.field<Int0>() <<
-        prop.field<Int1>() <<
-        prop.field<Int2>() << std::endl;
+    show(p0, "p0");
+    show(p1, "p1");
 }

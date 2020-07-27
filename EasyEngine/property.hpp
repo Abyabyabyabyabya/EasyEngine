@@ -32,15 +32,24 @@ class Property;
 
     template <class ...FieldTypes> struct Assignment;
     template <> class Assignment<> { // empty Assignment
-
+        template <class PropertyTy> void operator()(PropertyTy&, PropertyTy&&) const noexcept {};
     };
     template <class FieldType, class ...Rest>
-    struct Assignment<FieldType, Rest...> {
-        TODO : Definition Assignment
+    struct Assignment<FieldType, Rest...> : private Assignment<Rest...> {
+        template <class PropertyTy>
+        void operator()(PropertyTy& Left, PropertyTy&& Right) const {
+            // 2度moveされる可能性があるが、moveされるのはプロパティ内の対象フィールド(FieldType)のみ
+             Left.template field<FieldType>() = std::forward<PropertyTy>(Right).template field<FieldType>();
+            Assignment<Rest...>::operator()(Left, std::forward<PropertyTy>(Right));
+        }
     };
     template <class ...FieldTypes, class ...Rest>
-    struct Assignment<Property<FieldTypes...>, Rest...> {
-        // Property<…> の…の中にPropertyがある場合はこっち
+    struct Assignment<Property<FieldTypes...>, Rest...> : private Assignment<FieldTypes..., Rest...> {
+      // Property<…> の…の中にPropertyがある場合はこっち
+        template <class PropertyTy>
+        void operator()(PropertyTy& Left, PropertyTy&& Right) const {
+            Assignment<FieldTypes..., Rest...>::operator()(Left, std::forward<PropertyTy>(Right));
+        }
     };
   } // namespace impl
 
@@ -63,7 +72,7 @@ class Property;
 /// \tparam FieldTypes  : 保持するフィールドの型リスト
 ///
 template <class ...FieldTypes>
-class Property : private impl::PropertyBase<FieldTypes...> {
+class Property : private impl::PropertyBase<FieldTypes...>, private impl::Assignment<FieldTypes...> {
 public :
     Property() = default;
     Property(std::istream& Istream) {
@@ -71,30 +80,42 @@ public :
     }
     template <class PropertyTy>
     Property(PropertyTy&& Right) {
-
+        impl::Assignment<FieldTypes...>::operator()(*this, std::forward<PropertyTy>(Right));
     }
+
 
     template <class FieldType>
     FieldType& field() & noexcept {
-        static_assert(impl::IsField<FieldType>::value, "'FieldType' must be of type 'Field<…>'");
-        static_assert(std::is_base_of_v<FieldType, Property>, "'FieldType' must be base for this Property<…>'");
-
-        return *static_cast<FieldType*>(this);
+        return const_cast<FieldType&>(access<FieldType>());
     }
 
     template <class FieldType>
     const FieldType& field() const & noexcept {
-        return field<FieldType>();
+        return access<FieldType>();
     }
+
 
     template <class FieldType>
     FieldType field() && noexcept {
         return std::move(field<FieldType>());
     }
+
+private :
+    template <class FieldType>
+    const FieldType& access() const noexcept {
+        static_assert(impl::IsField<FieldType>::value, "'FieldType' must be of type 'Field<…>'");
+        static_assert(std::is_base_of_v<FieldType, Property>, "'FieldType' must be base for this Property<…>'");
+
+        return *static_cast<const FieldType*>(this);
+    }
 };
 
   namespace impl {
     template <class ...FieldTypes> struct Extractor;
+    template <>
+    struct Extractor<> { // empty Extractor
+        template <class ...FieldTypes> Extractor(std::istream&, Property<FieldTypes...>&) noexcept {}
+    };
 
     template <class First, class ...Rest>
     struct Extractor<First, Rest...> {
@@ -102,11 +123,6 @@ public :
         Extractor(std::istream& Istream, Property<FieldTypes...>& Prop) {
             Extractor<Rest...>{Istream >> Prop.field<First>(), Prop};
         }
-    };
-    template <>
-    struct Extractor<> { // empty Extractor
-        template <class ...FieldTypes>
-        Extractor(std::istream&, Property<FieldTypes...>&) {}
     };
   } // namespace impl
 
