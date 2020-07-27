@@ -8,6 +8,9 @@
 ///             - ヘッダ追加
 ///             - PropertyBase<…> 定義
 ///             - Property<…> 定義
+///         - 2020/7/27
+///             - コメント追加
+///             - デフォルトの関数で事足りることに気が付き、作業途中だったAssignment<…>を削除
 ///
 #ifndef INCLUDED_EGEG_TLIB_PROPERTY_HEADER_
 #define INCLUDED_EGEG_TLIB_PROPERTY_HEADER_
@@ -34,23 +37,6 @@ class Property;
     template <> class Assignment<> { // empty Assignment
         template <class PropertyTy> void operator()(PropertyTy&, PropertyTy&&) const noexcept {};
     };
-    template <class FieldType, class ...Rest>
-    struct Assignment<FieldType, Rest...> : private Assignment<Rest...> {
-        template <class PropertyTy>
-        void operator()(PropertyTy& Left, PropertyTy&& Right) const {
-            // 2度moveされる可能性があるが、moveされるのはプロパティ内の対象フィールド(FieldType)のみ
-             Left.template field<FieldType>() = std::forward<PropertyTy>(Right).template field<FieldType>();
-            Assignment<Rest...>::operator()(Left, std::forward<PropertyTy>(Right));
-        }
-    };
-    template <class ...FieldTypes, class ...Rest>
-    struct Assignment<Property<FieldTypes...>, Rest...> : private Assignment<FieldTypes..., Rest...> {
-      // Property<…> の…の中にPropertyがある場合はこっち
-        template <class PropertyTy>
-        void operator()(PropertyTy& Left, PropertyTy&& Right) const {
-            Assignment<FieldTypes..., Rest...>::operator()(Left, std::forward<PropertyTy>(Right));
-        }
-    };
   } // namespace impl
 
 
@@ -72,17 +58,21 @@ class Property;
 /// \tparam FieldTypes  : 保持するフィールドの型リスト
 ///
 template <class ...FieldTypes>
-class Property : private impl::PropertyBase<FieldTypes...>, private impl::Assignment<FieldTypes...> {
+class Property : private impl::PropertyBase<FieldTypes...> { //, private impl::Assignment<FieldTypes...> {
 public :
     Property() = default;
+
+    ///
+    /// \brief  入力ストリームからのデータで初期化
+    ///
+    ///         入力ストリームから、フィールドの数だけパラメータを入力します。
+    ///         その際、FieldTypes... の並びで読み込まれます。
+    ///
+    /// \param[in] Istream  : データを読み込む入力ストリーム
+    ///
     Property(std::istream& Istream) {
         Istream >> *this;
     }
-    template <class PropertyTy>
-    Property(PropertyTy&& Right) {
-        impl::Assignment<FieldTypes...>::operator()(*this, std::forward<PropertyTy>(Right));
-    }
-
 
     template <class FieldType>
     FieldType& field() & noexcept {

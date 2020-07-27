@@ -44,5 +44,11 @@
     <ClInclude Include="property.hpp">
       <Filter>EGEG\Template</Filter>
     </ClInclude>
+    <ClInclude Include="result.hpp">
+      <Filter>EGEG\Template</Filter>
+    </ClInclude>
+    <ClInclude Include="utility_function.hpp">
+      <Filter>EGEG\Template</Filter>
+    </ClInclude>
   </ItemGroup>
 </Project>

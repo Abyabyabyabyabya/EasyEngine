@@ -58,7 +58,7 @@ using FieldTag = Field<ETy, impl::TypeIndex<NIndex, TIndex>, PredTy>;
 /// \tparam IndexTy   : 同一要素型のフィールドを区別するインデックス
 /// \tparam PredTy    : 代入可否判定ファンクタ
 ///
-/// \details ファンクタは代入予定の値を受け取り、boolを返却するoperator()を定義する必要があります。\n
+/// \details ファンクタは代入予定の値をconst参照で受け取り、boolを返却するoperator()を定義する必要があります。\n
 ///          このとき、trueで代入が行われ、falseでは代入が行われません。\n
 ///          状態を保持するファンクタを持たせる場合、コンストラクタで初期化する必要があります。\n
 ///          要素型が同一であれば、異なるフィールド間で代入処理が可能です。\n
@@ -84,10 +84,22 @@ public :
         noexcept(noexcept(Field{std::forward<Ty>(Right),std::forward<PTy>(Pred),impl::IsField<std::decay_t<Ty>>{}}))
         : Field{std::forward<Ty>(Right), std::forward<PTy>(Pred), impl::IsField<std::decay_t<Ty>>{}} {}
 
+    ///
+    /// \brief  値をセット
+    ///
+    ///         フィールドのセット、値のセットどちらも可能です。
+    ///         代入可否判定ファンクタは変更されません。
+    ///
+    /// \tparam Ty   : セットする値の型
+    /// \param Right : セットする値
+    ///
+    /// \return セット後フィールドへの参照
+    ///
     template <class Ty>
     Field& operator=(Ty&& Right) noexcept(noexcept(assign(std::forward<Ty>(Right),impl::IsField<std::decay_t<Ty>>{}))){
         return assign(std::forward<Ty>(Right), impl::IsField<std::decay_t<Ty>>{});
     }
+    ///< operator=同様
     template <class Ty>
     void set(Ty&& Right) noexcept(noexcept(*this = std::forward<Ty>(Right))) {
         *this = std::forward<Ty>(Right);
@@ -100,8 +112,20 @@ public :
         return get();
     }
 
+    ///
+    /// \brief  代入可否ファンクタをセット
+    ///
+    ///         Field<…>::PredTypeにコピー可能、もしくはムーブ可能なファンクタのみ受け付けます。
+    ///         代入可否ファンクタの型ごと変換することはできません。
+    ///
+    /// \tparam PredTy_ : セットするファンクタの型
+    /// \param[in] Pred : セットするファンクタ
+    ///
     template <class PredTy_>
-    void setPredicate(PredTy_&& Pred) { *static_cast<PredType*>(this) = std::forward<PredTy_>(Pred); }
+    void setPredicate(PredTy_&& Pred) noexcept(noexcept(*static_cast<PredType*>(this) = std::forward<PredTy_>(Pred))) {
+        *static_cast<PredType*>(this) = std::forward<PredTy_>(Pred);
+    }
+
     const PredType& predicate() const noexcept { return *static_cast<PredType*>(this); }
 
 private :

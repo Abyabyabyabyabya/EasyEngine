@@ -147,7 +147,9 @@
     <ClInclude Include="noncopyable.hpp" />
     <ClInclude Include="field.hpp" />
     <ClInclude Include="property.hpp" />
+    <ClInclude Include="result.hpp" />
     <ClInclude Include="task_manager.hpp" />
+    <ClInclude Include="utility_function.hpp" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">

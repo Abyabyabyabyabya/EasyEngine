@@ -18,10 +18,12 @@
 ///         - 2020/7/24
 ///             - EventQueue<…> 定義
 ///             - EventStack, EventQueue : イベント呼び出し時の例外を、より詳細なものに変更
-///             - 引くに引けなくなり、全コンテナについて簡易記述用エイリアスを追加(一部例外あり)
+///             - 引くに引けなくなり、"ほぼ"全てのコンテナについて簡易記述用エイリアスを追加
 ///         - 2020/7/25
 ///             - set系コンテナに関する別名を削除
 ///             - 呼び出し可能オブジェクト型を指定できる EventType<…>を定義
+///         - 2020/7/27
+///             - 例外送出用、非メンバ関数定義
 ///
 #ifndef INCLUDED_EGEG_TLIB_FACTORY_HEADER_
 #define INCLUDED_EGEG_TLIB_FACTORY_HEADER_
@@ -52,6 +54,10 @@ namespace t_lib {
     };
     template <class FTy>
     using EventType = typename Event<FTy>::Type;
+
+    [[noreturn]] void callError(std::string&& Func) {
+        throw std::logic_error("call to invalid event. func: "+Func);
+    }
   } // namespace impl
 
 /******************************************************************************
@@ -81,11 +87,11 @@ public :
     static_assert(std::is_invocable_v<impl::EventType<FTy>>,
         "EventStack<…> can only contain invocable object");
 
-  // alias
+  // aliases
     using FuncType      = impl::EventType<FTy>;
     using ResultType    = typename FuncType::result_type;
     using ContainerType = std::stack<FuncType, ContainerTy<impl::EventType<FTy>>>;
-  // declaration
+  // declarations
     using ContainerType::ContainerType;
     using ContainerType::empty;
     using ContainerType::size;
@@ -95,6 +101,7 @@ public :
     using ContainerType::pop;
     using ContainerType::swap;
 
+  // functions
     ///
     /// \brief  先頭のイベントを呼び出す
     ///
@@ -108,7 +115,7 @@ public :
     ///
     template <class ...ArgTypes_>
     ResultType call(ArgTypes_&& ...Args) {
-        if(ContainerType::empty()) error("EventStack::call");
+        if(ContainerType::empty()) impl::callError("EventStack::call");
 
         return ContainerType::top()(std::forward<ArgTypes_>(Args)...);
     }
@@ -126,16 +133,11 @@ public :
     ///
     template <class ...ArgTypes_>
     ResultType pop_with_call(ArgTypes_&& ...Args) {
-        if(ContainerType::empty()) error("EventStack::pop_with_call");
+        if(ContainerType::empty()) impl::callError("EventStack::pop_with_call");
 
         auto func = std::move(ContainerType::top());
         ContainerType::pop();
         return func(std::forward<ArgTypes_>(Args)...);
-    }
-
-private :
-    [[noreturn]] void error(std::string&& Func) const {
-        throw std::logic_error("call to invalid event. func: "+Func);
     }
 };
     
@@ -209,7 +211,7 @@ public :
     ///
     template <class ...ArgTypes_>
     ResultType call(ArgTypes_&& ...Args) {
-        if(ContainerType::empty()) error("EventQueue::call");
+        if(ContainerType::empty()) impl::callError("EventQueue::call");
 
         return ContainerType::front()(std::forward<ArgTypes_>(Args)...);
     }
@@ -227,16 +229,11 @@ public :
     ///
     template <class ...ArgTypes_>
     ResultType pop_with_call(ArgTypes_&& ...Args) {
-        if(ContainerType::empty()) error("EventQueue::pop_with_call");
+        if(ContainerType::empty()) impl::callError("EventQueue::pop_with_call");
 
         auto func = std::move(ContainerType::front());
         ContainerType::pop();
         return func(std::forward<ArgTypes_>(Args)...);
-    }
-
-private :
-    [[noreturn]] void error(std::string&& Func) const {
-        throw std::logic_error("call to invalid event. func: "+Func);
     }
 };
 

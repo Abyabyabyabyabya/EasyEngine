@@ -48,6 +48,7 @@ namespace t_lib {
 template <class TaskTy, uint32_t DefaultPriority=0U>
 class TaskManager {
 public :
+  // aliases
     using TaskType = impl::EventType<TaskTy>;
 
   // concepts
@@ -56,6 +57,7 @@ public :
     static_assert(std::is_move_constructible_v<TaskType>, "'TaskType' must be the movable type");
     static_assert(std::is_move_assignable_v<TaskType>, "'TaskType' must be the movable type");
 
+  // nested class
     ///< ƒ^ƒXƒN“o˜^î•ñ
     class TaskInfo final : Noncopyable<TaskInfo> {
     public :
@@ -82,6 +84,7 @@ public :
         TaskManager* manager_;
     };
 
+  // functions
     ///
     /// \brief  ƒ^ƒXƒN‚ğ“o˜^
     ///
