@@ -8,14 +8,14 @@
 #include "result.hpp"
 #include "utility_function.hpp"
 #include "angle.hpp"
+//#define EGEG_MLIB_USE_COMPILE_TIME_CALCULATION
 #include "mvector.hpp"
 #include "mvector.hpp"
 
+using namespace egeg;
 using namespace easy_engine::t_lib;
 using namespace easy_engine::m_lib;
 
-Degrees deg{180.0F};
-Radians rad{deg};
 
 static constexpr float vec_d[] = {1, 1};
 static constexpr float mat_d[9] {
@@ -24,9 +24,18 @@ static constexpr float mat_d[9] {
     6,1,7
 };
 
+using m_lib::Vector2D;
+using m_lib::Matrix3x3;
+
 constexpr Vector2D c_v0{};
 constexpr Vector2D c_v1{};
-//constexpr Vector2D c_sum = compile_time_calculation::operator+(c_v0, c_v1);
+//constexpr Vector2D c_sum = vectorAdd(c_v0, c_v1);
+  //constexpr Vector2D c_sum = c_v0 + c_v1;
+
+namespace {
+    int func() {return 0;}
+}
+void func() {}
 
 int main() {
     Vector2D v;
@@ -53,5 +62,7 @@ int main() {
     t2 += Vector2D{0.0F, 8.0F};
     std::cout << t2.x << " " << t2.y << " " << std::endl;
 
-    
+    //Vector2D sum = run_time_calculation::vectorAdd(t, t2);
+
+    func();
 }

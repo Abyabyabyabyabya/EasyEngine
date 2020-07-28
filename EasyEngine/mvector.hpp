@@ -1,15 +1,35 @@
 ///
 /// \file   mvector.hpp
 /// \brief  算術用数値コンテナ群定義ヘッダ
-/// \author 板場
 ///
+///         コンテナはコンパイル時定数(constexpr)になることができます。
+///         コンパイル時のベクトル演算、行列演算も一部サポートしていますが、デフォルトでは使用できません。
+///         使用するには、egeg::m_lib::compile_time_calculation 名前空間を明示的に指定するか、
+///         このヘッダをインクルードする直前で EGEG_MLIB_USE_COMPILE_TIME_CALCULATION マクロを定義してください。
+///
+/// \attention 名前空間を明示的に指定する方法ではなく、マクロを定義してコンパイル時計算関数を使用した場合、
+///            それ以降の関数呼び出しが全てコンパイル時計算用のものになります。\n
+///            以上の理由から、ヘッダでのマクロ定義を行ってはいけません。\n
+///            マクロを定義した.cppファイルで、速度重視の実行時用関数を呼び出したい場合は、
+///            egeg::m_lib::run_time_calculation名前空間にある同一名の関数を使用してください。\n
+///            …compile_time_calculation名前空間、及び…run_time_calculation名前空間のusing宣言を行ってはいけません。
+///
+/// \author 板場
 ///
 /// \par    履歴
 ///         - 2020/7/28
 ///             - ヘッダ追加
 ///             - VectorND 定義
 ///             - MatrixMxN 定義
-///             - ベクトル演算プロトタイプ宣言
+///             - ベクトル演算プロトタイプ宣言(速度重視実行時用、コンパイル時計算用)
+///
+/// \note   実行時用名前空間、コンパイル時用名前空間について\n
+///         元々は実行時用名前空間は指定しなくても良いようにしていたが、\n
+///         using namespace egeg::m_lib;　とせずに\n
+///         using namespace egeg::m_lib::compile_time_calculation;\n
+///         としてコンパイル時用関数を呼び出そうとしたときに、
+///         ADLにより…run_time_calculation名前空間も検索の対象となり、オーバーロード解決が曖昧になる問題が発生したため、
+///         現在(2020/7/28)の形になった。
 ///
 #ifndef INCLUDED_EGEG_MLIB_MVECTOR_HEADER_
 #define INCLUDED_EGEG_MLIB_MVECTOR_HEADER_
@@ -20,9 +40,16 @@
 
 namespace easy_engine {
 namespace m_lib {
+#ifdef EGEG_MLIB_USE_COMPILE_TIME_CALCULATION
+  inline namespace compile_time_calculation {}
+#else
+  inline namespace run_time_calculation {}
+#endif // EGEG_MLIB_USE_COMPILE_TIME_CALCULATION
+
 struct Vector2D;
 struct Vector3D;
 struct Vector4D;
+
   namespace impl {
     [[noreturn]] void rangeError(std::string&& Func) {
         throw std::logic_error("out-of-range access detected. func: "+Func);
@@ -248,7 +275,7 @@ struct Matrix4x4 {
     vector calculation
 
 ******************************************************************************/
-  inline namespace run_time_calculation {
+  namespace run_time_calculation {
     Vector2D operator+(const Vector2D&, const Vector2D&);
     Vector2D vectorAdd(const Vector2D&, const Vector2D&);
     Vector2D operator-(const Vector2D&, const Vector2D&);
@@ -279,11 +306,15 @@ struct Matrix4x4 {
     Vector4D vectorDiv(const Vector4D&, float);
     float dot(const Vector4D&, const Vector4D&);
     Vector4D cross(const Vector4D&, const Vector4D&, const Vector4D&);
-  }
+  } // namespace run_time_calculation
   namespace compile_time_calculation {
+    constexpr Vector2D operator+(const Vector2D&, const Vector2D&) noexcept;
     constexpr Vector2D vectorAdd(const Vector2D&, const Vector2D&) noexcept;
+    constexpr Vector2D operator-(const Vector2D&, const Vector2D&) noexcept;
     constexpr Vector2D vectorSub(const Vector2D&, const Vector2D&) noexcept;
+    constexpr Vector2D operator*(const Vector2D&, float) noexcept;
     constexpr Vector2D vectorMul(const Vector2D&, float) noexcept;
+    constexpr Vector2D operator/(const Vector2D&, float) noexcept;
     constexpr Vector2D vectorDiv(const Vector2D&, float) noexcept;
     constexpr float dot(const Vector2D&, const Vector2D&) noexcept;
     constexpr float cross(const Vector2D&, const Vector2D&) noexcept;
@@ -299,7 +330,7 @@ struct Matrix4x4 {
     constexpr Vector4D vectorDiv(const Vector4D&, float) noexcept;
     constexpr float dot(const Vector4D&, const Vector4D&) noexcept;
     constexpr Vector4D cross(const Vector4D&, const Vector4D&, const Vector4D&) noexcept;
-  }
+  } // namespace compile_time_calculation
 
 /******************************************************************************
 
