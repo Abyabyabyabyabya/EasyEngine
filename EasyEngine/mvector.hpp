@@ -1,6 +1,6 @@
 ///
-/// \file   mvector
-/// \brief  算術用数値コンテナ
+/// \file   mvector.hpp
+/// \brief  算術用数値コンテナ群定義ヘッダ
 /// \author 板場
 ///
 ///
@@ -9,19 +9,28 @@
 ///             - ヘッダ追加
 ///             - VectorND 定義
 ///             - MatrixMxN 定義
+///             - ベクトル演算プロトタイプ宣言
 ///
 #ifndef INCLUDED_EGEG_MLIB_MVECTOR_HEADER_
 #define INCLUDED_EGEG_MLIB_MVECTOR_HEADER_
 
 #include <cstddef>
 #include <stdexcept>
+#include <DirectXMath.h>
 
 namespace easy_engine {
 namespace m_lib {
+struct Vector2D;
+struct Vector3D;
+struct Vector4D;
   namespace impl {
     [[noreturn]] void rangeError(std::string&& Func) {
         throw std::logic_error("out-of-range access detected. func: "+Func);
     }
+
+    DirectX::XMVECTOR load(const Vector2D&);
+    DirectX::XMVECTOR load(const Vector3D&);
+    DirectX::XMVECTOR load(const Vector4D&);
   } // namespace impl
 
 /******************************************************************************
@@ -44,9 +53,14 @@ struct Vector2D {
     Vector2D& operator=(Vector2D&&) = default;
 
     constexpr Vector2D(float X, float Y) noexcept;
-    constexpr Vector2D(const float (&XY)[2]) noexcept;
+    template <size_t N> constexpr Vector2D(const float (&XY)[N]) noexcept;
+    template <size_t N> Vector2D& operator=(const float (&XY)[N]) noexcept;
 
     constexpr float& operator[](size_t Index);
+    Vector2D& operator+=(const Vector2D&) noexcept;
+    Vector2D& operator-=(const Vector2D&) noexcept;
+    Vector2D& operator*=(float) noexcept;
+    Vector2D& operator/=(float) noexcept;
 };
 
 /******************************************************************************
@@ -69,7 +83,8 @@ struct Vector3D {
     Vector3D& operator=(Vector3D&&) = default;
 
     constexpr Vector3D(float X, float Y, float Z) noexcept;
-    constexpr Vector3D(const float (&XYZ)[3]) noexcept;
+    template <size_t N> constexpr Vector3D(const float (&XYZ)[N]) noexcept;
+    template <size_t N> Vector3D& operator=(const float (&XYZ)[N]) noexcept;
 
     constexpr float& operator[](size_t Index);
 };
@@ -94,7 +109,8 @@ struct Vector4D {
     Vector4D& operator=(Vector4D&&) = default;
 
     constexpr Vector4D(float X, float Y, float Z, float W) noexcept;
-    constexpr Vector4D(const float (&XYZW)[4]) noexcept;
+    template <size_t N> constexpr Vector4D(const float (&XYZW)[N]) noexcept;
+    template <size_t N> Vector4D& operator=(const float (&XYZW)[N]) noexcept;
 
     constexpr float& operator[](size_t Index);
 };
@@ -229,14 +245,103 @@ struct Matrix4x4 {
 
 /******************************************************************************
 
+    vector calculation
+
+******************************************************************************/
+  inline namespace run_time_calculation {
+    Vector2D operator+(const Vector2D&, const Vector2D&);
+    Vector2D vectorAdd(const Vector2D&, const Vector2D&);
+    Vector2D operator-(const Vector2D&, const Vector2D&);
+    Vector2D vectorSub(const Vector2D&, const Vector2D&);
+    Vector2D operator*(const Vector2D&, float);
+    Vector2D vectorMul(const Vector2D&, float);
+    Vector2D operator/(const Vector2D&, float);
+    Vector2D vectorDiv(const Vector2D&, float);
+    float dot(const Vector2D&, const Vector2D&);
+    float cross(const Vector2D&, const Vector2D&);
+    Vector3D operator+(const Vector3D&, const Vector3D&);
+    Vector3D vectorAdd(const Vector3D&, const Vector3D&);
+    Vector3D operator-(const Vector3D&, const Vector3D&);
+    Vector3D vectorSub(const Vector3D&, const Vector3D&);
+    Vector3D operator*(const Vector3D&, float);
+    Vector3D vectorMul(const Vector3D&, float);
+    Vector3D operator/(const Vector3D&, float);
+    Vector3D vectorDiv(const Vector3D&, float);
+    float dot(const Vector3D&, const Vector3D&);
+    Vector3D cross(const Vector3D&, const Vector3D&);
+    Vector4D operator+(const Vector4D&, const Vector4D&);
+    Vector4D vectorAdd(const Vector4D&, const Vector4D&);
+    Vector4D operator-(const Vector4D&, const Vector4D&);
+    Vector4D vectorSub(const Vector4D&, const Vector4D&);
+    Vector4D operator*(const Vector4D&, float);
+    Vector4D vectorMul(const Vector4D&, float);
+    Vector4D operator/(const Vector4D&, float);
+    Vector4D vectorDiv(const Vector4D&, float);
+    float dot(const Vector4D&, const Vector4D&);
+    Vector4D cross(const Vector4D&, const Vector4D&, const Vector4D&);
+  }
+  namespace compile_time_calculation {
+    constexpr Vector2D vectorAdd(const Vector2D&, const Vector2D&) noexcept;
+    constexpr Vector2D vectorSub(const Vector2D&, const Vector2D&) noexcept;
+    constexpr Vector2D vectorMul(const Vector2D&, float) noexcept;
+    constexpr Vector2D vectorDiv(const Vector2D&, float) noexcept;
+    constexpr float dot(const Vector2D&, const Vector2D&) noexcept;
+    constexpr float cross(const Vector2D&, const Vector2D&) noexcept;
+    constexpr Vector3D vectorAdd(const Vector3D&, const Vector3D&) noexcept;
+    constexpr Vector3D vectorSub(const Vector3D& ,const Vector3D&) noexcept;
+    constexpr Vector3D vectorMul(const Vector3D&, float) noexcept;
+    constexpr Vector3D vectorDiv(const Vector3D&, float) noexcept;
+    constexpr float dot(const Vector3D&, const Vector3D&) noexcept;
+    constexpr Vector3D cross(const Vector3D&, const Vector3D&) noexcept;
+    constexpr Vector4D vectorAdd(const Vector4D&, const Vector4D&) noexcept;
+    constexpr Vector4D vectorSub(const Vector4D&, const Vector4D&) noexcept;
+    constexpr Vector4D vectorMul(const Vector4D&, float) noexcept;
+    constexpr Vector4D vectorDiv(const Vector4D&, float) noexcept;
+    constexpr float dot(const Vector4D&, const Vector4D&) noexcept;
+    constexpr Vector4D cross(const Vector4D&, const Vector4D&, const Vector4D&) noexcept;
+  }
+
+/******************************************************************************
+
     Vector2D::
 
 ******************************************************************************/
 inline constexpr Vector2D::Vector2D(const float X, const float Y) noexcept : x{X}, y{Y} {}
-inline constexpr Vector2D::Vector2D(const float (&XY)[2]) noexcept : x{XY[0]}, y{XY[1]} {}
+template <size_t N>
+inline constexpr Vector2D::Vector2D(const float (&XY)[N]) noexcept : x{XY[0]}, y{XY[1]} {
+    static_assert(N>=2, "the number of elements in 'XY' must be at least 2");
+}
+template <size_t N>
+inline Vector2D& Vector2D::operator=(const float (&XY)[N]) noexcept {
+    static_assert(N>=2, "the number of elements in 'XY' must be at least 2");
+
+    x = XY[0];
+    y = XY[1];
+    return *this;
+}
 inline constexpr float& Vector2D::operator[](size_t Idx) {
     if(Idx>=2) impl::rangeError("Vector2D::operatorp[]");
     return v[Idx];
+}
+inline Vector2D& Vector2D::operator+=(const Vector2D& V) noexcept {
+    using namespace DirectX;
+    *this = XMVectorAdd(impl::load(*this), impl::load(V)).m128_f32;
+    return *this;
+}
+inline Vector2D& Vector2D::operator-=(const Vector2D& V) noexcept {
+    using namespace DirectX;
+    auto res = XMVectorSubtract(impl::load(*this), impl::load(V)).m128_f32;
+    return *this;
+}
+inline Vector2D& Vector2D::operator*=(const float S) noexcept {
+    using namespace DirectX;
+    *this = XMVectorMultiply(impl::load(*this), XMVectorReplicate(S)).m128_f32;
+    return *this;
+}
+inline Vector2D& Vector2D::operator/=(const float S) noexcept {
+    using namespace DirectX;
+    *this = XMVectorDivide(impl::load(*this), XMVectorReplicate(S)).m128_f32;
+    return *this;
 }
 
 /******************************************************************************
@@ -245,7 +350,19 @@ inline constexpr float& Vector2D::operator[](size_t Idx) {
 
 ******************************************************************************/
 inline constexpr Vector3D::Vector3D(const float X, const float Y, const float Z) noexcept : x{X}, y{Y}, z{Z} {}
-inline constexpr Vector3D::Vector3D(const float (&XYZ)[3]) noexcept : x{XYZ[0]}, y{XYZ[1]}, z{XYZ[2]} {}
+template <size_t N>
+inline constexpr Vector3D::Vector3D(const float (&XYZ)[N]) noexcept : x{XYZ[0]}, y{XYZ[1]}, z{XYZ[2]} {
+    static_assert(N>=3, "the number of elements in 'XYZ' must be at least 3");
+}
+template <size_t N>
+inline Vector3D& Vector3D::operator=(const float (&XYZ)[N]) noexcept {
+    static_assert(N>=3, "the number of elements in 'XYZ' must be at least 3");
+
+    x = XYZ[0];
+    y = XYZ[1];
+    z = XYZ[2];
+    return *this;
+}
 inline constexpr float& Vector3D::operator[](size_t Idx) {
     if(Idx>=3) impl::rangeError("Vector3D::operator[]");
     return v[Idx];
@@ -258,7 +375,20 @@ inline constexpr float& Vector3D::operator[](size_t Idx) {
 ******************************************************************************/
 inline constexpr Vector4D::Vector4D(const float X, const float Y, const float Z, const float W) noexcept :
   x{X}, y{Y}, z{Z}, w{W} {}
-inline constexpr Vector4D::Vector4D(const float (&XYZW)[4]) noexcept : x{XYZW[0]}, y{XYZW[1]}, z{XYZW[2]}, w{XYZW[3]}{}
+template <size_t N>
+inline constexpr Vector4D::Vector4D(const float (&XYZW)[N]) noexcept : x{XYZW[0]}, y{XYZW[1]}, z{XYZW[2]}, w{XYZW[3]} {
+    static_assert(N>=4, "the number of elements in 'XYZW' must be at least 4");
+}
+template <size_t N>
+inline Vector4D& Vector4D::operator=(const float (&XYZW)[N]) noexcept {
+    static_assert(N>=4, "the number of elements in 'XYZW' must be at least 4");
+
+    x = XYZW[0];
+    y = XYZW[1];
+    z = XYZW[2];
+    w = XYZW[3];
+    return *this;
+}
 inline constexpr float& Vector4D::operator[](size_t Idx) {
     if(Idx>=4) impl::rangeError("Vector4D::operator[]");
     return v[Idx];
@@ -363,6 +493,12 @@ inline constexpr Vector4D& Matrix4x4::operator[](size_t Idx) {
     if(Idx>=4) impl::rangeError("Matrix4x4::operator[]");
     return row[Idx];
 }
+
+  namespace impl {
+    inline DirectX::XMVECTOR load(const Vector2D& V) { return DirectX::XMVECTOR{V.x, V.y}; }
+    inline DirectX::XMVECTOR load(const Vector3D& V) { return DirectX::XMVECTOR{V.x, V.y, V.z}; }
+    inline DirectX::XMVECTOR load(const Vector4D& V) { return DirectX::XMVECTOR{V.x, V.y, V.z, V.w}; }
+  }
 
 } // namespace m_lib
 } // namespace easy_engine

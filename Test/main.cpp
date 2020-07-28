@@ -17,22 +17,16 @@ using namespace easy_engine::m_lib;
 Degrees deg{180.0F};
 Radians rad{deg};
 
-struct Temp {
-    Temp(int) {}
-
-    int handle;
-};
-Result<int> func() {
-
-    return Failure{};
-}
-
 static constexpr float vec_d[] = {1, 1};
 static constexpr float mat_d[9] {
     1,2,3,
     4,1,5,
     6,1,7
 };
+
+constexpr Vector2D c_v0{};
+constexpr Vector2D c_v1{};
+//constexpr Vector2D c_sum = compile_time_calculation::operator+(c_v0, c_v1);
 
 int main() {
     Vector2D v;
@@ -52,4 +46,12 @@ int main() {
       std::cout << std::endl;
     }
     //mat[0][3];
+
+    Vector2D t{};
+    std::cout << t.x << " " << t.y << " " << std::endl;
+    Vector2D t2{1.0F, 2.0F};
+    t2 += Vector2D{0.0F, 8.0F};
+    std::cout << t2.x << " " << t2.y << " " << std::endl;
+
+    
 }
