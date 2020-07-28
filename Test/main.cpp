@@ -32,11 +32,6 @@ constexpr Vector2D c_v1{};
 //constexpr Vector2D c_sum = vectorAdd(c_v0, c_v1);
   //constexpr Vector2D c_sum = c_v0 + c_v1;
 
-namespace {
-    int func() {return 0;}
-}
-void func() {}
-
 int main() {
     Vector2D v;
     v.x = 0;
@@ -63,6 +58,4 @@ int main() {
     std::cout << t2.x << " " << t2.y << " " << std::endl;
 
     //Vector2D sum = run_time_calculation::vectorAdd(t, t2);
-
-    func();
 }
