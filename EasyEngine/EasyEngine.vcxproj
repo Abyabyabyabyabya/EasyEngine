@@ -145,6 +145,7 @@
     <ClInclude Include="egeg.hpp" />
     <ClInclude Include="event_container.hpp" />
     <ClInclude Include="id.hpp" />
+    <ClInclude Include="mvector.hpp" />
     <ClInclude Include="noncopyable.hpp" />
     <ClInclude Include="field.hpp" />
     <ClInclude Include="property.hpp" />
