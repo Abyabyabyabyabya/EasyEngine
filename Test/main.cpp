@@ -35,11 +35,20 @@ constexpr int dig = digit(92309340394830498,
                                    0b010000);
 
 int main() {
-    //std::cout << digit(403948, 0b1000) << std::endl;
-    std::cout << digit(232938479279238474, 
-                               0b10000000) << std::endl;
+    std::cout << digit(403948, 0b1000) << std::endl;
+    std::cout << digit(232938479279238474, 0b10000000) << std::endl;
     float vec2_1[]{1.0F, 1.0F};
     const float vec2_2[]{2.0F, 2.0F};
+    for(uint64_t i=0; i<1000000; ++i) {
     arr_add<2>{}(vec2_1, vec2_2);
-    std::cout << vec2_1[0] << " " << vec2_1[1];
+    //std::cout << (vec2_1[0]+=1) << " " << vec2_1[1] << std::endl; 
+    }
+
+    Vector2D vec_1;
+    Vector2D vec_2;
+    
+    for(uint64_t i=0; i<1000000; ++i) {
+    vec_1 += vec_2;
+    //std::cout << (vec_1[0]+=1) << " " << (vec_1[1]+=1) << std::endl;
+    }
 }
