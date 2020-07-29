@@ -276,34 +276,26 @@ struct Matrix4x4 {
 
 ******************************************************************************/
   namespace run_time_calculation {
+    template <class Vector> Vector vectorAdd(const Vector&, const Vector&);
+    template <class Vector> Vector vectorSub(const Vector&, const Vector&);
+    template <class Vector> Vector vectorMul(const Vector&, float);
+    template <class Vector> Vector vectorDiv(const Vector&, float);
     Vector2D operator+(const Vector2D&, const Vector2D&);
-    Vector2D vectorAdd(const Vector2D&, const Vector2D&);
     Vector2D operator-(const Vector2D&, const Vector2D&);
-    Vector2D vectorSub(const Vector2D&, const Vector2D&);
     Vector2D operator*(const Vector2D&, float);
-    Vector2D vectorMul(const Vector2D&, float);
     Vector2D operator/(const Vector2D&, float);
-    Vector2D vectorDiv(const Vector2D&, float);
     float dot(const Vector2D&, const Vector2D&);
     float cross(const Vector2D&, const Vector2D&);
     Vector3D operator+(const Vector3D&, const Vector3D&);
-    Vector3D vectorAdd(const Vector3D&, const Vector3D&);
     Vector3D operator-(const Vector3D&, const Vector3D&);
-    Vector3D vectorSub(const Vector3D&, const Vector3D&);
     Vector3D operator*(const Vector3D&, float);
-    Vector3D vectorMul(const Vector3D&, float);
     Vector3D operator/(const Vector3D&, float);
-    Vector3D vectorDiv(const Vector3D&, float);
     float dot(const Vector3D&, const Vector3D&);
     Vector3D cross(const Vector3D&, const Vector3D&);
     Vector4D operator+(const Vector4D&, const Vector4D&);
-    Vector4D vectorAdd(const Vector4D&, const Vector4D&);
     Vector4D operator-(const Vector4D&, const Vector4D&);
-    Vector4D vectorSub(const Vector4D&, const Vector4D&);
     Vector4D operator*(const Vector4D&, float);
-    Vector4D vectorMul(const Vector4D&, float);
     Vector4D operator/(const Vector4D&, float);
-    Vector4D vectorDiv(const Vector4D&, float);
     float dot(const Vector4D&, const Vector4D&);
     Vector4D cross(const Vector4D&, const Vector4D&, const Vector4D&);
   } // namespace run_time_calculation
@@ -314,20 +306,28 @@ struct Matrix4x4 {
     constexpr Vector2D vectorSub(const Vector2D&, const Vector2D&) noexcept;
     constexpr Vector2D operator*(const Vector2D&, float) noexcept;
     constexpr Vector2D vectorMul(const Vector2D&, float) noexcept;
-    constexpr Vector2D operator/(const Vector2D&, float) noexcept;
-    constexpr Vector2D vectorDiv(const Vector2D&, float) noexcept;
+    constexpr Vector2D operator/(const Vector2D&, float);
+    constexpr Vector2D vectorDiv(const Vector2D&, float);
     constexpr float dot(const Vector2D&, const Vector2D&) noexcept;
     constexpr float cross(const Vector2D&, const Vector2D&) noexcept;
+    constexpr Vector3D operator+(const Vector3D&, const Vector3D&) noexcept;
     constexpr Vector3D vectorAdd(const Vector3D&, const Vector3D&) noexcept;
+    constexpr Vector3D operator-(const Vector3D& ,const Vector3D&) noexcept;
     constexpr Vector3D vectorSub(const Vector3D& ,const Vector3D&) noexcept;
+    constexpr Vector3D operator*(const Vector3D&, float) noexcept;
     constexpr Vector3D vectorMul(const Vector3D&, float) noexcept;
-    constexpr Vector3D vectorDiv(const Vector3D&, float) noexcept;
+    constexpr Vector3D operator/(const Vector3D&, float);
+    constexpr Vector3D vectorDiv(const Vector3D&, float);
     constexpr float dot(const Vector3D&, const Vector3D&) noexcept;
     constexpr Vector3D cross(const Vector3D&, const Vector3D&) noexcept;
+    constexpr Vector4D operator+(const Vector4D&, const Vector4D&) noexcept;
     constexpr Vector4D vectorAdd(const Vector4D&, const Vector4D&) noexcept;
+    constexpr Vector4D operator-(const Vector4D&, const Vector4D&) noexcept;
     constexpr Vector4D vectorSub(const Vector4D&, const Vector4D&) noexcept;
+    constexpr Vector4D operator*(const Vector4D&, float) noexcept;
     constexpr Vector4D vectorMul(const Vector4D&, float) noexcept;
-    constexpr Vector4D vectorDiv(const Vector4D&, float) noexcept;
+    constexpr Vector4D operator/(const Vector4D&, float);
+    constexpr Vector4D vectorDiv(const Vector4D&, float);
     constexpr float dot(const Vector4D&, const Vector4D&) noexcept;
     constexpr Vector4D cross(const Vector4D&, const Vector4D&, const Vector4D&) noexcept;
   } // namespace compile_time_calculation
@@ -525,12 +525,170 @@ inline constexpr Vector4D& Matrix4x4::operator[](size_t Idx) {
     return row[Idx];
 }
 
+/******************************************************************************
+
+    vector calculation define
+
+******************************************************************************/
+  namespace run_time_calculation {
+    template <class Vector>
+    inline Vector vectorAdd(const Vector& L, const Vector& R) {
+        return Vector{DirectX::XMVectorAdd(impl::load(L), impl::load(R)).m128_f32};
+    }
+    template <class Vector>
+    inline Vector vectorSub(const Vector& L, const Vector& R) {
+        return Vector{DirectX::XMVectorSubtract(impl::load(L), impl::load(R)).m128_f32};
+    }
+    template <class Vector>
+    inline Vector vectorMul(const Vector& L, const float R) {
+        alignas(16) const float value = R;
+        return Vector{DirectX::XMVectorMultiply(impl::load(L), _mm_load1_ps(&value)).m128_f32};
+    }
+    template <class Vector>
+    inline Vector vectorDiv(const Vector& L, const float R) {
+        alignas(16) const float value = R;
+        return Vector{DirectX::XMVectorDivide(impl::load(L), _mm_load1_ps(&value)).m128_f32};
+    }
+    inline Vector2D operator+(const Vector2D& L, const Vector2D& R) { return vectorAdd(L, R); }
+    inline Vector2D operator-(const Vector2D& L, const Vector2D& R) { return vectorSub(L, R); }
+    inline Vector2D operator*(const Vector2D& L, const float R) { return vectorMul(L, R); }
+    inline Vector2D operator/(const Vector2D& L, const float R) { return vectorDiv(L, R); }
+    inline float dot(const Vector2D& L, const Vector2D& R) {
+        return DirectX::XMVector2Dot(impl::load(L), impl::load(R)).m128_f32[0];
+    }
+    inline float cross(const Vector2D& L, const Vector2D& R) {
+        return DirectX::XMVector2Cross(impl::load(L), impl::load(R)).m128_f32[0];
+    }
+    inline Vector3D operator+(const Vector3D& L, const Vector3D& R) { return vectorAdd(L, R); }
+    inline Vector3D operator-(const Vector3D& L, const Vector3D& R) { return vectorSub(L, R); }
+    inline Vector3D operator*(const Vector3D& L, const float R) { return vectorMul(L, R); }
+    inline Vector3D operator/(const Vector3D& L, const float R) { return vectorDiv(L, R); }
+    inline float dot(const Vector3D& L, const Vector3D& R) {
+        return DirectX::XMVector3Dot(impl::load(L), impl::load(R)).m128_f32[0];
+    }
+    inline Vector3D cross(const Vector3D& L, const Vector3D& R) {
+        return Vector3D{DirectX::XMVector3Cross(impl::load(L), impl::load(R)).m128_f32};
+    }
+    inline Vector4D operator+(const Vector4D& L, const Vector4D& R) { return vectorAdd(L, R); }
+    inline Vector4D operator-(const Vector4D& L, const Vector4D& R) { return vectorSub(L, R); }
+    inline Vector4D operator*(const Vector4D& L, const float R) { return vectorMul(L, R); }
+    inline Vector4D operator/(const Vector4D& L, const float R) { return vectorDiv(L, R); }
+    inline float dot(const Vector4D& L, const Vector4D& R) {
+        return DirectX::XMVector4Dot(impl::load(L), impl::load(R)).m128_f32[0];
+    }
+    inline Vector4D cross(const Vector4D& V1, const Vector4D& V2, const Vector4D& V3) {
+        return Vector4D{DirectX::XMVector4Cross(impl::load(V1), impl::load(V2), impl::load(V3)).m128_f32};
+    }
+  } // namespace run_time_calculation
+
+  namespace compile_time_calculation {
+    inline constexpr Vector2D operator+(const Vector2D& L, const Vector2D& R) noexcept {
+        return compile_time_calculation::vectorAdd(L, R);
+    }
+    inline constexpr Vector2D vectorAdd(const Vector2D& L, const Vector2D& R) noexcept {
+        return Vector2D{L.x+R.x, L.y+R.y};
+    }
+    inline constexpr Vector2D operator-(const Vector2D& L, const Vector2D& R) noexcept {
+        return compile_time_calculation::vectorSub(L, R);
+    }
+    inline constexpr Vector2D vectorSub(const Vector2D& L, const Vector2D& R) noexcept {
+        return Vector2D{L.x-R.x, L.y-R.y};
+    }
+    inline constexpr Vector2D operator*(const Vector2D& L, const float R) noexcept {
+        return compile_time_calculation::vectorMul(L, R);
+    }
+    inline constexpr Vector2D vectorMul(const Vector2D& L, const float R) noexcept {
+        return Vector2D{L.x*R, L.y*R};
+    }
+    inline constexpr Vector2D operator/(const Vector2D& L, const float R) {
+        return compile_time_calculation::vectorDiv(L, R);
+    }
+    inline constexpr Vector2D vectorDiv(const Vector2D& L, const float R) {
+        return compile_time_calculation::vectorMul(L, 1.0F/R);
+    }
+    inline constexpr float dot(const Vector2D& L, const Vector2D& R) noexcept {
+        return (L.x*R.x) + (L.y*R.y);
+    }
+    inline constexpr float cross(const Vector2D& L, const Vector2D& R) noexcept {
+        return (L.x*R.y) - (L.y*R.x);
+    }
+    inline constexpr Vector3D operator+(const Vector3D& L, const Vector3D& R) noexcept {
+        return compile_time_calculation::vectorAdd(L, R);
+    }
+    inline constexpr Vector3D vectorAdd(const Vector3D& L, const Vector3D& R) noexcept {
+        return Vector3D{L.x+R.x, L.y+R.y, L.z+R.z};
+    }
+    inline constexpr Vector3D operator-(const Vector3D& L, const Vector3D& R) noexcept {
+        return compile_time_calculation::vectorSub(L, R);
+    }
+    inline constexpr Vector3D vectorSub(const Vector3D& L, const Vector3D& R) noexcept {
+        return Vector3D{L.x-R.x, L.y-R.y, L.z-R.z};
+    }
+    inline constexpr Vector3D operator*(const Vector3D& L, const float R) noexcept {
+        return compile_time_calculation::vectorMul(L, R);
+    }
+    inline constexpr Vector3D vectorMul(const Vector3D& L, const float R) noexcept {
+        return Vector3D{L.x*R, L.y*R, L.z*R};
+    }
+    inline constexpr Vector3D operator/(const Vector3D& L, const float R) {
+        return compile_time_calculation::vectorDiv(L, R);
+    }
+    inline constexpr Vector3D vectorDiv(const Vector3D& L, const float R) {
+        return compile_time_calculation::vectorMul(L, 1.0F/R);
+    }
+    inline constexpr float dot(const Vector3D& L, const Vector3D& R) noexcept {
+        return (L.x*R.x) + (L.y*R.y) + (L.z*R.z);
+    }
+    inline constexpr Vector3D cross(const Vector3D& L, const Vector3D& R) noexcept {
+        return Vector3D {(L.y*R.z) - (L.z*R.y), (L.z*R.x) - (L.x*R.z), (L.x*R.y) - (L.y*R.x)};
+    }
+    inline constexpr Vector4D operator+(const Vector4D& L, const Vector4D& R) noexcept {
+        return compile_time_calculation::vectorAdd(L, R);
+    }
+    inline constexpr Vector4D vectorAdd(const Vector4D& L, const Vector4D& R) noexcept {
+        return Vector4D{L.x+R.x, L.y+R.y, L.z+R.z, L.w+R.w};
+    }
+    inline constexpr Vector4D operator-(const Vector4D& L, const Vector4D& R) noexcept {
+        return compile_time_calculation::vectorSub(L, R);
+    }
+    inline constexpr Vector4D vectorSub(const Vector4D& L, const Vector4D& R) noexcept {
+        return Vector4D{L.x-R.x, L.y-R.y, L.z-R.z, L.w-R.w};
+    }
+    inline constexpr Vector4D operator*(const Vector4D& L, const float R) noexcept {
+        return compile_time_calculation::vectorMul(L, R);
+    }
+    inline constexpr Vector4D vectorMul(const Vector4D& L, const float R) noexcept {
+        return Vector4D{L.x*R, L.y*R, L.z*R, L.w*R};
+    }
+    inline constexpr Vector4D operator/(const Vector4D& L, const float R) {
+        return compile_time_calculation::vectorDiv(L, R);
+    }
+    inline constexpr Vector4D vectorDiv(const Vector4D& L, const float R) {
+        return compile_time_calculation::vectorMul(L, 1.0F/R);
+    }
+    inline constexpr float dot(const Vector4D& L, const Vector4D& R) noexcept {
+        return (L.x*R.x) + (L.y*R.y) + (L.z*R.z) + (L.w*R.w);
+    }
+    // éQçl : https://docs.microsoft.com/en-us/windows/win32/api/directxmath/nf-directxmath-xmvector4cross
+    inline constexpr Vector4D cross(const Vector4D& V1, const Vector4D& V2, const Vector4D& V3) noexcept {
+        return Vector4D {
+            V1.y*(V2.z*V3.w-V3.z*V2.w) - V1.z*(V2.y*V3.w-V3.y*V2.w) + V1.w*(V2.y*V3.z-V3.y*V2.z),
+            V1.x*(V3.z*V2.w-V2.z*V3.w) - V1.z*(V3.x*V2.w-V2.x*V3.w) + V1.w*(V3.x*V2.z-V2.x*V3.z),
+            V1.x*(V2.y*V3.w-V3.y*V2.w) - V1.y*(V2.x*V3.w-V3.x*V2.w) + V1.w*(V2.x*V3.y-V3.x*V2.y),
+            V1.x*(V3.y*V2.z-V2.y*V3.z) - V1.y*(V3.x*V2.z-V2.x*V3.z) + V1.z*(V3.x*V2.y-V2.x*V3.y)
+        };
+    }
+  } // namespace compile_time_calculation
+
   namespace impl {
     inline DirectX::XMVECTOR load(const Vector2D& V) { return DirectX::XMVECTOR{V.x, V.y}; }
     inline DirectX::XMVECTOR load(const Vector3D& V) { return DirectX::XMVECTOR{V.x, V.y, V.z}; }
-    inline DirectX::XMVECTOR load(const Vector4D& V) { return DirectX::XMVECTOR{V.x, V.y, V.z, V.w}; }
-  }
-
+    inline DirectX::XMVECTOR load(const Vector4D& V) {
+        alignas(16) float d[4] = {V.x, V.y, V.z, V.w};
+        return _mm_load_ps(d); 
+        return DirectX::XMVECTOR{V.x, V.y, V.z, V.w}; 
+    }
+  } // namespace impl
 } // namespace m_lib
 } // namespace easy_engine
 #endif // !INCLUDED_EGEG_MLIB_MVECTOR_HEADER_
