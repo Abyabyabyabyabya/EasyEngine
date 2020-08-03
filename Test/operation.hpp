@@ -1,4 +1,5 @@
-#pragma once
+#ifndef INCLUDED_TEST_OPERATION_HPP
+#define INCLUDED_TEST_OPERATION_HPP
 
 #include "mvector.hpp"
 
@@ -34,3 +35,4 @@ private :
 constexpr int digit(long long Value, uint32_t Digit) {
     return Digit>>1 ? digit(Value/10, Digit>>1) : Value%10;
 }
+#endif // INCLUDED_TEST_OPERATION_HPP

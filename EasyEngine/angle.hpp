@@ -8,6 +8,8 @@
 ///             - ヘッダ追加
 ///             - Degrees 定義
 ///             - Radians 定義
+///         - 2020/8/3
+///             - 作業用名前を impl から angle_impl へ変更
 ///
 #ifndef INCLUDED_EGEG_MLIB_ANGLE_HEADER_
 #define INCLUDED_EGEG_MLIB_ANGLE_HEADER_
@@ -18,7 +20,7 @@
 namespace easy_engine {
 namespace m_lib {
 class Radians;
-  namespace impl {
+  namespace angle_impl {
       constexpr bool floatEqual(float, float) noexcept;
   } // namespace impl
 
@@ -37,7 +39,7 @@ public :
     constexpr Degrees(const Radians) noexcept;
     Degrees& operator=(const Radians) noexcept;
 
-    constexpr bool operator==(const Degrees D) const noexcept { return impl::floatEqual(angle_, D.angle_); }
+    constexpr bool operator==(const Degrees D) const noexcept { return angle_impl::floatEqual(angle_, D.angle_); }
     constexpr bool operator!=(const Degrees D) const noexcept { return !(*this==D); }
 
     constexpr Degrees operator+(const Degrees D) const noexcept { return Degrees{angle_+D.angle_}; }
@@ -74,7 +76,7 @@ public :
         return *this;
     }
 
-    constexpr bool operator==(const Radians R) const noexcept { return impl::floatEqual(angle_, R.angle_); }
+    constexpr bool operator==(const Radians R) const noexcept { return angle_impl::floatEqual(angle_, R.angle_); }
     constexpr bool operator!=(const Radians R) const noexcept { return !(*this==R); }
 
     constexpr Radians operator+(const Radians R) const noexcept { return Radians{angle_+R.angle_}; }
@@ -99,7 +101,7 @@ inline Degrees& Degrees::operator=(const Radians Angle) noexcept {
     return *this;
 }
 
-  inline constexpr bool impl::floatEqual(float L, float R) noexcept {
+  inline constexpr bool angle_impl::floatEqual(float L, float R) noexcept {
       const float diff = (L-R)>0 ? L-R : R-L;
       L = L>0 ? L : -L;
       R = R>0 ? R : -R;

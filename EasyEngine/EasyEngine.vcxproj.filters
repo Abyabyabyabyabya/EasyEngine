@@ -21,6 +21,9 @@
     <Filter Include="EGEG\Template">
       <UniqueIdentifier>{e8e592f7-3a74-4c61-9b0f-5baf8fd7f644}</UniqueIdentifier>
     </Filter>
+    <Filter Include="EGEG\Input">
+      <UniqueIdentifier>{2ac9daf1-b21a-4b07-8548-ccbf39ff3c83}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="event_container.hpp">
@@ -54,6 +57,18 @@
       <Filter>EGEG\Math</Filter>
     </ClInclude>
     <ClInclude Include="mvector.hpp">
+      <Filter>EGEG\Math</Filter>
+    </ClInclude>
+    <ClInclude Include="mmatrix.hpp">
+      <Filter>EGEG\Math</Filter>
+    </ClInclude>
+    <ClInclude Include="mvector_calc.hpp">
+      <Filter>EGEG\Math</Filter>
+    </ClInclude>
+    <ClInclude Include="mmatrix_calc.hpp">
+      <Filter>EGEG\Math</Filter>
+    </ClInclude>
+    <ClInclude Include="egeg_math.hpp">
       <Filter>EGEG\Math</Filter>
     </ClInclude>
   </ItemGroup>

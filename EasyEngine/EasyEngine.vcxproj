@@ -143,9 +143,13 @@
   <ItemGroup>
     <ClInclude Include="angle.hpp" />
     <ClInclude Include="egeg.hpp" />
+    <ClInclude Include="egeg_math.hpp" />
     <ClInclude Include="event_container.hpp" />
     <ClInclude Include="id.hpp" />
+    <ClInclude Include="mmatrix.hpp" />
+    <ClInclude Include="mmatrix_calc.hpp" />
     <ClInclude Include="mvector.hpp" />
+    <ClInclude Include="mvector_calc.hpp" />
     <ClInclude Include="noncopyable.hpp" />
     <ClInclude Include="field.hpp" />
     <ClInclude Include="property.hpp" />
