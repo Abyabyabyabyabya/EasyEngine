@@ -29,6 +29,33 @@ namespace m_lib {
     static constexpr bool kIsMultipliable = LTy::kColumnDimension == RTy::kRowDimension;
     template <class LTy, class RTy>
     using ResultType = std::enable_if_t<kIsMultipliable<LTy,RTy>,MatrixType<LTy::kRowDimension,RTy::kColumnDimension>>;
+    template <class MTy>
+    using TransposeType = typename Matrix<MTy::kColumnDimension, MTy::kRowDimension>::Type;
+
+    template <class MatrixTy>
+    struct TransColumn {
+        static constexpr size_t kDimension = MatrixTy::kColumnDimension;
+        constexpr TransColumn(const MatrixTy& Original, const size_t Row) : original_{Original}, row_{Row} {}
+        constexpr float operator[](const size_t I) const {
+            return original_[I][row_];
+        }
+    private :
+        const MatrixTy& original_;
+        const size_t row_;
+    };
+
+    template <class MatrixTy>
+    class TransposeRef {
+    public :
+        static constexpr size_t kRowDimension = MatrixTy::kColumnDimension;
+        static constexpr size_t kColumnDimension = MatrixTy::kRowDimension;
+        constexpr TransposeRef(const MatrixTy& Original) : original_{Original} {}
+        constexpr TransColumn<MatrixTy> operator[](size_t I) const noexcept {
+            return TransColumn<MatrixTy>{original_, I}; 
+        }
+    private :
+        const MatrixTy& original_;
+    };
   } // namespace matrix_impl
 
 /******************************************************************************
@@ -36,15 +63,10 @@ namespace m_lib {
     matrix calculation
 
 ******************************************************************************/
-  template <class MatrixTy>
-  inline matrix_impl::MatrixType<MatrixTy::kColumnDimension, MatrixTy::kRowDimension>
-    transpose(const MatrixTy& M) noexcept {
-      matrix_impl::MatrixType<MatrixTy::kColumnDimension, MatrixTy::kRowDimension> t;
-      for(int i=0; i<MatrixTy::kRowDimension; ++i)
-          for(int j=0; j<MatrixTy::kColumnDimension; ++j)
-              t[j][i] = M[i][j];
-      return t;
-  }
+    template <class MTy>
+    inline constexpr matrix_impl::TransposeRef<MTy> transpose(const MTy& M) noexcept {
+        return matrix_impl::TransposeRef<MTy>{M};
+    }
 
   namespace default_operation {
     inline constexpr Matrix3x3 matrixAdd(const Matrix3x3& L, const Matrix3x3& R) noexcept {
@@ -166,9 +188,9 @@ namespace m_lib {
         return default_operation::matrixDiv(L, R);
     }
     template <class LhTy, class RhTy>
-    inline matrix_impl::ResultType<LhTy, RhTy> matrixMul(const LhTy& L, const RhTy& R) noexcept {
+    inline constexpr matrix_impl::ResultType<LhTy, RhTy> matrixMul(const LhTy& L, const RhTy& R) noexcept {
         using RetTy = matrix_impl::ResultType<LhTy, RhTy>;
-        const auto kTR = transpose(R);
+        const matrix_impl::TransposeType<RhTy> kTR = transpose(R);
         RetTy mul;
         for(int i=0; i<RetTy::kRowDimension; ++i)
             for( int j=0; j<RetTy::kColumnDimension; ++j)

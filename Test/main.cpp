@@ -39,24 +39,26 @@ tra(const Matrix4x4& M) noexcept {
 
 constexpr Matrix4x4 t = tra(o);
 
-inline constexpr Matrix4x4
-cmul(const Matrix4x4& L, const Matrix4x4& R) noexcept {
-    return Matrix4x4 {
-        dot(L.row[0], R.row[0]), dot(L.row[0], R.row[1]), dot(L.row[0], R.row[2]), dot(L.row[0], R.row[3]),
-        dot(L.row[1], R.row[0]), dot(L.row[1], R.row[1]), dot(L.row[1], R.row[2]), dot(L.row[1], R.row[3]),
-        dot(L.row[2], R.row[0]), dot(L.row[2], R.row[1]), dot(L.row[2], R.row[2]), dot(L.row[2], R.row[3]),
-        dot(L.row[3], R.row[0]), dot(L.row[3], R.row[1]), dot(L.row[3], R.row[2]), dot(L.row[3], R.row[3]),
-    };
-}
+//inline constexpr Matrix4x4
+//cmul(const Matrix4x4& L, const Matrix4x4& R) noexcept {
+//    return Matrix4x4 {
+//        dot(L.row[0], R.row[0]), dot(L.row[0], R.row[1]), dot(L.row[0], R.row[2]), dot(L.row[0], R.row[3]),
+//        dot(L.row[1], R.row[0]), dot(L.row[1], R.row[1]), dot(L.row[1], R.row[2]), dot(L.row[1], R.row[3]),
+//        dot(L.row[2], R.row[0]), dot(L.row[2], R.row[1]), dot(L.row[2], R.row[2]), dot(L.row[2], R.row[3]),
+//        dot(L.row[3], R.row[0]), dot(L.row[3], R.row[1]), dot(L.row[3], R.row[2]), dot(L.row[3], R.row[3]),
+//    };
+//}
 
-constexpr Vector4D v1{1.0F, 1.0F, 1.0F, 1.0F};
-constexpr Vector4D v2{2.0F, 2.0F, 2.0F, 2.0F};
-constexpr Vector4D v3{3.0F, 3.0F, 3.0F, 3.0F};
-constexpr Vector4D v4{4.0F, 4.0F, 4.0F, 4.0F};
+constexpr Vector4D v1{{1.0F, 1.0F, 1.0F, 1.0F}};
+constexpr Vector4D v2{{2.0F, 2.0F, 2.0F, 2.0F}};
+constexpr Vector4D v3{{3.0F, 3.0F, 3.0F, 3.0F}};
+constexpr Vector4D v4{{4.0F, 4.0F, 4.0F, 4.0F}};
 constexpr Matrix4x4 l{{v1, v2, v3, v4}};
 constexpr Matrix4x4 r2{{v4, v3, v2, v1}};
-constexpr auto mul = cmul(l, r2);
+//constexpr auto mul = cmul(l, r2);
 
+constexpr Matrix4x4 transpse = transpose(l);
+constexpr auto multi = transpse*l;
 
 int main() {
     
@@ -67,6 +69,8 @@ int main() {
             std::cout << std::endl;
         }
     };
+
+
 
     showMatrix(m);
     std::cout << std::endl;

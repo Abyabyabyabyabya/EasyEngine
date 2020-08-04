@@ -84,7 +84,7 @@ struct Vector2D {
     std::enable_if_t<TempTy::kDimension==kDimension, Vector2D&> operator=(const TempTy&) noexcept;
 
     float& operator[](size_t Index);
-    float operator[](size_t Index) const;
+    constexpr float operator[](size_t Index) const;
     Vector2D& operator+=(const Vector2D&) noexcept;
     template <class TempTy>
     std::enable_if_t<TempTy::kDimension==kDimension, Vector2D&> operator+=(const TempTy&) noexcept;
@@ -130,7 +130,7 @@ struct Vector3D {
     std::enable_if_t<TempTy::kDimension==kDimension, Vector3D&> operator=(const TempTy&) noexcept;
 
     float& operator[](size_t Index);
-    float operator[](size_t Index) const;
+    constexpr float operator[](size_t Index) const;
     Vector3D& operator+=(const Vector3D&) noexcept;
     template <class TempTy>
     std::enable_if_t<TempTy::kDimension==kDimension, Vector3D&> operator+=(const TempTy&) noexcept;
@@ -224,7 +224,7 @@ inline float& Vector2D::operator[](const size_t Idx) {
     if(Idx>=2) vector_impl::rangeError("Vector2D::operatorp[]");
     return v[Idx];
 }
-inline float Vector2D::operator[](const size_t Idx) const {
+inline constexpr float Vector2D::operator[](const size_t Idx) const {
     if(Idx>=2) vector_impl::rangeError("Vector2D::operator[]");
     return v[Idx];
 }
@@ -294,7 +294,7 @@ inline float& Vector3D::operator[](const size_t Idx) {
     if(Idx>=3) vector_impl::rangeError("Vector3D::operator[]");
     return v[Idx];
 }
-inline float Vector3D::operator[](const size_t Idx) const {
+inline constexpr float Vector3D::operator[](const size_t Idx) const {
     if(Idx>=3) vector_impl::rangeError("Vector3D::operator[]");
     return v[Idx];
 }

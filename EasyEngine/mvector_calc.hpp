@@ -101,8 +101,9 @@ namespace m_lib {
     inline constexpr Vector3D vectorDiv(const Vector3D& L, const float R) {
         return default_operation::vectorMul(L, 1.0F/R);
     }
-    inline constexpr float dot(const Vector3D& L, const Vector3D& R) noexcept {
-        return (L.x*R.x) + (L.y*R.y) + (L.z*R.z);
+    template <class LhTy, class RhTy, class=std::enable_if_t<LhTy::kDimension==3&&LhTy::kDimension==3>>
+    inline constexpr float dot(const LhTy& L,const RhTy& R)noexcept{
+        return (L[0]*R[0]) + (L[1]*R[1]) + (L[2]*R[2]);
     }
     inline constexpr Vector3D cross(const Vector3D& L, const Vector3D& R) noexcept {
         return Vector3D {(L.y*R.z) - (L.z*R.y), (L.z*R.x) - (L.x*R.z), (L.x*R.y) - (L.y*R.x)};
