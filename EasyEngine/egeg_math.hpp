@@ -1,6 +1,7 @@
 ///
 /// \file   egeg_math.hpp
 /// \brief  Zpƒ‰ƒCƒuƒ‰ƒŠŒQ
+///
 /// \author ”Âê
 ///
 /// \par    —š—ğ

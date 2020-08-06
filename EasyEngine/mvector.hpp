@@ -78,19 +78,19 @@ struct Vector2D {
     constexpr Vector2D(float X, float Y) noexcept;
     template <size_t N> constexpr Vector2D(const float (&XY)[N]) noexcept;
     template <size_t N> Vector2D& operator=(const float (&XY)[N]) noexcept;
-    template <class TempTy, class=std::enable_if_t<TempTy::kDimension==kDimension>>
-    constexpr Vector2D(const TempTy&) noexcept;
-    template <class TempTy>
-    std::enable_if_t<TempTy::kDimension==kDimension, Vector2D&> operator=(const TempTy&) noexcept;
+    template <class Ty, class=std::enable_if_t<Ty::kDimension==kDimension>>
+    constexpr Vector2D(const Ty&) noexcept;
+    template <class Ty>
+    std::enable_if_t<Ty::kDimension==kDimension, Vector2D&> operator=(const Ty&) noexcept;
 
     float& operator[](size_t Index);
     constexpr float operator[](size_t Index) const;
     Vector2D& operator+=(const Vector2D&) noexcept;
-    template <class TempTy>
-    std::enable_if_t<TempTy::kDimension==kDimension, Vector2D&> operator+=(const TempTy&) noexcept;
+    template <class Ty>
+    std::enable_if_t<Ty::kDimension==kDimension, Vector2D&> operator+=(const Ty&) noexcept;
     Vector2D& operator-=(const Vector2D&) noexcept;
-    template <class TempTy>
-    std::enable_if_t<TempTy::kDimension==kDimension, Vector2D&> operator-=(const TempTy&) noexcept;
+    template <class Ty>
+    std::enable_if_t<Ty::kDimension==kDimension, Vector2D&> operator-=(const Ty&) noexcept;
     Vector2D& operator*=(float) noexcept;
     Vector2D& operator/=(float) noexcept;
 };
@@ -124,19 +124,19 @@ struct Vector3D {
     constexpr Vector3D(float X, float Y, float Z) noexcept;
     template <size_t N> constexpr Vector3D(const float (&XYZ)[N]) noexcept;
     template <size_t N> Vector3D& operator=(const float (&XYZ)[N]) noexcept;
-    template <class TempTy, class=std::enable_if_t<TempTy::kDimension==kDimension>>
-    constexpr Vector3D(const TempTy&) noexcept;
-    template <class TempTy>
-    std::enable_if_t<TempTy::kDimension==kDimension, Vector3D&> operator=(const TempTy&) noexcept;
+    template <class Ty, class=std::enable_if_t<Ty::kDimension==kDimension>>
+    constexpr Vector3D(const Ty&) noexcept;
+    template <class Ty>
+    std::enable_if_t<Ty::kDimension==kDimension, Vector3D&> operator=(const Ty&) noexcept;
 
     float& operator[](size_t Index);
     constexpr float operator[](size_t Index) const;
     Vector3D& operator+=(const Vector3D&) noexcept;
-    template <class TempTy>
-    std::enable_if_t<TempTy::kDimension==kDimension, Vector3D&> operator+=(const TempTy&) noexcept;
+    template <class Ty>
+    std::enable_if_t<Ty::kDimension==kDimension, Vector3D&> operator+=(const Ty&) noexcept;
     Vector3D& operator-=(const Vector3D&) noexcept;
-    template <class TempTy>
-    std::enable_if_t<TempTy::kDimension==kDimension, Vector3D&> operator-=(const TempTy&) noexcept;
+    template <class Ty>
+    std::enable_if_t<Ty::kDimension==kDimension, Vector3D&> operator-=(const Ty&) noexcept;
     Vector3D& operator*=(float) noexcept;
     Vector3D& operator/=(float) noexcept;
 };
@@ -170,19 +170,19 @@ struct Vector4D {
     constexpr Vector4D(float X, float Y, float Z, float W) noexcept;
     template <size_t N> constexpr Vector4D(const float (&XYZW)[N]) noexcept;
     template <size_t N> Vector4D& operator=(const float (&XYZW)[N]) noexcept;
-    template <class TempTy, class=std::enable_if_t<TempTy::kDimension==kDimension>>
-    constexpr Vector4D(const TempTy&) noexcept;
-    template <class TempTy>
-    std::enable_if_t<TempTy::kDimension==kDimension, Vector4D&> operator=(const TempTy&) noexcept;
+    template <class Ty, class=std::enable_if_t<Ty::kDimension==kDimension>>
+    constexpr Vector4D(const Ty&) noexcept;
+    template <class Ty>
+    std::enable_if_t<Ty::kDimension==kDimension, Vector4D&> operator=(const Ty&) noexcept;
 
     float& operator[](size_t Index);
     constexpr float operator[](size_t Index) const;
     Vector4D& operator+=(const Vector4D&) noexcept;
-    template <class TempTy>
-    std::enable_if_t<TempTy::kDimension==kDimension, Vector4D&> operator+=(const TempTy&) noexcept;
+    template <class Ty>
+    std::enable_if_t<Ty::kDimension==kDimension, Vector4D&> operator+=(const Ty&) noexcept;
     Vector4D& operator-=(const Vector4D&) noexcept;
-    template <class TempTy>
-    std::enable_if_t<TempTy::kDimension==kDimension, Vector4D&> operator-=(const TempTy&) noexcept;
+    template <class Ty>
+    std::enable_if_t<Ty::kDimension==kDimension, Vector4D&> operator-=(const Ty&) noexcept;
     Vector4D& operator*=(float) noexcept;
     Vector4D& operator/=(float) noexcept;
 };
@@ -198,7 +198,7 @@ __attribute__((aligned(16))) Vector4D
     Vector2D::
 
 ******************************************************************************/
-inline constexpr Vector2D::Vector2D(const float X, const float Y) noexcept : x{X}, y{Y} {}
+inline constexpr Vector2D::Vector2D(const float X, const float Y) noexcept : v{X, Y} {}
 template <size_t N>
 inline constexpr Vector2D::Vector2D(const float (&XY)[N]) noexcept : v{XY[0], XY[1]} {
     static_assert(N>=2, "'XY' must have at least two elements");
@@ -207,15 +207,15 @@ template <size_t N>
 inline Vector2D& Vector2D::operator=(const float (&XY)[N]) noexcept {
     static_assert(N>=2, "'XY' must have at least two elements");
 
-    x = XY[0];
-    y = XY[1];
+    v[0] = XY[0];
+    v[1] = XY[1];
     return *this;
 }
-template <class TempTy, class>
-inline constexpr Vector2D::Vector2D(const TempTy& Temp) noexcept : v{Temp[0], Temp[1]} {}
-template <class TempTy>
-inline std::enable_if_t<TempTy::kDimension==Vector2D::kDimension, Vector2D&>
-  Vector2D::operator=(const TempTy& Temp) noexcept {
+template <class Ty, class>
+inline constexpr Vector2D::Vector2D(const Ty& Temp) noexcept : v{Temp[0], Temp[1]} {}
+template <class Ty>
+inline std::enable_if_t<Ty::kDimension==Vector2D::kDimension, Vector2D&>
+  Vector2D::operator=(const Ty& Temp) noexcept {
     v[0] = Temp[0];
     v[1] = Temp[1];
     return *this;
@@ -229,32 +229,32 @@ inline constexpr float Vector2D::operator[](const size_t Idx) const {
     return v[Idx];
 }
 inline Vector2D& Vector2D::operator+=(const Vector2D& V) noexcept {
-    x += V.x;
-    y += V.y;
+    v[0] += V.v[0];
+    v[1] += V.v[1];
     return *this;
 }
-template <class TempTy>
-inline std::enable_if_t<TempTy::kDimension==Vector2D::kDimension, Vector2D&>
-  Vector2D::operator+=(const TempTy& Temp) noexcept {
+template <class Ty>
+inline std::enable_if_t<Ty::kDimension==Vector2D::kDimension, Vector2D&>
+  Vector2D::operator+=(const Ty& Temp) noexcept {
     v[0] += Temp[0];
     v[1] += Temp[1];
     return *this;
 }
 inline Vector2D& Vector2D::operator-=(const Vector2D& V) noexcept {
-    x -= V.x;
-    y -= V.y;
+    v[0] -= V.v[0];
+    v[1] -= V.v[1];
     return *this;
 }
-template <class TempTy>
-inline std::enable_if_t<TempTy::kDimension==Vector2D::kDimension, Vector2D&>
-  Vector2D::operator-=(const TempTy& Temp) noexcept {
+template <class Ty>
+inline std::enable_if_t<Ty::kDimension==Vector2D::kDimension, Vector2D&>
+  Vector2D::operator-=(const Ty& Temp) noexcept {
     v[0] -= Temp[0];
     v[1] -= Temp[1];
     return *this;
 }
 inline Vector2D& Vector2D::operator*=(const float S) noexcept {
-    x *= S;
-    y *= S;
+    v[0] *= S;
+    v[1] *= S;
     return *this;
 }
 inline Vector2D& Vector2D::operator/=(const float S) noexcept {
@@ -266,7 +266,7 @@ inline Vector2D& Vector2D::operator/=(const float S) noexcept {
     Vector3D::
 
 ******************************************************************************/
-inline constexpr Vector3D::Vector3D(const float X, const float Y, const float Z) noexcept : x{X}, y{Y}, z{Z} {}
+inline constexpr Vector3D::Vector3D(const float X, const float Y, const float Z) noexcept : v{X, Y, Z} {}
 template <size_t N>
 inline constexpr Vector3D::Vector3D(const float (&XYZ)[N]) noexcept : v{XYZ[0], XYZ[1], XYZ[2]} {
     static_assert(N>=3, "'XYZ' must have at least three elements");
@@ -275,16 +275,16 @@ template <size_t N>
 inline Vector3D& Vector3D::operator=(const float (&XYZ)[N]) noexcept {
     static_assert(N>=3, "'XYZ' must have at least three elements");
 
-    x = XYZ[0];
-    y = XYZ[1];
-    z = XYZ[2];
+    v[0] = XYZ[0];
+    v[1] = XYZ[1];
+    v[2] = XYZ[2];
     return *this;
 }
-template <class TempTy, class>
-inline constexpr Vector3D::Vector3D(const TempTy& Temp) noexcept : v{Temp[0], Temp[1], Temp[2]} {}
-template <class TempTy>
-inline std::enable_if_t<TempTy::kDimension==Vector3D::kDimension, Vector3D&>
-  Vector3D::operator=(const TempTy& Temp) noexcept {
+template <class Ty, class>
+inline constexpr Vector3D::Vector3D(const Ty& Temp) noexcept : v{Temp[0], Temp[1], Temp[2]} {}
+template <class Ty>
+inline std::enable_if_t<Ty::kDimension==Vector3D::kDimension, Vector3D&>
+  Vector3D::operator=(const Ty& Temp) noexcept {
     v[0] = Temp[0];
     v[1] = Temp[1];
     v[2] = Temp[2];
@@ -299,37 +299,37 @@ inline constexpr float Vector3D::operator[](const size_t Idx) const {
     return v[Idx];
 }
 inline Vector3D& Vector3D::operator+=(const Vector3D& V) noexcept {
-    x += V.x;
-    y += V.y;
-    z += V.z;
+    v[0] += V.v[0];
+    v[1] += V.v[1];
+    v[2] += V.v[2];
     return *this;
 }
-template <class TempTy>
-inline std::enable_if_t<TempTy::kDimension==Vector3D::kDimension, Vector3D&>
-  Vector3D::operator+=(const TempTy& Temp) noexcept {
+template <class Ty>
+inline std::enable_if_t<Ty::kDimension==Vector3D::kDimension, Vector3D&>
+  Vector3D::operator+=(const Ty& Temp) noexcept {
     v[0] += Temp[0];
     v[1] += Temp[1];
     v[2] += Temp[2];
     return *this;
 }
 inline Vector3D& Vector3D::operator-=(const Vector3D& V) noexcept {
-    x -= V.x;
-    y -= V.y;
-    z -= V.z;
+    v[0] -= V.v[0];
+    v[1] -= V.v[1];
+    v[2] -= V.v[2];
     return *this;
 }
-template <class TempTy>
-inline std::enable_if_t<TempTy::kDimension==Vector3D::kDimension, Vector3D&>
-  Vector3D::operator-=(const TempTy& Temp) noexcept {
+template <class Ty>
+inline std::enable_if_t<Ty::kDimension==Vector3D::kDimension, Vector3D&>
+  Vector3D::operator-=(const Ty& Temp) noexcept {
     v[0] -= Temp[0];
     v[1] -= Temp[1];
     v[2] -= Temp[2];
     return *this;
 }
 inline Vector3D& Vector3D::operator*=(const float S) noexcept {
-    x *= S;
-    y *= S;
-    z *= S;
+    v[0] *= S;
+    v[1] *= S;
+    v[2] *= S;
     return *this;
 }
 inline Vector3D& Vector3D::operator/=(const float S) noexcept {
@@ -341,8 +341,7 @@ inline Vector3D& Vector3D::operator/=(const float S) noexcept {
     Vector4D::
 
 ******************************************************************************/
-inline constexpr Vector4D::Vector4D(const float X, const float Y, const float Z, const float W) noexcept :
-  x{X}, y{Y}, z{Z}, w{W} {}
+inline constexpr Vector4D::Vector4D(const float X, const float Y, const float Z, const float W) noexcept : v{X,Y,Z,W}{}
 template <size_t N>
 inline constexpr Vector4D::Vector4D(const float (&XYZW)[N]) noexcept : v{XYZW[0], XYZW[1], XYZW[2], XYZW[3]} {
     static_assert(N>=4, "'XYZW' must have at least four elements");
@@ -357,11 +356,11 @@ inline Vector4D& Vector4D::operator=(const float (&XYZW)[N]) noexcept {
     v[3] = XYZW[3];
     return *this;
 }
-template <class TempTy, class>
-inline constexpr Vector4D::Vector4D(const TempTy& Temp) noexcept : v{Temp[0], Temp[1], Temp[2], Temp[3]} {}
-template <class TempTy>
-inline std::enable_if_t<TempTy::kDimension==Vector4D::kDimension, Vector4D&>
-  Vector4D::operator=(const TempTy& Temp) noexcept {
+template <class Ty, class>
+inline constexpr Vector4D::Vector4D(const Ty& Temp) noexcept : v{Temp[0], Temp[1], Temp[2], Temp[3]} {}
+template <class Ty>
+inline std::enable_if_t<Ty::kDimension==Vector4D::kDimension, Vector4D&>
+  Vector4D::operator=(const Ty& Temp) noexcept {
     v[0] = Temp[0];
     v[1] = Temp[1];
     v[2] = Temp[2];
@@ -377,42 +376,42 @@ inline constexpr float Vector4D::operator[](const size_t Idx) const {
     return v[Idx];
 }
 inline Vector4D& Vector4D::operator+=(const Vector4D& V) noexcept {
-    x += V.x;
-    y += V.y;
-    z += V.z;
-    w += V.w;
+    v[0] += V.v[0];
+    v[1] += V.v[1];
+    v[2] += V.v[2];
+    v[3] += V.v[3];
     return *this;
 }
-template <class TempTy>
-inline std::enable_if_t<TempTy::kDimension==Vector4D::kDimension, Vector4D&>
-  Vector4D::operator+=(const TempTy& Temp) noexcept {
-    x += Temp[0];
-    y += Temp[1];
-    z += Temp[2];
-    w += Temp[3];
+template <class Ty>
+inline std::enable_if_t<Ty::kDimension==Vector4D::kDimension, Vector4D&>
+  Vector4D::operator+=(const Ty& Temp) noexcept {
+    v[0] += Temp[0];
+    v[1] += Temp[1];
+    v[2] += Temp[2];
+    v[3] += Temp[3];
     return *this;
 }
 inline Vector4D& Vector4D::operator-=(const Vector4D& V) noexcept {
-    x -= V.x;
-    y -= V.y;
-    z -= V.z;
-    w -= V.w;
+    v[0] -= V.v[0];
+    v[1] -= V.v[1];
+    v[2] -= V.v[2];
+    v[3] -= V.v[3];
     return *this;
 }
-template <class TempTy>
-inline std::enable_if_t<TempTy::kDimension==Vector4D::kDimension, Vector4D&>
-  Vector4D::operator-=(const TempTy& Temp) noexcept {
-    x -= Temp[0];
-    y -= Temp[1];
-    z -= Temp[2];
-    w -= Temp[3];
+template <class Ty>
+inline std::enable_if_t<Ty::kDimension==Vector4D::kDimension, Vector4D&>
+  Vector4D::operator-=(const Ty& Temp) noexcept {
+    v[0] -= Temp[0];
+    v[1] -= Temp[1];
+    v[2] -= Temp[2];
+    v[3] -= Temp[3];
     return *this;
 }
 Vector4D& Vector4D::operator*=(const float S) noexcept {
-    x *= S;
-    y *= S;
-    z *= S;
-    w *= S;
+    v[0] *= S;
+    v[1] *= S;
+    v[2] *= S;
+    v[3] *= S;
     return *this;
 }
 inline Vector4D& Vector4D::operator/=(const float S) noexcept {

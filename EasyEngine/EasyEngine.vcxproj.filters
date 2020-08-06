@@ -24,6 +24,12 @@
     <Filter Include="EGEG\Input">
       <UniqueIdentifier>{2ac9daf1-b21a-4b07-8548-ccbf39ff3c83}</UniqueIdentifier>
     </Filter>
+    <Filter Include="EGEG\Input\Device">
+      <UniqueIdentifier>{ee909919-932c-401b-aeab-29bbdcacda27}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="EGEG\Input\Controller">
+      <UniqueIdentifier>{67788bc0-5abc-46c0-b4c9-f718b3772f9e}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="event_container.hpp">
@@ -71,5 +77,34 @@
     <ClInclude Include="egeg_math.hpp">
       <Filter>EGEG\Math</Filter>
     </ClInclude>
+    <ClInclude Include="xinput_gamepad.hpp">
+      <Filter>EGEG\Input\Device</Filter>
+    </ClInclude>
+    <ClInclude Include="input_device.hpp">
+      <Filter>EGEG\Input\Device</Filter>
+    </ClInclude>
+    <ClInclude Include="input_state.hpp">
+      <Filter>EGEG\Input\Device</Filter>
+    </ClInclude>
+    <ClInclude Include="keyboard.hpp">
+      <Filter>EGEG\Input\Device</Filter>
+    </ClInclude>
+    <ClInclude Include="controller.hpp">
+      <Filter>EGEG\Input\Controller</Filter>
+    </ClInclude>
+    <ClInclude Include="xinput_controller.hpp">
+      <Filter>EGEG\Input\Controller</Filter>
+    </ClInclude>
+  </ItemGroup>
+  <ItemGroup>
+    <ClCompile Include="main.cpp">
+      <Filter>EGEG</Filter>
+    </ClCompile>
+    <ClCompile Include="keyboard.cpp">
+      <Filter>EGEG\Input\Device</Filter>
+    </ClCompile>
+    <ClCompile Include="xinput_gamepad.cpp">
+      <Filter>EGEG\Input\Device</Filter>
+    </ClCompile>
   </ItemGroup>
 </Project>

@@ -1,6 +1,7 @@
 ///
 /// \file   property.hpp
 /// \brief  プロパティ定義ヘッダ
+///
 /// \author 板場
 ///
 /// \par    履歴

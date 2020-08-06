@@ -1,6 +1,7 @@
 ///
 /// \file   task_manager.hpp
 /// \brief  タスクマネージャー定義ヘッダ
+///
 /// \author 板場
 ///
 /// \note   TaskTyについて、boolに変換可能であることを表すコンセプトを追加しようとしたが\n

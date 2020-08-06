@@ -1,6 +1,7 @@
 ///
 /// \file   noncopyable.hpp
 /// \brief  コピー禁止ミックスイン定義ヘッダ
+///
 /// \author 板場
 ///
 /// \par    履歴

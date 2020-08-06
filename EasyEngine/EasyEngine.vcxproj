@@ -142,10 +142,14 @@
   </ItemDefinitionGroup>
   <ItemGroup>
     <ClInclude Include="angle.hpp" />
+    <ClInclude Include="controller.hpp" />
     <ClInclude Include="egeg.hpp" />
     <ClInclude Include="egeg_math.hpp" />
     <ClInclude Include="event_container.hpp" />
     <ClInclude Include="id.hpp" />
+    <ClInclude Include="input_device.hpp" />
+    <ClInclude Include="input_state.hpp" />
+    <ClInclude Include="keyboard.hpp" />
     <ClInclude Include="mmatrix.hpp" />
     <ClInclude Include="mmatrix_calc.hpp" />
     <ClInclude Include="mvector.hpp" />
@@ -156,6 +160,13 @@
     <ClInclude Include="result.hpp" />
     <ClInclude Include="task_manager.hpp" />
     <ClInclude Include="utility_function.hpp" />
+    <ClInclude Include="xinput_controller.hpp" />
+    <ClInclude Include="xinput_gamepad.hpp" />
+  </ItemGroup>
+  <ItemGroup>
+    <ClCompile Include="keyboard.cpp" />
+    <ClCompile Include="main.cpp" />
+    <ClCompile Include="xinput_gamepad.cpp" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">

@@ -1,6 +1,7 @@
 ///
 /// \file   utility_function.hpp
 /// \brief  少し便利なテンプレート関数群定義ヘッダ
+///
 /// \author 板場
 ///
 /// \par    履歴
@@ -31,7 +32,7 @@ namespace t_lib {
 /// \return 配列の要素数
 ///
 template <class ElemTy, size_t Size>
-constexpr size_t arraySize(const ElemTy(&)[Size]) noexcept {
+inline constexpr size_t arraySize(const ElemTy(&)[Size]) noexcept {
     return Size;
 }
 
@@ -52,7 +53,7 @@ constexpr size_t arraySize(const ElemTy(&)[Size]) noexcept {
 /// \attention Valueは列挙子である必要があります。
 ///
 template <class EnumTy>
-constexpr auto enumValue(EnumTy Value) noexcept {
+inline constexpr auto enumValue(EnumTy Value) noexcept {
     return static_cast<std::underlying_type_t<EnumTy>>(Value);
 }
 
