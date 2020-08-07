@@ -181,6 +181,7 @@ public :
 
 // override
     void run() override {
+        if(!this->getTarget()) return;
         const auto& state = getKeyboard()->getState();
         for(auto i=t_lib::enumValue(Keys::kBackspace); i<key_related_funcs_.size(); ++i) {
             if(auto func = key_related_funcs_[i])

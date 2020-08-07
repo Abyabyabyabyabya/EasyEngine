@@ -20,6 +20,12 @@ namespace i_lib {
 
 class Keyboard : public InputDevice {
 public :
+    ///
+    /// \struct 入力状態格納用構造体
+    ///
+    /// \details それぞれのメンバが、その名前が示すキーの状態を格納しています。\n
+    ///          egeg::i_lib 名前空間にあるis~~ 関数を使用することで簡単に状態を調べることができます。
+    ///
     struct State {
         InputFlagType padding0[8];           // 0x00 ~ 0x07
         InputFlagType backspace;             // 0x08
@@ -127,7 +133,25 @@ public :
     };
 
     Keyboard();
+
+    ///
+    /// \brief  イベント処理
+    ///
+    ///         Windowsのコールバック関数にこの関数を記述してください。
+    ///         入力状態を取得します。
+    ///         入力状態の更新はこの関数では行われません。update関数を使用してください。
+    ///
+    /// \param[in] Msg : イベントメッセージ
+    /// \param[in] wParam : イベント詳細
+    /// \param[in] lParam : イベント詳細
+    ///
     void eventProcessing(UINT Msg, WPARAM wParam, LPARAM lParam) noexcept;
+
+    ///
+    /// \brief  入力状態を取得
+    ///
+    /// \return 入力状態を格納した構造体
+    ///
     const State& getState() const noexcept { return state_; }
 
 // override

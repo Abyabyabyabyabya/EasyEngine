@@ -12,9 +12,7 @@ struct O {
         if(isUp(Flag))
             exit(0);
     }
-    void n(uint8_t Flag) {
-        if(isDown(Flag))
-            exit(0);
+    virtual void n(uint8_t Flag) {
     }
     void nocfunc(float Value) {
         if(Value > 0.8)
@@ -24,10 +22,18 @@ struct O {
     
     }
 };
+struct D : O {
+    void n(uint8_t Flag) override {
+
+        if(isDown(Flag))
+            exit(0);
+    }
+};
 
 int WINAPI WinMain(HINSTANCE, HINSTANCE, LPSTR, int) {
     XInputP1 pad;
     O o;
+    D d;
     XInputController<O> ctrler{&pad, &o};
     ctrler.map(XInputController<O>::Buttons::kA, &O::v);
     ctrler.map(XInputController<O>::Triggers::kLTrigger, &O::nocfunc);
@@ -42,6 +48,8 @@ int WINAPI WinMain(HINSTANCE, HINSTANCE, LPSTR, int) {
 
     while(true) {
         pad.update();
+        if(isUp(pad.getState().a))
+            ctrler.resetTarget(&d);
         ctrler.run();
     }
 
