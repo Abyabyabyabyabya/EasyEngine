@@ -13,6 +13,7 @@
 #ifndef INCLUDED_EGEG_ILIB_XINPUT_CONTROLLER_HEADER_
 #define INCLUDED_EGEG_ILIB_XINPUT_CONTROLLER_HEADER_
 
+#include <cstdint>
 #include <array>
 #include "controller.hpp"
 #include "xinput_gamepad.hpp"
@@ -21,41 +22,41 @@
 namespace easy_engine {
 namespace i_lib {
   namespace xcontroller_impl {
-    class XInputCtrlerImpl {
-    public :
-        enum class Buttons {
-            kDpadUp,
-            kDpadDown,
-            kDpadLeft,
-            kDpadRight,
-            kLStickUp,
-            kLStickDown,
-            kLStickLeft,
-            kLStickRight,
-            kRStickUp,
-            kRStickDown,
-            kRStickLeft,
-            kRStickRight,
-            kStart,
-            kBack,
-            kLThumbStick,
-            kRThumbStick,
-            kLShoulder,
-            kRShoulder,
-            kA,
-            kB,
-            kX,
-            kY
-        };
-        enum class Triggers {
-            kLTrigger,
-            kRTrigger
-        };
-        enum class Sticks {
-            kLStick,
-            kRStick
-        };
+    enum class Buttons : std::uint8_t {
+        kDpadUp,
+        kDpadDown,
+        kDpadLeft,
+        kDpadRight,
+        kLStickUp,
+        kLStickDown,
+        kLStickLeft,
+        kLStickRight,
+        kRStickUp,
+        kRStickDown,
+        kRStickLeft,
+        kRStickRight,
+        kStart,
+        kBack,
+        kLThumbStick,
+        kRThumbStick,
+        kLShoulder,
+        kRShoulder,
+        kA,
+        kB,
+        kX,
+        kY
+    };
+    enum class Triggers : std::uint8_t {
+        kLTrigger,
+        kRTrigger
+    };
+    enum class Sticks : std::uint8_t {
+        kLStick,
+        kRStick
+    };
 
+    class XInputCtrlerImpl { // 非テンプレート部抽出
+    public :
         XInputCtrlerImpl(const XInputGamepad* Gamepad) noexcept : gamepad_{Gamepad} {}
 
         void resetGamepad(const XInputGamepad* Gamepad=nullptr) noexcept { gamepad_ = Gamepad; }
@@ -84,6 +85,18 @@ namespace i_lib {
 template <class TargetTy>
 class XInputController : public Controller<TargetTy>, public xcontroller_impl::XInputCtrlerImpl {
 public :
+    using Buttons = xcontroller_impl::Buttons;
+    using Triggers = xcontroller_impl::Triggers;
+    using Sticks = xcontroller_impl::Sticks;
+    using XInputCtrlerImpl::resetGamepad;
+    using XInputCtrlerImpl::getGamepad;
+
+    ///
+    /// \brief  コンストラクタ
+    ///
+    /// \param[in] Gamepad : 入力を見るゲームパッド
+    /// \param[in] Target  : 操作対象
+    ///
     XInputController(const XInputGamepad* Gamepad=nullptr, TargetTy* Target=nullptr) :
         Controller<TargetTy>{Target},
         XInputCtrlerImpl{Gamepad} {
@@ -169,8 +182,8 @@ public :
 private :
     void map() const noexcept {}
     void unmap() const noexcept {}
-    template <class Ty, class FTy>
-    void mapImpl(const Ty, const FTy) const noexcept {
+    template <class InvalidTy, class InvalidFTy>
+    void mapImpl(const InvalidTy, const InvalidFTy) const noexcept {
         static_assert(false, "such key or such function pointer is not supported");
     }
     void mapImpl(const Buttons Button, void(TargetTy::*Function)(InputFlagType)) noexcept {
@@ -204,9 +217,9 @@ private :
         if(auto func = stick_related_funcs_[t_lib::enumValue(Stick)]) this->invoke(func, X, Y);
     }
 
-    std::array<void(TargetTy::*)(InputFlagType), 22U> button_related_funcs_;
-    std::array<void(TargetTy::*)(float), 2U>          trigger_related_funcs_;
-    std::array<void(TargetTy::*)(float, float), 2U>   stick_related_funcs_;
+    std::array<void(TargetTy::*)(InputFlagType), 22U/*=Buttons::kY+1*/>   button_related_funcs_;
+    std::array<void(TargetTy::*)(float), 2U/*=Triggers::kRTrigger+1*/>    trigger_related_funcs_;
+    std::array<void(TargetTy::*)(float, float), 2U/*=Sticks::kRStick+1*/> stick_related_funcs_;
 };
 
 } // namespace i_lib
