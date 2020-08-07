@@ -14,6 +14,7 @@
 #define INCLUDED_EGEG_ILIB_XINPUT_CONTROLLER_HEADER_
 
 #include <cstdint>
+#include <type_traits>
 #include <array>
 #include "controller.hpp"
 #include "xinput_gamepad.hpp"
@@ -115,14 +116,14 @@ public :
     ///                    …kY      , &Hoge::pause);
     ///
     /// \tparam KeyTy     : キーの型(Buttons, Triggers, Sticksのいずれか)
-    /// \tparam FArgTypes : マップする関数の引数型リスト
+    /// \tparam FTy       : マップする関数ポインタの型
     /// \tparam RestTypes : 残りのマップペア型リスト
     /// \param[in] Key      : 関数をマップするキー
     /// \param[in] Function : マップする関数
     /// \param[in] Rest     : 他のペア
     /// 
-    template<class KeyTy, class ...FArgTypes, class ...RestTypes>
-    void map(const KeyTy Key, void(TargetTy::*Function)(FArgTypes...), RestTypes ...Rest) noexcept {
+    template<class KeyTy, class FTy, class ...RestTypes>
+    void map(const KeyTy Key, const FTy Function, RestTypes ...Rest) noexcept {
         mapImpl(Key, Function);
         map(Rest...);
     }
@@ -182,8 +183,12 @@ public :
 private :
     void map() const noexcept {}
     void unmap() const noexcept {}
-    template <class InvalidTy, class InvalidFTy>
-    void mapImpl(const InvalidTy, const InvalidFTy) const noexcept {
+    template <class InvalidKTy, class InvalidFTy, class=std::enable_if_t<
+      (!std::is_same_v<InvalidKTy,Buttons>&&!std::is_same_v<InvalidKTy,Triggers>&&!std::is_same_v<InvalidKTy,Sticks>)||
+      (std::is_same_v<InvalidKTy, Buttons>&&!std::is_convertible_v<InvalidFTy, void(TargetTy::*)(InputFlagType)>) ||
+      (std::is_same_v<InvalidKTy, Triggers>&&!std::is_convertible_v<InvalidFTy, void(TargetTy::*)(float)>) ||
+      (std::is_same_v<InvalidKTy, Sticks>&&!std::is_convertible_v<InvalidFTy, void(TargetTy::*)(float, float)>)>>
+    void mapImpl(const InvalidKTy, const InvalidFTy) const noexcept { // 例外指定の違いは許可x
         static_assert(false, "such key or such function pointer is not supported");
     }
     void mapImpl(const Buttons Button, void(TargetTy::*Function)(InputFlagType)) noexcept {
@@ -195,7 +200,7 @@ private :
     void mapImpl(const Sticks Stick, void(TargetTy::*Function)(float, float)) noexcept {
         stick_related_funcs_[t_lib::enumValue(Stick)] = Function;
     }
-    template <class InvalidTy> void unmapImpl(const InvalidTy) const noexcept {
+    template <class InvalidKTy> void unmapImpl(const InvalidKTy) const noexcept {
         static_assert(false, "such key is not supported");
     }
     void unmapImpl(const Buttons Button) noexcept {

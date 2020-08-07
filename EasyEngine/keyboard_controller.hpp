@@ -149,7 +149,7 @@ public :
     ///                    …kSpace, &Hoge::shot, … );
     ///
     /// \tparam KeyTy     : キーの型
-    /// \tparam FTy       : 登録する関数ポインタの型
+    /// \tparam FTy       : マップする関数ポインタの型
     /// \tparam RestTypes : 残りのマップペアリスト
     /// \param[in] Key      : 関数をマップするキー
     /// \param[in] Function : マップする関数
@@ -190,15 +190,11 @@ public :
 private :
     void map() const noexcept {}
     template <class InvalidKTy, class InvalidFTy, class=std::enable_if_t<!std::is_same_v<InvalidKTy, Keys> ||
-                                                        !std::is_same_v<InvalidFTy, void(TargetTy::*)(InputFlagType)> ||
-                                                        !std::is_same_v<InvalidFTy, void(TargetTy::*)(InputFlagType)noexcept>>>
+      !std::is_convertible_v<InvalidFTy, void(TargetTy::*)(InputFlagType)>>> // 例外指定の違いは許可
     void mapImpl(const InvalidKTy, const InvalidFTy) const noexcept {
         static_assert(false, "such key or such function is not supported");
     }
     void mapImpl(const Keys Key, void(TargetTy::*Function)(InputFlagType)) noexcept {
-        key_related_funcs_[t_lib::enumValue(Key)] = Function;
-    }
-    void mapImpl(const Keys Key, void(TargetTy::*Function)(InputFlagType)noexcept) noexcept {
         key_related_funcs_[t_lib::enumValue(Key)] = Function;
     }
     void unmap() const noexcept {}
