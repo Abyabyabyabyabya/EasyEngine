@@ -150,6 +150,7 @@
     <ClInclude Include="input_device.hpp" />
     <ClInclude Include="input_state.hpp" />
     <ClInclude Include="keyboard.hpp" />
+    <ClInclude Include="keyboard_controller.hpp" />
     <ClInclude Include="mmatrix.hpp" />
     <ClInclude Include="mmatrix_calc.hpp" />
     <ClInclude Include="mvector.hpp" />

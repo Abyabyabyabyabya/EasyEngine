@@ -97,21 +97,39 @@ public :
     ///
     ///         一度に複数のペアをマッピングすることができます。
     ///         その場合は、「キー, 関数ポインタ」のペアを続けて入力してください。
-    ///         例)  …map(…kDpadUp   , &Hoge::jump,
-    ///                    …kDpadLeft , &Hoge::moveLeft,
-    ///                    …kDpadRight, &Hoge::moveRight);
+    ///         例)  …map(…kDpadUp , &Hoge::jump,
+    ///                    …kA      , &Hoge::shot,
+    ///                    …kY      , &Hoge::pause);
     ///
-    /// \tparam KeyKindTy : キーの種類(Buttons, Triggers, Sticksのいずれか)
+    /// \tparam KeyTy     : キーの型(Buttons, Triggers, Sticksのいずれか)
     /// \tparam FArgTypes : マップする関数の引数型リスト
     /// \tparam RestTypes : 残りのマップペア型リスト
     /// \param[in] Key      : 関数をマップするキー
     /// \param[in] Function : マップする関数
     /// \param[in] Rest     : 他のペア
     /// 
-    template<class KeyKindTy, class ...FArgTypes, class ...RestTypes>
-    void map(const KeyKindTy Key, void(TargetTy::*Function)(FArgTypes...), RestTypes ...Rest) noexcept {
+    template<class KeyTy, class ...FArgTypes, class ...RestTypes>
+    void map(const KeyTy Key, void(TargetTy::*Function)(FArgTypes...), RestTypes ...Rest) noexcept {
         mapImpl(Key, Function);
         map(Rest...);
+    }
+
+    ///
+    /// \brief  キーと関数のマップを解除
+    ///
+    ///         一度に複数のマップを解除することができます。
+    ///         その場合は、解除したいキーを続けて入力してください。
+    ///         例) …unmap(…kDpadUp, …kA);   // 操作できないようマップを解除
+    ///
+    /// \tparam KeyTy        : キーの型(Buttons, Triggers, Sticksのいずれか)
+    /// \tparam RestKeyTypes : 残りのキーの型
+    /// \param[in] Key   : 関数とのマップを解除するキー
+    /// \param[in] Rests : 追加で解除するキー
+    ///
+    template <class KeyTy, class ...RestKeyTypes>
+    void unmap(const KeyTy Key, const RestKeyTypes ...Rests) noexcept {
+        unmapImpl(Key);
+        unmap(Rests...);
     }
 
 // override
@@ -150,6 +168,7 @@ public :
 
 private :
     void map() const noexcept {}
+    void unmap() const noexcept {}
     template <class Ty, class FTy>
     void mapImpl(const Ty, const FTy) const noexcept {
         static_assert(false, "such key or such function pointer is not supported");
@@ -162,6 +181,18 @@ private :
     }
     void mapImpl(const Sticks Stick, void(TargetTy::*Function)(float, float)) noexcept {
         stick_related_funcs_[t_lib::enumValue(Stick)] = Function;
+    }
+    template <class InvalidTy> void unmapImpl(const InvalidTy) const noexcept {
+        static_assert(false, "such key is not supported");
+    }
+    void unmapImpl(const Buttons Button) noexcept {
+        button_related_funcs_[t_lib::enumValue(Button)] = nullptr;
+    }
+    void unmapImpl(const Triggers Trigger) noexcept {
+        trigger_related_funcs_[t_lib::enumValue(Trigger)] = nullptr;
+    }
+    void unmapImpl(const Sticks Stick) noexcept {
+        stick_related_funcs_[t_lib::enumValue(Stick)] = nullptr;
     }
     void safeInvoke(const Buttons Button, const InputFlagType State) const noexcept {
         if(auto func = button_related_funcs_[t_lib::enumValue(Button)]) this->invoke(func, State);

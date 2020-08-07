@@ -30,6 +30,8 @@ int WINAPI WinMain(HINSTANCE, HINSTANCE, LPSTR, int) {
                XInputController<O>::Triggers::kLTrigger, &O::nocfunc,
                XInputController<O>::Sticks::kLStick, &O::func);
 
+    ctrler.unmap(XInputController<O>::Buttons::kA, 0);
+
     while(true) {
         pad.update();
         if(isUp(pad.getState().y))
