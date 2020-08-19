@@ -121,6 +121,22 @@ namespace i_lib {
     };
   } // namespace keyboard_ctrler_impl
 
+/******************************************************************************
+
+    KeyboardController
+
+******************************************************************************/
+///
+/// \class  KeyboardController
+/// \brief  キーボード用コントローラー
+///
+///         登録する関数は、入力の状態を引数で受け取れる必要があります。
+///         関数をmap(…)により登録する際に指定したキーの状態が、その関数の引数に渡されるようになります。
+///
+/// \tparam TargetTy : 操作対象のオブジェクト型
+///
+/// \attention constメンバ関数 は登録できません。
+///
 template <class TargetTy>
 class KeyboardController : public Controller<TargetTy>, private keyboard_ctrler_impl::KeyboardCtrlerImpl {
 public :

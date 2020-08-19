@@ -59,7 +59,6 @@ namespace i_lib {
     class XInputCtrlerImpl { // 非テンプレート部抽出
     public :
         XInputCtrlerImpl(const XInputGamepad* Gamepad) noexcept : gamepad_{Gamepad} {}
-
         void resetGamepad(const XInputGamepad* Gamepad=nullptr) noexcept { gamepad_ = Gamepad; }
         const XInputGamepad* getGamepad() const noexcept { return gamepad_; }
 
@@ -68,6 +67,11 @@ namespace i_lib {
     };
   } // namespace xcontroller_impl
 
+/******************************************************************************
+
+    XInputController
+
+******************************************************************************/
 ///
 /// \class  XInputController
 /// \brief  XInputGamePad用コントローラー
@@ -77,7 +81,7 @@ namespace i_lib {
 ///         ↓にキーの種類と登録できる関数の型を示します。
 ///         Buttons  : void (InputFlagType) … 引数には対応するボタンの入力状態フラグが渡されます。
 ///         Triggers : void (float)         … 引数には、対応するトリガーの入力値([0.0F : 1.0F])が渡されます。
-///         Sticks   : void (float, float)  … 引数には、対応するスティックの入力値(x, yそれぞれ[0.0F : 1.0F])が渡されます。
+///         Sticks   : void (float, float)  … 引数には、対応するスティックの入力値([0.0F : 1.0F])が渡されます。
 ///
 /// \tparam TargetTy : 操作対象のオブジェクト型
 ///
@@ -133,7 +137,7 @@ public :
     ///
     ///         一度に複数のマップを解除することができます。
     ///         その場合は、解除したいキーを続けて入力してください。
-    ///         例) …unmap(…kDpadUp, …kA);   // 操作できないようマップを解除
+    ///         例) …unmap(…kDpadUp, …kA);
     ///
     /// \tparam KeyTy        : キーの型(Buttons, Triggers, Sticksのいずれか)
     /// \tparam RestKeyTypes : 残りのキーの型

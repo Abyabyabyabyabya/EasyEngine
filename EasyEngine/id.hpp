@@ -124,7 +124,7 @@ using StringGenerator = impl::Generator<impl::String<Str>>;
         static const ValueType value;
     };
     template <class Ty>
-    const typename TypeID<Ty>::ValueType TypeID<Ty>::value {::egeg::t_lib::uniqueID(value)};
+    const typename TypeID<Ty>::ValueType TypeID<Ty>::value {uniqueID(value)};
 
     template <const char Str[]>
     struct String {

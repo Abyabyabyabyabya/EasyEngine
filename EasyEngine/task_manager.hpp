@@ -126,13 +126,13 @@ public :
     /// \tparam ArgTypes : 実行するタスクに渡す引数型リスト
     /// \param[in] Args  : 実行するタスクに渡す引数リスト
     ///
-    /// \note 引数を完全転送していない理由は、複数の呼び出しに渡す必要があるから。
+    /// \note 引数を完全転送していない理由は、複数の呼び出しに渡す必要があるから。(moveによる不具合を防ぐ)
     ///
     template <class ...ArgTypes>
     void run(ArgTypes ...Args) {
         for(auto& container : tasks_)
           for(auto& task : container.second)
-            if(task) task(ArgTypes(Args)...);
+            if(task) task(Args...);
     }
 
 private :

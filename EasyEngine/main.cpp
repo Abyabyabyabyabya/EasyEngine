@@ -4,6 +4,7 @@
 #include "controller.hpp"
 #include "xinput_controller.hpp"
 #include "keyboard_controller.hpp"
+#include "input_manager.hpp"
 
 using namespace easy_engine::i_lib;
 
@@ -58,4 +59,7 @@ int WINAPI WinMain(HINSTANCE, HINSTANCE, LPSTR, int) {
     k.map(OController::Keys::k0, &O::v);
     k.map(OController::Keys::kCapsLock, &O::n);
     k.unmap(OController::Keys::kCapsLock, OController::Keys::k0);
+
+    
+
 }

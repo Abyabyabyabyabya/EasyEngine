@@ -24,12 +24,17 @@
 namespace easy_engine {
 namespace i_lib {
 
+/******************************************************************************
+
+    XInputGamepad
+
+******************************************************************************/
 ///
 /// \class  XInputGamepad
 /// \brief  XInput入力デバイス
 ///
 ///         このクラスはインスタンス化できません。
-///         実際にGamepadからの入力を取得する場合は、以下の型を使用して変数定義する必要があります。
+///         実際にGamepadからの入力を取得する場合は、以下の型を使用して変数を定義する必要があります。
 ///         XInputP1, XInputP2, XInputP3, XInputP4
 /// 
 class XInputGamepad : public InputDevice {

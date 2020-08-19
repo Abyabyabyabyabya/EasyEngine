@@ -5,109 +5,121 @@
       <UniqueIdentifier>{67DA6AB6-F800-4c08-8B7A-83BB121AAD01}</UniqueIdentifier>
       <Extensions>rc;ico;cur;bmp;dlg;rc2;rct;bin;rgs;gif;jpg;jpeg;jpe;resx;tiff;tif;png;wav;mfcribbon-ms</Extensions>
     </Filter>
-    <Filter Include="EGEG">
+    <Filter Include="Source">
       <UniqueIdentifier>{4FC737F1-C7A5-4376-A066-2A32D752A2FF}</UniqueIdentifier>
       <Extensions>cpp;c;cc;cxx;c++;def;odl;idl;hpj;bat;asm;asmx</Extensions>
     </Filter>
-    <Filter Include="EGEG\Audio">
+    <Filter Include="Source\Audio">
       <UniqueIdentifier>{1288fcc7-4199-49f6-a125-0bd0315b90e4}</UniqueIdentifier>
     </Filter>
-    <Filter Include="EGEG\Graphics">
+    <Filter Include="Source\Graphics">
       <UniqueIdentifier>{78463174-8c76-46b8-a7b6-add9933c5b8b}</UniqueIdentifier>
     </Filter>
-    <Filter Include="EGEG\Math">
+    <Filter Include="Source\Math">
       <UniqueIdentifier>{8565d6d8-cd5f-4070-b7aa-473e0008ab06}</UniqueIdentifier>
     </Filter>
-    <Filter Include="EGEG\Template">
+    <Filter Include="Source\Template">
       <UniqueIdentifier>{e8e592f7-3a74-4c61-9b0f-5baf8fd7f644}</UniqueIdentifier>
     </Filter>
-    <Filter Include="EGEG\Input">
+    <Filter Include="Source\Input">
       <UniqueIdentifier>{2ac9daf1-b21a-4b07-8548-ccbf39ff3c83}</UniqueIdentifier>
     </Filter>
-    <Filter Include="EGEG\Input\Device">
+    <Filter Include="Source\Input\Device">
       <UniqueIdentifier>{ee909919-932c-401b-aeab-29bbdcacda27}</UniqueIdentifier>
     </Filter>
-    <Filter Include="EGEG\Input\Controller">
+    <Filter Include="Source\Input\Controller">
       <UniqueIdentifier>{67788bc0-5abc-46c0-b4c9-f718b3772f9e}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source\EGEG">
+      <UniqueIdentifier>{30e7aa0c-e6b9-4e30-ac79-a89234e76589}</UniqueIdentifier>
     </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="event_container.hpp">
-      <Filter>EGEG\Template</Filter>
+      <Filter>Source\Template</Filter>
     </ClInclude>
     <ClInclude Include="id.hpp">
-      <Filter>EGEG\Template</Filter>
-    </ClInclude>
-    <ClInclude Include="egeg.hpp">
-      <Filter>EGEG</Filter>
+      <Filter>Source\Template</Filter>
     </ClInclude>
     <ClInclude Include="noncopyable.hpp">
-      <Filter>EGEG\Template</Filter>
+      <Filter>Source\Template</Filter>
     </ClInclude>
     <ClInclude Include="task_manager.hpp">
-      <Filter>EGEG\Template</Filter>
+      <Filter>Source\Template</Filter>
     </ClInclude>
     <ClInclude Include="field.hpp">
-      <Filter>EGEG\Template</Filter>
+      <Filter>Source\Template</Filter>
     </ClInclude>
     <ClInclude Include="property.hpp">
-      <Filter>EGEG\Template</Filter>
+      <Filter>Source\Template</Filter>
     </ClInclude>
     <ClInclude Include="result.hpp">
-      <Filter>EGEG\Template</Filter>
+      <Filter>Source\Template</Filter>
     </ClInclude>
     <ClInclude Include="utility_function.hpp">
-      <Filter>EGEG\Template</Filter>
+      <Filter>Source\Template</Filter>
     </ClInclude>
     <ClInclude Include="angle.hpp">
-      <Filter>EGEG\Math</Filter>
+      <Filter>Source\Math</Filter>
     </ClInclude>
     <ClInclude Include="mvector.hpp">
-      <Filter>EGEG\Math</Filter>
+      <Filter>Source\Math</Filter>
     </ClInclude>
     <ClInclude Include="mmatrix.hpp">
-      <Filter>EGEG\Math</Filter>
+      <Filter>Source\Math</Filter>
     </ClInclude>
     <ClInclude Include="mvector_calc.hpp">
-      <Filter>EGEG\Math</Filter>
+      <Filter>Source\Math</Filter>
     </ClInclude>
     <ClInclude Include="mmatrix_calc.hpp">
-      <Filter>EGEG\Math</Filter>
+      <Filter>Source\Math</Filter>
     </ClInclude>
     <ClInclude Include="egeg_math.hpp">
-      <Filter>EGEG\Math</Filter>
+      <Filter>Source\Math</Filter>
     </ClInclude>
     <ClInclude Include="xinput_gamepad.hpp">
-      <Filter>EGEG\Input\Device</Filter>
+      <Filter>Source\Input\Device</Filter>
     </ClInclude>
     <ClInclude Include="input_device.hpp">
-      <Filter>EGEG\Input\Device</Filter>
+      <Filter>Source\Input\Device</Filter>
     </ClInclude>
     <ClInclude Include="input_state.hpp">
-      <Filter>EGEG\Input\Device</Filter>
+      <Filter>Source\Input\Device</Filter>
     </ClInclude>
     <ClInclude Include="keyboard.hpp">
-      <Filter>EGEG\Input\Device</Filter>
+      <Filter>Source\Input\Device</Filter>
     </ClInclude>
     <ClInclude Include="controller.hpp">
-      <Filter>EGEG\Input\Controller</Filter>
+      <Filter>Source\Input\Controller</Filter>
     </ClInclude>
     <ClInclude Include="xinput_controller.hpp">
-      <Filter>EGEG\Input\Controller</Filter>
+      <Filter>Source\Input\Controller</Filter>
     </ClInclude>
     <ClInclude Include="keyboard_controller.hpp">
-      <Filter>EGEG\Input\Controller</Filter>
+      <Filter>Source\Input\Controller</Filter>
+    </ClInclude>
+    <ClInclude Include="input_manager.hpp">
+      <Filter>Source\Input</Filter>
+    </ClInclude>
+    <ClInclude Include="easy_engine.hpp">
+      <Filter>Source\EGEG</Filter>
+    </ClInclude>
+    <ClInclude Include="egeg.hpp">
+      <Filter>Source\EGEG</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="main.cpp">
-      <Filter>EGEG</Filter>
+      <Filter>Source</Filter>
     </ClCompile>
     <ClCompile Include="keyboard.cpp">
-      <Filter>EGEG\Input\Device</Filter>
+      <Filter>Source\Input\Device</Filter>
     </ClCompile>
     <ClCompile Include="xinput_gamepad.cpp">
-      <Filter>EGEG\Input\Device</Filter>
+      <Filter>Source\Input\Device</Filter>
+    </ClCompile>
+    <ClCompile Include="input_manager.cpp">
+      <Filter>Source\Input</Filter>
     </ClCompile>
   </ItemGroup>
 </Project>
