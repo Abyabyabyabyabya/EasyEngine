@@ -162,6 +162,7 @@
     <ClInclude Include="property.hpp" />
     <ClInclude Include="result.hpp" />
     <ClInclude Include="task_manager.hpp" />
+    <ClInclude Include="time.hpp" />
     <ClInclude Include="utility_function.hpp" />
     <ClInclude Include="xinput_controller.hpp" />
     <ClInclude Include="xinput_gamepad.hpp" />

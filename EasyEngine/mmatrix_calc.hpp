@@ -278,19 +278,23 @@ namespace m_lib {
         return default_operation::matrixMul(L, 1.0F/R);
     }
     template <class MatrixTy>
-    inline constexpr MatrixTy operator+(const MatrixTy& L, const MatrixTy& R) noexcept {
+    inline constexpr matrix_impl::Matrix<MatrixTy::kNumRows, MatrixTy::kNumColumns>
+      operator+(const MatrixTy& L, const MatrixTy& R) noexcept {
         return default_operation::matrixAdd(L, R);
     }
     template <class MatrixTy>
-    inline constexpr MatrixTy operator-(const MatrixTy& L, const MatrixTy& R) noexcept {
+    inline constexpr matrix_impl::Matrix<MatrixTy::kNumRows, MatrixTy::kNumColumns>
+      operator-(const MatrixTy& L, const MatrixTy& R) noexcept {
         return default_operation::matrixSub(L, R);
     }
     template <class MatrixTy>
-    inline constexpr MatrixTy operator*(const MatrixTy& L, const float R) noexcept {
+    inline constexpr matrix_impl::Matrix<MatrixTy::kNumRows, MatrixTy::kNumColumns>
+      operator*(const MatrixTy& L, const float R) noexcept {
         return default_operation::matrixMul(L, R);
     }
     template <class MatrixTy>
-    inline constexpr MatrixTy operator/(const MatrixTy& L, const float R) noexcept {
+    inline constexpr matrix_impl::Matrix<MatrixTy::kNumRows, MatrixTy::kNumColumns>
+      operator/(const MatrixTy& L, const float R) noexcept {
         return default_operation::matrixDiv(L, R);
     }
     template <class LhTy, class RhTy>

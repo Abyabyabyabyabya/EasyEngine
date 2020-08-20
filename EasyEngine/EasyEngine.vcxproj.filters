@@ -107,6 +107,9 @@
     <ClInclude Include="egeg.hpp">
       <Filter>Source\EGEG</Filter>
     </ClInclude>
+    <ClInclude Include="time.hpp">
+      <Filter>Source\EGEG</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="main.cpp">
