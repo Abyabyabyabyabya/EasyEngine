@@ -101,6 +101,9 @@
     <ClInclude Include="input_manager.hpp">
       <Filter>Source\Input</Filter>
     </ClInclude>
+    <ClInclude Include="graphics_manager.hpp">
+      <Filter>Source\Graphics</Filter>
+    </ClInclude>
     <ClInclude Include="easy_engine.hpp">
       <Filter>Source\EGEG</Filter>
     </ClInclude>
@@ -108,6 +111,9 @@
       <Filter>Source\EGEG</Filter>
     </ClInclude>
     <ClInclude Include="time.hpp">
+      <Filter>Source\EGEG</Filter>
+    </ClInclude>
+    <ClInclude Include="update_manager.hpp">
       <Filter>Source\EGEG</Filter>
     </ClInclude>
   </ItemGroup>
@@ -123,6 +129,9 @@
     </ClCompile>
     <ClCompile Include="input_manager.cpp">
       <Filter>Source\Input</Filter>
+    </ClCompile>
+    <ClCompile Include="easy_engine.cpp">
+      <Filter>Source\EGEG</Filter>
     </ClCompile>
   </ItemGroup>
 </Project>

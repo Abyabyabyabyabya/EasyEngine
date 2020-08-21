@@ -23,7 +23,7 @@ namespace t_lib {
 template <class ETy, class IndexTy, class PredTy>
 class Field;
 
-  namespace impl {
+  namespace field_impl {
     template <class>
     struct IsField : std::false_type {};
     template <class ETy, class IdxTy, class PredTy>
@@ -38,10 +38,10 @@ class Field;
             return true;
         }
     };
-  } // namespace impl
+  } // namespace field_impl
 
-template <class ETy, uint32_t NIndex, class PredTy=impl::AlwaysTrue<ETy>, class TIndex=void>
-using FieldTag = Field<ETy, impl::TypeIndex<NIndex, TIndex>, PredTy>;
+template <class ETy, uint32_t NIndex, class PredTy=field_impl::AlwaysTrue<ETy>, class TIndex=void>
+using FieldTag = Field<ETy, field_impl::TypeIndex<NIndex, TIndex>, PredTy>;
 
 /******************************************************************************
 
@@ -66,7 +66,7 @@ using FieldTag = Field<ETy, impl::TypeIndex<NIndex, TIndex>, PredTy>;
 ///          その時に代入されるのは要素のみで、代入可否判定ファンクタが影響を受けることはありません。\n
 ///          代入可否判定ファンクタを変更したい場合は、setPredicate()を使用して下さい。
 /// 
-template <class ElemTy, class IndexTy, class PredTy=impl::AlwaysTrue<ElemTy>>
+template <class ElemTy, class IndexTy, class PredTy=field_impl::AlwaysTrue<ElemTy>>
 class Field : private PredTy {
 public :
   // alias
@@ -78,12 +78,12 @@ public :
 
     Field() = default;
     template <class Ty>
-    Field(Ty&& Right) noexcept(noexcept(Field{std::forward<Ty>(Right), PredTy{}, impl::IsField<std::decay_t<Ty>>{}}))
-        : Field{std::forward<Ty>(Right), PredTy{}, impl::IsField<std::decay_t<Ty>>{}} {}
+    Field(Ty&& Right) noexcept(noexcept(Field{std::forward<Ty>(Right), PredTy{}, field_impl::IsField<std::decay_t<Ty>>{}}))
+        : Field{std::forward<Ty>(Right), PredTy{}, field_impl::IsField<std::decay_t<Ty>>{}} {}
     template <class Ty, class PTy>
     Field(Ty&& Right, PTy&& Pred)
-        noexcept(noexcept(Field{std::forward<Ty>(Right),std::forward<PTy>(Pred),impl::IsField<std::decay_t<Ty>>{}}))
-        : Field{std::forward<Ty>(Right), std::forward<PTy>(Pred), impl::IsField<std::decay_t<Ty>>{}} {}
+        noexcept(noexcept(Field{std::forward<Ty>(Right),std::forward<PTy>(Pred),field_impl::IsField<std::decay_t<Ty>>{}}))
+        : Field{std::forward<Ty>(Right), std::forward<PTy>(Pred), field_impl::IsField<std::decay_t<Ty>>{}} {}
 
     ///
     /// \brief  値をセット
@@ -97,8 +97,8 @@ public :
     /// \return セット後フィールドへの参照
     ///
     template <class Ty>
-    Field& operator=(Ty&& Right) noexcept(noexcept(assign(std::forward<Ty>(Right),impl::IsField<std::decay_t<Ty>>{}))){
-        return assign(std::forward<Ty>(Right), impl::IsField<std::decay_t<Ty>>{});
+    Field& operator=(Ty&& Right) noexcept(noexcept(assign(std::forward<Ty>(Right),field_impl::IsField<std::decay_t<Ty>>{}))){
+        return assign(std::forward<Ty>(Right), field_impl::IsField<std::decay_t<Ty>>{});
     }
     ///< operator=同様
     template <class Ty>

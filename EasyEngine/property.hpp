@@ -24,12 +24,12 @@ namespace t_lib {
 template <class ...FieldTypes>
 class Property;
     
-  namespace impl {
+  namespace prop_impl {
     template <class ...FieldTypes> class PropertyBase;
     template <> class PropertyBase<> {}; // empty PropertyBase
     template <class FieldType, class ...Rest>
     class PropertyBase<FieldType, Rest...> : protected FieldType, protected PropertyBase<Rest...> {
-        static_assert(impl::IsField<FieldType>::value, "'FieldType' must be of type Field<…>");
+        static_assert(prop_impl::IsField<FieldType>::value, "'FieldType' must be of type Field<…>");
     };
     template <class ...FieldTypes, class ...Rest>
     class PropertyBase<Property<FieldTypes...>, Rest...> : protected PropertyBase<FieldTypes..., Rest...> {};
@@ -38,7 +38,7 @@ class Property;
     template <> class Assignment<> { // empty Assignment
         template <class PropertyTy> void operator()(PropertyTy&, PropertyTy&&) const noexcept {};
     };
-  } // namespace impl
+  } // namespace prop_impl
 
 
 /******************************************************************************
@@ -59,7 +59,7 @@ class Property;
 /// \tparam FieldTypes  : 保持するフィールドの型リスト
 ///
 template <class ...FieldTypes>
-class Property : private impl::PropertyBase<FieldTypes...> { //, private impl::Assignment<FieldTypes...> {
+class Property : private prop_impl::PropertyBase<FieldTypes...> { //, private prop_impl::Assignment<FieldTypes...> {
 public :
     Property() = default;
 
@@ -94,14 +94,14 @@ public :
 private :
     template <class FieldType>
     const FieldType& access() const noexcept {
-        static_assert(impl::IsField<FieldType>::value, "'FieldType' must be of type 'Field<…>'");
+        static_assert(field_impl::IsField<FieldType>::value, "'FieldType' must be of type 'Field<…>'");
         static_assert(std::is_base_of_v<FieldType, Property>, "'FieldType' must be base for this Property<…>'");
 
         return *static_cast<const FieldType*>(this);
     }
 };
 
-  namespace impl {
+  namespace prop_impl {
     template <class ...FieldTypes> struct Extractor;
     template <>
     struct Extractor<> { // empty Extractor
@@ -115,12 +115,12 @@ private :
             Extractor<Rest...>{Istream >> Prop.field<First>(), Prop};
         }
     };
-  } // namespace impl
+  } // namespace prop_impl
 
 ///< 入力ストリームからプロパティへの入力
 template <class ...FieldTypes>
 std::istream& operator>>(std::istream& Istream, Property<FieldTypes...>& Prop) {
-    impl::Extractor<FieldTypes...>{Istream, Prop};
+    prop_impl::Extractor<FieldTypes...>{Istream, Prop};
     return Istream;
 }
 

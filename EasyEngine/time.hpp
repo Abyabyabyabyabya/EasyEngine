@@ -168,6 +168,13 @@ public :
     }
 
     ///
+    /// \brief  計測開始時間
+    ///
+    ClockUsed::time_point started() const noexcept {
+        return start_;
+    }
+
+    ///
     /// \brief  直近の更新と、そのひとつ前の更新との時間差
     ///
     Time delta() const noexcept {

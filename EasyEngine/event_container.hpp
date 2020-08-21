@@ -24,6 +24,8 @@
 ///             - 呼び出し可能オブジェクト型を指定できる EventType<…>を定義
 ///         - 2020/7/27
 ///             - 例外送出用、非メンバ関数定義
+///         - 2020/8/21
+///             - Event コンセプト修正(std::is_invocable_vからstd::is_member_function_pointer_vへ)
 ///
 #ifndef INCLUDED_EGEG_TLIB_FACTORY_HEADER_
 #define INCLUDED_EGEG_TLIB_FACTORY_HEADER_
@@ -43,9 +45,10 @@
 
 namespace easy_engine {
 namespace t_lib {
-  namespace impl {
+  namespace event_impl {
     template <class FTy> struct Event {
-        static_assert(std::is_invocable_v<FTy>, "'FTy' must be invocable object type");
+        static_assert(std::is_member_function_pointer_v<decltype(&FTy::operator())>, 
+                      "'FTy' must be invocable object type");
         using Type = FTy;
     };
     template <class RetTy, class ...ArgTypes>
@@ -55,10 +58,10 @@ namespace t_lib {
     template <class FTy>
     using EventType = typename Event<FTy>::Type;
 
-    [[noreturn]] void callError(std::string&& Func) {
+    [[noreturn]] inline void callError(std::string&& Func) {
         throw std::logic_error("call to invalid event. func: "+Func);
     }
-  } // namespace impl
+  } // namespace event_impl
 
 /******************************************************************************
 
@@ -82,15 +85,12 @@ namespace t_lib {
 ///          EventStack<void(int)> として宣言します。
 ///
 template <class FTy, template <class> class ContainerTy=std::deque>
-class EventStack : std::stack<impl::EventType<FTy>, ContainerTy<impl::EventType<FTy>>> {
+class EventStack : std::stack<event_impl::EventType<FTy>, ContainerTy<event_impl::EventType<FTy>>> {
 public :
-    static_assert(std::is_invocable_v<impl::EventType<FTy>>,
-        "EventStack<…> can only contain invocable object");
-
   // aliases
-    using FuncType      = impl::EventType<FTy>;
+    using FuncType      = event_impl::EventType<FTy>;
     using ResultType    = typename FuncType::result_type;
-    using ContainerType = std::stack<FuncType, ContainerTy<impl::EventType<FTy>>>;
+    using ContainerType = std::stack<FuncType, ContainerTy<event_impl::EventType<FTy>>>;
   // declarations
     using ContainerType::ContainerType;
     using ContainerType::empty;
@@ -115,7 +115,7 @@ public :
     ///
     template <class ...ArgTypes_>
     ResultType call(ArgTypes_&& ...Args) {
-        if(ContainerType::empty()) impl::callError("EventStack::call");
+        if(ContainerType::empty()) event_impl::callError("EventStack::call");
 
         return ContainerType::top()(std::forward<ArgTypes_>(Args)...);
     }
@@ -133,7 +133,7 @@ public :
     ///
     template <class ...ArgTypes_>
     ResultType pop_with_call(ArgTypes_&& ...Args) {
-        if(ContainerType::empty()) impl::callError("EventStack::pop_with_call");
+        if(ContainerType::empty()) event_impl::callError("EventStack::pop_with_call");
 
         auto func = std::move(ContainerType::top());
         ContainerType::pop();
@@ -164,15 +164,12 @@ public :
 /// \see EventStack
 ///
 template <class FTy, template <class> class ContainerTy=std::deque>
-class EventQueue : std::queue<impl::EventType<FTy>, ContainerTy<impl::EventType<FTy>>> {
+class EventQueue : std::queue<event_impl::EventType<FTy>, ContainerTy<event_impl::EventType<FTy>>> {
 public :
-    static_assert(std::is_invocable_v<impl::EventType<FTy>>,
-        "EventQueue<…> can only contain invocable object");
-
   // alias
-    using FuncType = impl::EventType<FTy>;
+    using FuncType = event_impl::EventType<FTy>;
     using ResultType = typename FuncType::result_type;
-    using ContainerType = std::queue<impl::EventType<FTy>, ContainerTy<impl::EventType<FTy>>>;
+    using ContainerType = std::queue<event_impl::EventType<FTy>, ContainerTy<event_impl::EventType<FTy>>>;
   // declaration
     using ContainerType::ContainerType;
     using ContainerType::empty;
@@ -211,7 +208,7 @@ public :
     ///
     template <class ...ArgTypes_>
     ResultType call(ArgTypes_&& ...Args) {
-        if(ContainerType::empty()) impl::callError("EventQueue::call");
+        if(ContainerType::empty()) event_impl::callError("EventQueue::call");
 
         return ContainerType::front()(std::forward<ArgTypes_>(Args)...);
     }
@@ -229,7 +226,7 @@ public :
     ///
     template <class ...ArgTypes_>
     ResultType pop_with_call(ArgTypes_&& ...Args) {
-        if(ContainerType::empty()) impl::callError("EventQueue::pop_with_call");
+        if(ContainerType::empty()) event_impl::callError("EventQueue::pop_with_call");
 
         auto func = std::move(ContainerType::front());
         ContainerType::pop();
@@ -244,28 +241,28 @@ public :
 
 ******************************************************************************/
 template <class FTy, size_t Size>
-using EventArray = std::array<impl::EventType<FTy>, Size>;
+using EventArray = std::array<event_impl::EventType<FTy>, Size>;
 
-template <class FTy, class AllocTy=std::allocator<impl::EventType<FTy>>>
-using EventVector = std::vector<impl::EventType<FTy>, AllocTy>;
+template <class FTy, class AllocTy=std::allocator<event_impl::EventType<FTy>>>
+using EventVector = std::vector<event_impl::EventType<FTy>, AllocTy>;
 
-template <class FTy, class AllocTy=std::allocator<impl::EventType<FTy>>>
-using EventList = std::list<impl::EventType<FTy>, AllocTy>;
+template <class FTy, class AllocTy=std::allocator<event_impl::EventType<FTy>>>
+using EventList = std::list<event_impl::EventType<FTy>, AllocTy>;
 
-template <class FTy, class AllocTy=std::allocator<impl::EventType<FTy>>>
-using EventForwardList = std::forward_list<impl::EventType<FTy>, AllocTy>;
+template <class FTy, class AllocTy=std::allocator<event_impl::EventType<FTy>>>
+using EventForwardList = std::forward_list<event_impl::EventType<FTy>, AllocTy>;
 
-template <class KeyTy, class FTy, class CompTy=std::less<KeyTy>, class AllocTy=std::allocator<std::pair<const KeyTy, impl::EventType<FTy>>>>
-using EventMap = std::map<KeyTy, impl::EventType<FTy>, CompTy, AllocTy>;
+template <class KeyTy, class FTy, class CompTy=std::less<KeyTy>, class AllocTy=std::allocator<std::pair<const KeyTy, event_impl::EventType<FTy>>>>
+using EventMap = std::map<KeyTy, event_impl::EventType<FTy>, CompTy, AllocTy>;
 
-template <class KeyTy, class FTy, class CompTy=std::less<KeyTy>, class AllocTy=std::allocator<std::pair<const KeyTy, impl::EventType<FTy>>>>
-using EventMultimap = std::multimap<KeyTy, impl::EventType<FTy>, CompTy, AllocTy>;
+template <class KeyTy, class FTy, class CompTy=std::less<KeyTy>, class AllocTy=std::allocator<std::pair<const KeyTy, event_impl::EventType<FTy>>>>
+using EventMultimap = std::multimap<KeyTy, event_impl::EventType<FTy>, CompTy, AllocTy>;
 
-template <class KeyTy, class FTy, class HasherTy=std::hash<KeyTy>, class KeyeqTy=std::equal_to<KeyTy>, class AllocTy=std::allocator<std::pair<const KeyTy, impl::EventType<FTy>>>>
-using EventUnorderedMap = std::unordered_map<KeyTy, impl::EventType<FTy>, HasherTy, KeyeqTy, AllocTy>;
+template <class KeyTy, class FTy, class HasherTy=std::hash<KeyTy>, class KeyeqTy=std::equal_to<KeyTy>, class AllocTy=std::allocator<std::pair<const KeyTy, event_impl::EventType<FTy>>>>
+using EventUnorderedMap = std::unordered_map<KeyTy, event_impl::EventType<FTy>, HasherTy, KeyeqTy, AllocTy>;
 
-template <class KeyTy, class FTy, class HasherTy=std::hash<KeyTy>, class KeyeqTy=std::equal_to<KeyTy>, class AllocTy=std::allocator<std::pair<const KeyTy, impl::EventType<FTy>>>>
-using EventUnorderedMultimap = std::unordered_multimap<KeyTy, impl::EventType<FTy>, HasherTy, KeyeqTy, AllocTy>;
+template <class KeyTy, class FTy, class HasherTy=std::hash<KeyTy>, class KeyeqTy=std::equal_to<KeyTy>, class AllocTy=std::allocator<std::pair<const KeyTy, event_impl::EventType<FTy>>>>
+using EventUnorderedMultimap = std::unordered_multimap<KeyTy, event_impl::EventType<FTy>, HasherTy, KeyeqTy, AllocTy>;
 
 } // namespace t_lib
 } // namespace easy_engine

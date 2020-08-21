@@ -64,7 +64,7 @@ void keyboard_ns::Keyboard::update() {
 
 // 配列アクセスについて
 // blockIdxにより返される値は、uint8_t の最大値255を渡しても切り捨てが発生して31になる。… 255 * (1.0F/8.0F) = 31.875F;
-// キーの状態格納用コンテナの要素数は32なので、範囲外アクセスの例外は発生しない
+// キーの状態格納用コンテナの要素数は32(添え字31)なので、範囲外アクセスの例外は発生しない
 void keyboard_ns::Keyboard::keyDown(const uint8_t VK) noexcept {
     raw_[blockIdx(VK)] |= keyMask(VK);
 }

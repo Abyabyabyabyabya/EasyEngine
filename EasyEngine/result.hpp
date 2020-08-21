@@ -9,6 +9,8 @@
 ///             - ヘッダ追加
 ///             - Result<…> 定義
 ///             - DetailedResult<…> 定義
+///         - 2020/8/21
+///             - DetailedResult<…> コンストラクタのnoexcept指定修正
 ///
 #ifndef INCLUDED_EGEG_TLIB_RESULT_HEADER_
 #define INCLUDED_EGEG_TLIB_RESULT_HEADER_
@@ -18,11 +20,11 @@
 
 namespace easy_engine {
 namespace t_lib {
-  namespace impl {
-    [[noreturn]] void referenceError(std::string&& Func) {
+  namespace result_impl {
+    [[noreturn]] inline void referenceError(std::string&& Func) {
         throw std::logic_error("reference to invalid value. func: "+Func);
     };
-  } // namespace impl
+  } // namespace result_impl
 
 struct Success{};
 struct Failure{};
@@ -37,9 +39,9 @@ struct Failure{};
 /// \brief  状態を持つ戻り値
 ///
 ///         使用例) 
-///          成功: … return Result{Success{}};
-///          失敗: … return Result{Failure{}, "hoghoge error"};
-///         Result を省略し、return {Success{}, …};　と記述することも可能です。
+///          成功: … return Result<…>{Success{}};
+///          失敗: … return Result<…>{Failure{}, "hoghoge error"};
+///          クラス名を省略し、return {Success{}, …};　と記述することも可能です。
 ///
 /// \tparam ValueTy : 戻り値として保持する値の型
 ///
@@ -72,7 +74,7 @@ public :
         value_{std::forward<ValTy>(InvalidValue)} {}
 
     ValueType& get() {
-        if(!*this) impl::referenceError("Result<…>::get");
+        if(!*this) result_impl::referenceError("Result<…>::get");
         return value_;
     }
     ValueType& operator*() { return get(); }
@@ -137,7 +139,7 @@ public :
         detail_(std::forward<DtlTy>(Details)) {}
 
     ValueType& get() {
-        if(!*this) impl::referenceError("DetailedResult<…>::get");
+        if(!*this) result_impl::referenceError("DetailedResult<…>::get");
         return value_;
     }
     ValueType& operator*() { return get(); }
@@ -166,9 +168,9 @@ public :
         condition_{true} /* detail_{default} */ {}
 
     template <class DtlTy>
-    DetailedResult(Failure, DtlTy&& Detail) noexcept(noexcept(detail_(std::forward<DtlTy>(Detail)))) :
+    DetailedResult(Failure, DtlTy&& Detail) noexcept(noexcept(DetailTy{std::forward<DtlTy>(Detail)})) :
         condition_{false},
-        detail_(std::forward<DtlTy>(Detail)) {}
+        detail_{std::forward<DtlTy>(Detail)} {}
 
     bool get() const noexcept { return condition_; }
     bool operator*() const noexcept { return get(); }

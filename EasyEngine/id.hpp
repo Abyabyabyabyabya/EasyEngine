@@ -17,7 +17,7 @@
 
 namespace easy_engine {
 namespace t_lib {
-  namespace impl {
+  namespace id_impl {
     template <class Ty>
     struct Generator;
     template <auto Value, bool=std::is_enum_v<decltype(Value)>>
@@ -26,7 +26,7 @@ namespace t_lib {
     struct TypeID;
     template <const char Str[]>
     struct String;
-  } // namespace impl
+  } // namespace id_impl
 
 /******************************************************************************
 
@@ -53,7 +53,7 @@ std::uintptr_t uniqueID(const Ty& Instance) noexcept {
 /// \tparam Value : 生成する定数値
 ///
 template <auto Value>
-using ConstantGenerator = impl::Generator<impl::Constant<Value>>;
+using ConstantGenerator = id_impl::Generator<id_impl::Constant<Value>>;
 
 ///
 /// \brief  型IDジェネレーター
@@ -63,7 +63,7 @@ using ConstantGenerator = impl::Generator<impl::Constant<Value>>;
 /// \tparam Ty      : IDに変換する型
 ///
 template <class Ty>
-using TypeIDGenerator = impl::Generator<impl::TypeID<Ty>>;
+using TypeIDGenerator = id_impl::Generator<id_impl::TypeID<Ty>>;
 
 ///
 /// \brief  文字列ジェネレーター
@@ -77,14 +77,14 @@ using TypeIDGenerator = impl::Generator<impl::TypeID<Ty>>;
 /// \attention 指定する文字列(上の例でいう'kName') は constで修飾して変更されないようにしてください。
 ///
 template <const char Str[]>
-using StringGenerator = impl::Generator<impl::String<Str>>;
+using StringGenerator = id_impl::Generator<id_impl::String<Str>>;
 
   /******************************************************************************
 
         IMPL
 
   ******************************************************************************/
-  namespace impl {
+  namespace id_impl {
     template <class Ty>
     struct Generator {
       // 生成者
@@ -134,7 +134,7 @@ using StringGenerator = impl::Generator<impl::String<Str>>;
     };
     template <const char Str[]>
     const typename String<Str>::ValueType String<Str>::value = Str;
-  } // namespace impl
+  } // namespace id_impl
 } // namespace t_lib
 } // namespace easy_engine
 #endif // !INCLUDED_EGEG_TLIB_ID_HEADER_

@@ -9,8 +9,6 @@
 ///             - ヘッダ追加
 ///             - Degrees 定義
 ///             - Radians 定義
-///         - 2020/8/3
-///             - 作業用名前を impl から angle_impl へ変更
 ///
 #ifndef INCLUDED_EGEG_MLIB_ANGLE_HEADER_
 #define INCLUDED_EGEG_MLIB_ANGLE_HEADER_
@@ -23,7 +21,7 @@ namespace m_lib {
 class Radians;
   namespace angle_impl {
       constexpr bool floatEqual(float, float) noexcept;
-  } // namespace impl
+  } // namespace angle_impl
 
 /******************************************************************************
 

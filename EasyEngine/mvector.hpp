@@ -23,7 +23,7 @@
 namespace easy_engine {
 namespace m_lib {
   namespace vector_impl {
-    [[noreturn]] void rangeError(std::string&& Func) {
+    [[noreturn]] inline void rangeError(std::string&& Func) {
         throw std::logic_error("out-of-range access detected. func: "+Func);
     }
   } // namespace vector_impl

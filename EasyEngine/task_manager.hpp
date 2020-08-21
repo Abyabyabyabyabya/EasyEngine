@@ -42,7 +42,7 @@ namespace t_lib {
 /// \tparam TaskTy : 登録するタスクの型
 /// \tparam DefaultPriority : デフォルトで設定する優先度
 ///
-/// \details TaskTy はファンクタ型か、戻り値型(引数型リスト)の形で指定します。
+/// \details TaskTy はファンクタ型か、戻り値型(引数型リスト) の形で指定します。
 ///
 /// \attention TaskTy はboolに変換可能(暗黙、明示的問わず)である必要があります。
 ///
@@ -50,10 +50,9 @@ template <class TaskTy, uint32_t DefaultPriority=0U>
 class TaskManager {
 public :
   // aliases
-    using TaskType = impl::EventType<TaskTy>;
+    using TaskType = event_impl::EventType<TaskTy>;
 
   // concepts
-    static_assert(std::is_invocable_v<TaskType>, "'TaskType' must be the invocable type");
     static_assert(std::is_default_constructible_v<TaskType>, "'TaskType' must be the default constructible type");
     static_assert(std::is_move_constructible_v<TaskType>, "'TaskType' must be the movable type");
     static_assert(std::is_move_assignable_v<TaskType>, "'TaskType' must be the movable type");
@@ -62,8 +61,6 @@ public :
     ///< タスク登録情報
     class TaskInfo final : Noncopyable<TaskInfo> {
     public :
-        friend TaskManager;
-
         TaskInfo() = default;
         TaskInfo(TaskInfo&& Right) noexcept : id_{Right.id_}, priority_{Right.priority_}, manager_{Right.manager_} {
             Right.manager_ = nullptr; 
@@ -76,7 +73,8 @@ public :
 
             return *this;
         }
-        ~TaskInfo() { if(manager_) manager_->unregisterTask(*this); }
+        ~TaskInfo() { exitFromManager(); }
+        void exitFromManager() { if(manager_) manager_->unregisterTask(*this); }
 
     private :
         TaskInfo(size_t ID,uint32_t Priority,TaskManager* Manager) : id_{ID}, priority_{Priority}, manager_{Manager} {}

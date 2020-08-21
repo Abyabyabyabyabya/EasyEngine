@@ -9,11 +9,13 @@
 ///             - ヘッダ追加
 ///             - InputManager 定義
 ///
-#ifndef INCLUDED_EGEG_INPUT_MANAGER_HEADER_
-#define INCLUDED_EGEG_INPUT_MANAGER_HEADER_
+#ifndef INCLUDED_EGEG_ILIB_INPUT_MANAGER_HEADER_
+#define INCLUDED_EGEG_ILIB_INPUT_MANAGER_HEADER_
 
 #include <memory>
 #include <unordered_map>
+#include <Windows.h>
+#include "noncopyable.hpp"
 #include "input_device.hpp"
 #include "id.hpp"
 
@@ -34,7 +36,7 @@ namespace i_lib {
 ///         シングルトンクラスです。
 ///         このクラスへのアクセスは、EasyEngineクラスを介して行います。
 ///
-class InputManager final {
+class InputManager final : t_lib::Noncopyable<InputManager> {
 public :
     friend EasyEngine;
 
@@ -81,7 +83,7 @@ public :
     /// \return デバイスへのポインタ
     ///
     template <class DeviceTy>
-    [[nodiscard]] const DeviceTy* device() const {
+    const DeviceTy* device() const {
         auto find_itr = devices_.find(t_lib::TypeIDGenerator<DeviceTy>{});
 
         if(find_itr==devices_.end()) return nullptr;
@@ -89,8 +91,10 @@ public :
     }
 
 private :
-    [[nodiscard]] static std::unique_ptr<InputManager> create(); // EasyEngineクラスにより呼び出される関数
-    void update();                                               // 上同 保持するデバイスをすべて更新する
+    static std::unique_ptr<InputManager> create();      // EasyEngineクラスにより呼び出される関数
+    void update();                                      // 上同 保持するデバイスをすべて更新する
+    void keyEvent(UINT, WPARAM, LPARAM) const noexcept; // 上同 キーボードのイベントメッセージ処理
+
     InputManager() = default;
 
     std::unordered_map<uintptr_t, std::unique_ptr<InputDevice>> devices_;
@@ -98,5 +102,5 @@ private :
 
 } // namespace i_lib
 } // namespace easy_engine
-#endif // !INCLUDED_EGEG_INPUT_MANAGER_HEADER_
+#endif // !INCLUDED_EGEG_ILIB_INPUT_MANAGER_HEADER_
 // E0F

@@ -147,7 +147,9 @@
     <ClInclude Include="egeg.hpp" />
     <ClInclude Include="egeg_math.hpp" />
     <ClInclude Include="event_container.hpp" />
+    <ClInclude Include="graphics_manager.hpp" />
     <ClInclude Include="id.hpp" />
+    <ClInclude Include="update_manager.hpp" />
     <ClInclude Include="input_device.hpp" />
     <ClInclude Include="input_manager.hpp" />
     <ClInclude Include="input_state.hpp" />
@@ -168,6 +170,7 @@
     <ClInclude Include="xinput_gamepad.hpp" />
   </ItemGroup>
   <ItemGroup>
+    <ClCompile Include="easy_engine.cpp" />
     <ClCompile Include="input_manager.cpp" />
     <ClCompile Include="keyboard.cpp" />
     <ClCompile Include="main.cpp" />
