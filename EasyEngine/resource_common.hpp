@@ -42,8 +42,9 @@ public :
 
     bool isValid() const noexcept { return handle(); }
     operator bool() const noexcept { isValid(); }
+
+protected :
     ResourceHandle handle() const noexcept { return handle_; }
-    operator ResourceHandle() const noexcept { return handle(); }
 
 private :
     void addRef() {
