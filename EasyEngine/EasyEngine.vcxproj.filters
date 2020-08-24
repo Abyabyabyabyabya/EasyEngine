@@ -116,6 +116,15 @@
     <ClInclude Include="update_manager.hpp">
       <Filter>Source\EGEG</Filter>
     </ClInclude>
+    <ClInclude Include="resource_common.hpp">
+      <Filter>Source\Graphics</Filter>
+    </ClInclude>
+    <ClInclude Include="texture.hpp">
+      <Filter>Source\Graphics</Filter>
+    </ClInclude>
+    <ClInclude Include="model.hpp">
+      <Filter>Source\Graphics</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="main.cpp">
@@ -132,6 +141,9 @@
     </ClCompile>
     <ClCompile Include="easy_engine.cpp">
       <Filter>Source\EGEG</Filter>
+    </ClCompile>
+    <ClCompile Include="graphics_manager.cpp">
+      <Filter>Source\Graphics</Filter>
     </ClCompile>
   </ItemGroup>
 </Project>

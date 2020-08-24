@@ -18,6 +18,7 @@
 #include "time.hpp"
 #include "update_manager.hpp"
 #include "input_manager.hpp"
+#include "graphics_manager.hpp"
 
 namespace easy_engine {
 
@@ -39,6 +40,7 @@ public :
     static const Clock& clock() noexcept;
     static UpdateManager<EasyEngine>& updator() noexcept;
     static i_lib::InputManager& input() noexcept;
+    static g_lib::GraphicsManager& renderer() noexcept;
 
 private :
     EasyEngine() = default;

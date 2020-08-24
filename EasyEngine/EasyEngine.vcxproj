@@ -149,6 +149,9 @@
     <ClInclude Include="event_container.hpp" />
     <ClInclude Include="graphics_manager.hpp" />
     <ClInclude Include="id.hpp" />
+    <ClInclude Include="model.hpp" />
+    <ClInclude Include="resource_common.hpp" />
+    <ClInclude Include="texture.hpp" />
     <ClInclude Include="update_manager.hpp" />
     <ClInclude Include="input_device.hpp" />
     <ClInclude Include="input_manager.hpp" />
@@ -171,6 +174,7 @@
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="easy_engine.cpp" />
+    <ClCompile Include="graphics_manager.cpp" />
     <ClCompile Include="input_manager.cpp" />
     <ClCompile Include="keyboard.cpp" />
     <ClCompile Include="main.cpp" />

@@ -22,11 +22,11 @@ std::unique_ptr<egeg_ns::EasyEngine::Impl> egeg_ns::EasyEngine::impl_{};
 ******************************************************************************/
 struct egeg_ns::EasyEngine::Impl  {
     // 宣言順に依存関係あり。
-    //  EasyEngine::finalizeが呼び出されずに、デストラクタが呼び出されると
     //  宣言とは逆順に破棄が行われる
     Clock clock_;
     std::unique_ptr<UpdateManager<EasyEngine>> umanager_;
     std::unique_ptr<i_lib::InputManager> imanager_;
+    std::unique_ptr<g_lib::GraphicsManager> gmanager_;
 };
 
 /******************************************************************************
@@ -52,7 +52,7 @@ void egeg_ns::EasyEngine::run() {
     }
     catch(...) {
         // ログ出力 : 補足されない例外により終了しました。
-        //            詳細 : unknown exception
+        //            詳細 : unknown error
     }
 
     finalize();
@@ -78,13 +78,13 @@ egeg_ns::t_lib::DetailedResult<bool, const char*> egeg_ns::EasyEngine::initializ
     if(!impl_->umanager_) return {Failure{}, "EasyEngine::initialize : 更新マネージャーの生成に失敗しました。"};
     impl_->imanager_ = i_lib::InputManager::create();
     if(!impl_->imanager_) return {Failure{}, "EasyEngine::initialize : 入力マネージャーの生成に失敗しました。"};
+    impl_->gmanager_ = g_lib::GraphicsManager::create();
+    if(!impl_->gmanager_) return {Failure{}, "EasyEngine::initialize : 描画マネージャーの生成に失敗しました。"};
 
     return Success{};
 }
 
 void egeg_ns::EasyEngine::finalize() noexcept {
-    impl_->imanager_.reset();
-    impl_->umanager_.reset();
     impl_.reset();
 }
 
@@ -101,5 +101,10 @@ egeg_ns::UpdateManager<egeg_ns::EasyEngine>& egeg_ns::EasyEngine::updator() noex
 egeg_ns::i_lib::InputManager& egeg_ns::EasyEngine::input() noexcept {
     assert(impl_&&impl_->imanager_ && "エンジンの初期化が正常に終了していません。");
     return *impl_->imanager_;
+}
+
+egeg_ns::g_lib::GraphicsManager& egeg_ns::EasyEngine::renderer() noexcept {
+    assert(impl_&&impl_->gmanager_ && "エンジンの初期化が正常に終了していません。");
+    return *impl_->gmanager_;
 }
 // EOF

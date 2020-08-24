@@ -30,8 +30,6 @@ class Radians;
 ******************************************************************************/
 class Degrees {
 public :
-    friend Radians;
-
     static constexpr float kConvertToDegrees = 180.0F/static_cast<float>(M_PI);
 
     explicit constexpr Degrees(const float Angle=0.0F) noexcept : angle_{Angle} {}
@@ -64,14 +62,12 @@ private :
 ******************************************************************************/
 class Radians {
 public :
-    friend Degrees;
-
     static constexpr float kConvertToRadians = static_cast<float>(M_PI)/180.0F;
 
     explicit constexpr Radians(const float Angle=0.0F) noexcept : angle_{Angle} {}
-    constexpr Radians(const Degrees Angle) noexcept : angle_{Angle.angle_*kConvertToRadians} {}
+    constexpr Radians(const Degrees Angle) noexcept : angle_{Angle*kConvertToRadians} {}
     Radians& operator=(const Degrees Angle) noexcept {
-        angle_ = Angle.angle_*kConvertToRadians;
+        angle_ = Angle*kConvertToRadians;
         return *this;
     }
 
@@ -83,9 +79,9 @@ public :
 
     Radians& operator+=(const Radians R) noexcept { angle_ += R.angle_; return *this; }
     Radians& operator-=(const Radians R) noexcept { angle_ -= R.angle_; return *this; }
-    Radians& operator++() noexcept { return *this += Degrees{1.0F}; }
+    Radians& operator++() noexcept { return *this += Radians{1.0F}; }
     Radians operator++(int) noexcept { Radians temp{*this}; ++*this; return temp; }
-    Radians& operator--() noexcept { return *this -= Degrees{1.0F}; }
+    Radians& operator--() noexcept { return *this -= Radians{1.0F}; }
     Radians operator--(int) noexcept { Radians temp{*this}; --*this; return temp; }
 
     constexpr operator float() const noexcept { return angle_; }
@@ -94,9 +90,9 @@ private :
     float angle_;
 };
 
-inline constexpr Degrees::Degrees(const Radians Angle) noexcept : angle_{Angle.angle_*kConvertToDegrees} {}
+inline constexpr Degrees::Degrees(const Radians Angle) noexcept : angle_{Angle*kConvertToDegrees} {}
 inline Degrees& Degrees::operator=(const Radians Angle) noexcept {
-    angle_ = Angle.angle_*kConvertToDegrees;
+    angle_ = Angle*kConvertToDegrees;
     return *this;
 }
 
