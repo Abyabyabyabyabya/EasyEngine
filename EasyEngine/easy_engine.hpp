@@ -15,10 +15,11 @@
 #include <memory>
 #include "noncopyable.hpp"
 #include "result.hpp"
+#include "window_manager.hpp"
 #include "time.hpp"
 #include "update_manager.hpp"
 #include "input_manager.hpp"
-#include "graphics_manager.hpp"
+#include "graphic_manager.hpp"
 
 namespace easy_engine {
 
@@ -37,15 +38,16 @@ class EasyEngine final : t_lib::Noncopyable<EasyEngine> {
 public :
     static void run();
 
+    static WindowManager& window() noexcept;
     static const Clock& clock() noexcept;
     static UpdateManager<EasyEngine>& updator() noexcept;
     static i_lib::InputManager& input() noexcept;
-    static g_lib::GraphicsManager& renderer() noexcept;
+    static g_lib::GraphicManager& graphics() noexcept;
 
 private :
     EasyEngine() = default;
-    static t_lib::DetailedResult<bool, const char*> initialize();
-    static void finalize() noexcept;
+    static t_lib::DetailedResult<bool, const char*> startUp();
+    static void shutDown() noexcept;
 
     struct Impl;
     static std::unique_ptr<Impl> impl_;

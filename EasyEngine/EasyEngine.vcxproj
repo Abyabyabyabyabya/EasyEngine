@@ -146,12 +146,12 @@
     <ClInclude Include="easy_engine.hpp" />
     <ClInclude Include="egeg.hpp" />
     <ClInclude Include="egeg_math.hpp" />
+    <ClInclude Include="egeg_state.hpp" />
     <ClInclude Include="event_container.hpp" />
-    <ClInclude Include="graphics_manager.hpp" />
+    <ClInclude Include="graphic_manager.hpp" />
     <ClInclude Include="id.hpp" />
-    <ClInclude Include="model.hpp" />
-    <ClInclude Include="resource_common.hpp" />
     <ClInclude Include="texture.hpp" />
+    <ClInclude Include="texture_impl.hpp" />
     <ClInclude Include="update_manager.hpp" />
     <ClInclude Include="input_device.hpp" />
     <ClInclude Include="input_manager.hpp" />
@@ -169,15 +169,18 @@
     <ClInclude Include="task_manager.hpp" />
     <ClInclude Include="time.hpp" />
     <ClInclude Include="utility_function.hpp" />
+    <ClInclude Include="window_manager.hpp" />
     <ClInclude Include="xinput_controller.hpp" />
     <ClInclude Include="xinput_gamepad.hpp" />
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="easy_engine.cpp" />
-    <ClCompile Include="graphics_manager.cpp" />
+    <ClCompile Include="graphic_manager.cpp" />
     <ClCompile Include="input_manager.cpp" />
     <ClCompile Include="keyboard.cpp" />
     <ClCompile Include="main.cpp" />
+    <ClCompile Include="texture.cpp" />
+    <ClCompile Include="window_manager.cpp" />
     <ClCompile Include="xinput_gamepad.cpp" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />

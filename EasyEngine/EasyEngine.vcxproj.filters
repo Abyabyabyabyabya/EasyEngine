@@ -33,6 +33,9 @@
     <Filter Include="Source\EGEG">
       <UniqueIdentifier>{30e7aa0c-e6b9-4e30-ac79-a89234e76589}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Source\Windows">
+      <UniqueIdentifier>{0518a580-a6b3-42ff-ba73-d5a116d80ec4}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="event_container.hpp">
@@ -101,9 +104,6 @@
     <ClInclude Include="input_manager.hpp">
       <Filter>Source\Input</Filter>
     </ClInclude>
-    <ClInclude Include="graphics_manager.hpp">
-      <Filter>Source\Graphics</Filter>
-    </ClInclude>
     <ClInclude Include="easy_engine.hpp">
       <Filter>Source\EGEG</Filter>
     </ClInclude>
@@ -116,14 +116,20 @@
     <ClInclude Include="update_manager.hpp">
       <Filter>Source\EGEG</Filter>
     </ClInclude>
-    <ClInclude Include="resource_common.hpp">
-      <Filter>Source\Graphics</Filter>
-    </ClInclude>
     <ClInclude Include="texture.hpp">
       <Filter>Source\Graphics</Filter>
     </ClInclude>
-    <ClInclude Include="model.hpp">
+    <ClInclude Include="graphic_manager.hpp">
       <Filter>Source\Graphics</Filter>
+    </ClInclude>
+    <ClInclude Include="texture_impl.hpp">
+      <Filter>Source\Graphics</Filter>
+    </ClInclude>
+    <ClInclude Include="window_manager.hpp">
+      <Filter>Source\Windows</Filter>
+    </ClInclude>
+    <ClInclude Include="egeg_state.hpp">
+      <Filter>Source\EGEG</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
@@ -142,7 +148,13 @@
     <ClCompile Include="easy_engine.cpp">
       <Filter>Source\EGEG</Filter>
     </ClCompile>
-    <ClCompile Include="graphics_manager.cpp">
+    <ClCompile Include="graphic_manager.cpp">
+      <Filter>Source\Graphics</Filter>
+    </ClCompile>
+    <ClCompile Include="window_manager.cpp">
+      <Filter>Source\Windows</Filter>
+    </ClCompile>
+    <ClCompile Include="texture.cpp">
       <Filter>Source\Graphics</Filter>
     </ClCompile>
   </ItemGroup>

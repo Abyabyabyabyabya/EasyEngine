@@ -33,8 +33,7 @@ namespace i_lib {
 /// \class  InputManager
 /// \brief  入力マネージャー
 ///
-///         シングルトンクラスです。
-///         このクラスへのアクセスは、EasyEngineクラスを介して行います。
+///         このクラスへのアクセスは、EasyEngine::input()を使用してください。
 ///
 class InputManager final : t_lib::Noncopyable<InputManager> {
 public :
