@@ -42,7 +42,6 @@ struct egeg_ns::EasyEngine::Impl  {
 void egeg_ns::EasyEngine::run() {
     auto init_res = startUp();
     if(!init_res) {
-        shutDown();
         // ログ出力 : エンジンの初期化に失敗しました。
         //            詳細 : init_res.what()
         return;
@@ -50,7 +49,6 @@ void egeg_ns::EasyEngine::run() {
 
     // ゲームループ
     try {
-        // LOOP
         MSG msg{};
         Clock clock{};
         while( msg.message != WM_QUIT ) {
@@ -63,23 +61,23 @@ void egeg_ns::EasyEngine::run() {
             else {
                 clock.update();
                 auto elapsed = clock.elapsed();
-                if(elapsed.microseconds() >= kTPF<>) {
+                if(elapsed.microseconds() >= kTPF<std::micro>) {
                     clock = Clock{};
                     impl_->umanager_->run(elapsed);
-                    SetWindowText(window().handle(), std::to_wstring(elapsed.microseconds()).c_str());
+                    SetWindowText(window().handle(), std::to_wstring(elapsed.nanoseconds()).c_str());
                 }
             }
         }
     }
     catch(const std::exception& e) {
+        shutDown();
         // ログ出力 : 補足されない例外により終了しました。
         //            詳細 : e.what()
-        throw;
     }
     catch(...) {
+        shutDown();
         // ログ出力 : 補足されない例外により終了しました。
         //            詳細 : unknown error
-        throw;
     }
 
     shutDown();
@@ -91,24 +89,35 @@ void egeg_ns::EasyEngine::run() {
 
 // エンジン初期化
 // サブシステムの初期化順には依存関係がある
+// impl_のメンバに生成したマネージャーを直代入しているのもそういった理由
 egeg_ns::t_lib::DetailedResult<bool, const char*> egeg_ns::EasyEngine::startUp() {
     using namespace t_lib;
     using namespace i_lib;
 
     if(impl_) return Success{};
 
-    impl_ = std::make_unique<Impl>();
+    auto failure = [&](const char* Message)->DetailedResult<bool, const char*> {
+        impl_.reset();
+        return {Failure{}, Message};
+    };
 
   // サブシステムスタートアップ
-    impl_->wmanager_ = WindowManager::create();
-    if(!impl_->wmanager_) return {Failure{}, "EasyEngine::startUp : ウィンドウマネージャーの生成に失敗しました。"};
-    impl_->clock_ = Clock{};
-    impl_->umanager_ = UpdateManager<EasyEngine>::create();
-    if(!impl_->umanager_) return {Failure{}, "EasyEngine::startUp : 更新マネージャーの生成に失敗しました。"};
-    impl_->imanager_ = i_lib::InputManager::create();
-    if(!impl_->imanager_) return {Failure{}, "EasyEngine::startUp : 入力マネージャーの生成に失敗しました。"};
-    impl_->gmanager_ = g_lib::GraphicManager::create();
-    if(!impl_->gmanager_) return {Failure{}, "EasyEngine::startUp : 描画マネージャーの生成に失敗しました。"};
+    try {
+        impl_ = std::make_unique<Impl>();
+        impl_->wmanager_ = WindowManager::create();
+        if(!impl_->wmanager_) return failure("EasyEngine::startUp : ウィンドウマネージャーの生成に失敗しました。");
+        impl_->clock_ = Clock{};
+        impl_->umanager_ = UpdateManager<EasyEngine>::create();
+        if(!impl_->umanager_) return failure("EasyEngine::startUp : 更新マネージャーの生成に失敗しました。");
+        impl_->imanager_ = i_lib::InputManager::create();
+        if(!impl_->imanager_) return failure("EasyEngine::startUp : 入力マネージャーの生成に失敗しました。");
+        impl_->gmanager_ = g_lib::GraphicManager::create();
+        if(!impl_->gmanager_) return failure("EasyEngine::startUp : 描画マネージャーの生成に失敗しました。");
+    } catch(const std::exception& e) {
+        char err_msg[1024] = "EasyEngine::startUP : ";
+        strcat_s(err_msg, e.what());
+        return failure(err_msg);
+    }
 
     window().addCallback(impl_.get(), &EasyEngine::Impl::WindowEventProcess);
 

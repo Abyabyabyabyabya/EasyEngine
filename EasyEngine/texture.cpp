@@ -21,7 +21,15 @@ namespace tex_ns = easy_engine::g_lib;
     Texture::
 
 ******************************************************************************/
-void tex_ns::Texture::load(const char* FilePath) {
-
+tex_ns::Texture::Texture(const char* FilePath) {
+    // 画像ファイル読み込み
+    //  … 後々 …
+    // テクスチャ作成
+    //  d3dDevice->CreateTexture2D(&desc, image_data, &tex);
+    // ビュー作成
+    //  d3dDevice->CreateShaderResourceView(tex, nullptr, &srv);
+    D3D11_RASTERIZER_DESC;
+    D3D11_SAMPLER_DESC;
+    D3D11_BLEND_DESC;
 }
 // EOF

@@ -19,7 +19,7 @@ template <class T>
 constexpr T kWindowHeight = static_cast<T>(state::kWindowHeight);
 template <class T>
 constexpr T kFPS = static_cast<T>(state::kFPS);
-template <class TimeUnit=std::micro, std::uintmax_t FPS=kFPS<std::uintmax_t>> 
+template <class TimeUnit=std::milli, std::uintmax_t FPS=kFPS<std::uintmax_t>> 
 constexpr std::intmax_t kTPF = // Time Per Frame : 1ƒtƒŒ[ƒ€“–‚½‚è‚ÌŠÔ
   std::ratio_divide<std::ratio<1,FPS>, TimeUnit>::num/std::ratio_divide<std::ratio<1,FPS>, TimeUnit>::den;
 } // namespace easy_engine

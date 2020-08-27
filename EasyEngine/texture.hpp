@@ -1,6 +1,6 @@
 //
 /// \file   texture.hpp
-/// \brief  テクスチャハンドラ定義ヘッダ
+/// \brief  テクスチャ定義ヘッダ
 ///
 /// \author 板場
 ///
@@ -35,17 +35,14 @@ namespace g_lib {
 class Texture {
 public :
     Texture() = default;
+    virtual ~Texture() = default;
     
     ///
     /// \brief  読み込みを伴う構築
     ///
-    /// \tparam StrTy : 文字列型
     /// \param[in] FilePath : 読み込む画像のファイルパス
     ///
-    template <class StrTy>
-    Texture(StrTy&& FilePath) {
-        load(std::forward<StrTy>(FilePath));
-    }
+    Texture(const char* FilePath);
 
     ///
     /// \brief  有効なテクスチャかどうか判定
@@ -56,21 +53,20 @@ public :
     /// \return 判定結果
     ///
     bool isValid() const noexcept {
-        return view_;
+        return texture_;
     }
     operator bool() const noexcept {
         return isValid();
     }
 
+
     ///< リソースを取得
     ID3D11Texture2D* resource() const noexcept { return resource_.Get(); }
-    ///< ビューを取得
-    ID3D11ShaderResourceView* view() const noexcept { return view_.Get(); }
-
-private :
-    void load(const char*);
+    ///< テクスチャを取得
+    ID3D11ShaderResourceView* texture() const noexcept { return texture_.Get(); }
+protected :
     Microsoft::WRL::ComPtr<ID3D11Texture2D> resource_;
-    Microsoft::WRL::ComPtr<ID3D11ShaderResourceView> view_;
+    Microsoft::WRL::ComPtr<ID3D11ShaderResourceView> texture_;
 };
 
 } // namespace g_lib

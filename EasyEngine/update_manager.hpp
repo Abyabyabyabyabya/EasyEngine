@@ -19,7 +19,6 @@
 #include "time.hpp"
 
 namespace easy_engine {
-class EasyEngine;
 
 namespace impl {
 using UpdateFunctorType = std::function<void(Time)>;
@@ -48,6 +47,7 @@ class UpdateManager final : t_lib::TaskManager<impl::UpdateFunctorType>, t_lib::
 public :
     friend AdminTy;
 
+    using TaskInfo = t_lib::TaskManager<impl::UpdateFunctorType>::TaskInfo;
     using t_lib::TaskManager<impl::UpdateFunctorType>::unregisterTask;
 
     ///

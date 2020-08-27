@@ -61,6 +61,8 @@ public :
     ///< ƒ^ƒXƒN“o˜^î•ñ
     class TaskInfo final : Noncopyable<TaskInfo> {
     public :
+        friend TaskManager;
+
         TaskInfo() = default;
         TaskInfo(TaskInfo&& Right) noexcept : id_{Right.id_}, priority_{Right.priority_}, manager_{Right.manager_} {
             Right.manager_ = nullptr; 

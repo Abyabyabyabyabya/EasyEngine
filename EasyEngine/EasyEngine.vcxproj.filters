@@ -122,13 +122,16 @@
     <ClInclude Include="graphic_manager.hpp">
       <Filter>Source\Graphics</Filter>
     </ClInclude>
-    <ClInclude Include="texture_impl.hpp">
-      <Filter>Source\Graphics</Filter>
-    </ClInclude>
     <ClInclude Include="window_manager.hpp">
       <Filter>Source\Windows</Filter>
     </ClInclude>
     <ClInclude Include="egeg_state.hpp">
+      <Filter>Source\EGEG</Filter>
+    </ClInclude>
+    <ClInclude Include="layer.hpp">
+      <Filter>Source\Graphics</Filter>
+    </ClInclude>
+    <ClInclude Include="update_order.hpp">
       <Filter>Source\EGEG</Filter>
     </ClInclude>
   </ItemGroup>
@@ -155,6 +158,9 @@
       <Filter>Source\Windows</Filter>
     </ClCompile>
     <ClCompile Include="texture.cpp">
+      <Filter>Source\Graphics</Filter>
+    </ClCompile>
+    <ClCompile Include="layer.cpp">
       <Filter>Source\Graphics</Filter>
     </ClCompile>
   </ItemGroup>

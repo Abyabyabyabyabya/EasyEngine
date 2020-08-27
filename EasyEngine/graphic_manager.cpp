@@ -8,6 +8,7 @@
 #include "egeg_state.hpp"
 #include "easy_engine.hpp"
 #include "utility_function.hpp"
+#include "update_order.hpp"
 
 #pragma comment(lib, "d3d11.lib")
 
@@ -18,6 +19,23 @@
 ******************************************************************************/
 namespace gm_ns = easy_engine::g_lib;
 namespace {
+    class BaseLayer : public gm_ns::Layer {
+    public :
+        BaseLayer(ID3D11Device* D3DDevice, ID3D11Texture2D* BackBuffer) : Layer{} {
+            // スワップチェインのバックバッファを参照する各種ビューを作成
+            Microsoft::WRL::ComPtr<ID3D11RenderTargetView> rtv;
+            if(FAILED(D3DDevice->CreateRenderTargetView(BackBuffer, nullptr, &rtv)))
+                return;
+            Microsoft::WRL::ComPtr<ID3D11ShaderResourceView> srv;
+            if(FAILED(D3DDevice->CreateShaderResourceView(BackBuffer, nullptr, &srv)))
+                return;
+
+            resource_ = BackBuffer;
+            layer_ = std::move(rtv);
+            texture_ = std::move(srv);
+        }
+    };
+
     DXGI_SWAP_CHAIN_DESC swapChainDesc();
 
     constexpr D3D_FEATURE_LEVEL kFeatureLevels[] {
@@ -43,10 +61,10 @@ gm_ns::GraphicManager::~GraphicManager() = default;
 std::unique_ptr<gm_ns::GraphicManager> gm_ns::GraphicManager::create() {
     std::unique_ptr<GraphicManager> ptr{new GraphicManager{}};
     
-    // 初期化
+    // DirectXを初期化
     if(FAILED(D3D11CreateDeviceAndSwapChain(
                 nullptr,
-                D3D_DRIVER_TYPE_HARDWARE,
+                D3D_DRIVER_TYPE::D3D_DRIVER_TYPE_HARDWARE,
                 nullptr,
                 kDeviceCreateFlag,
                 kFeatureLevels,
@@ -59,7 +77,7 @@ std::unique_ptr<gm_ns::GraphicManager> gm_ns::GraphicManager::create() {
                 &ptr->context_))) {
         if(FAILED(D3D11CreateDeviceAndSwapChain(
                     nullptr,
-                    D3D_DRIVER_TYPE_WARP,
+                    D3D_DRIVER_TYPE::D3D_DRIVER_TYPE_WARP,
                     nullptr,
                     kDeviceCreateFlag,
                     kFeatureLevels,
@@ -73,8 +91,25 @@ std::unique_ptr<gm_ns::GraphicManager> gm_ns::GraphicManager::create() {
             return nullptr;
         }
     }
+    
+    // ベースレイヤーを初期化
+    Microsoft::WRL::ComPtr<ID3D11Texture2D> back_buffer;
+    if(FAILED(ptr->swap_chain_->GetBuffer(0, __uuidof(ID3D11Texture2D), &back_buffer)))
+        return nullptr;
+    ptr->base_layer_ = BaseLayer{ptr->device_.Get(), back_buffer.Get()};
+
+    // 描画処理を登録
+    ptr->task_ = EasyEngine::updator().registerTask(ptr.get(), &GraphicManager::render, UpdateOrder::kRenderEnd+1);
 
     return ptr;
+}
+
+void gm_ns::GraphicManager::capture(const char* FileName, const gm_ns::Texture& Image) {
+
+}
+
+void gm_ns::GraphicManager::render(Time) {
+    swap_chain_->Present(0, 0);
 }
 
 
@@ -101,7 +136,8 @@ namespace { DXGI_SWAP_CHAIN_DESC swapChainDesc() {
             1U,                                 // .Count
             0U                                  // .Quality
         },
-        DXGI_USAGE_RENDER_TARGET_OUTPUT,    // BufferUsage
+        DXGI_USAGE_RENDER_TARGET_OUTPUT |   // BufferUsage
+        DXGI_USAGE_SHADER_INPUT,
         1U,                                 // BufferCount
         EasyEngine::window().handle(),      // OutputWindowl
         state::kWindowed,                   // Windowed
