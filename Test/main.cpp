@@ -6,6 +6,8 @@
 #include <functional>
 #include <any>
 #include "graphic_manager.hpp"
+#include "shader.hpp"
+#include "time.hpp"
 
 //using namespace egeg::t_lib;
 //using namespace egeg::m_lib;

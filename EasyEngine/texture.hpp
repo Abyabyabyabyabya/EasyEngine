@@ -52,12 +52,8 @@ public :
     ///
     /// \return ”»’èŒ‹‰Ê
     ///
-    bool isValid() const noexcept {
-        return texture_;
-    }
-    operator bool() const noexcept {
-        return isValid();
-    }
+    bool isValid() const noexcept { return texture_; }
+    operator bool() const noexcept { return isValid(); }
 
 
     ///< ƒŠƒ\[ƒX‚ðŽæ“¾

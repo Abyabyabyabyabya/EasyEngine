@@ -134,6 +134,18 @@
     <ClInclude Include="update_order.hpp">
       <Filter>Source\EGEG</Filter>
     </ClInclude>
+    <ClInclude Include="shader.hpp">
+      <Filter>Source\Graphics</Filter>
+    </ClInclude>
+    <ClInclude Include="constant_buffer.hpp">
+      <Filter>Source\Graphics</Filter>
+    </ClInclude>
+    <ClInclude Include="vertex_shader.hpp">
+      <Filter>Source\Graphics</Filter>
+    </ClInclude>
+    <ClInclude Include="pixel_shader.hpp">
+      <Filter>Source\Graphics</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="main.cpp">
@@ -161,6 +173,18 @@
       <Filter>Source\Graphics</Filter>
     </ClCompile>
     <ClCompile Include="layer.cpp">
+      <Filter>Source\Graphics</Filter>
+    </ClCompile>
+    <ClCompile Include="constant_buffer.cpp">
+      <Filter>Source\Graphics</Filter>
+    </ClCompile>
+    <ClCompile Include="vertex_shader.cpp">
+      <Filter>Source\Graphics</Filter>
+    </ClCompile>
+    <ClCompile Include="shader.cpp">
+      <Filter>Source\Graphics</Filter>
+    </ClCompile>
+    <ClCompile Include="pixel_shader.cpp">
       <Filter>Source\Graphics</Filter>
     </ClCompile>
   </ItemGroup>

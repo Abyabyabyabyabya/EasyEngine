@@ -142,6 +142,7 @@
   </ItemDefinitionGroup>
   <ItemGroup>
     <ClInclude Include="angle.hpp" />
+    <ClInclude Include="constant_buffer.hpp" />
     <ClInclude Include="controller.hpp" />
     <ClInclude Include="easy_engine.hpp" />
     <ClInclude Include="egeg.hpp" />
@@ -151,6 +152,8 @@
     <ClInclude Include="graphic_manager.hpp" />
     <ClInclude Include="id.hpp" />
     <ClInclude Include="layer.hpp" />
+    <ClInclude Include="pixel_shader.hpp" />
+    <ClInclude Include="shader.hpp" />
     <ClInclude Include="texture.hpp" />
     <ClInclude Include="update_manager.hpp" />
     <ClInclude Include="input_device.hpp" />
@@ -170,18 +173,23 @@
     <ClInclude Include="time.hpp" />
     <ClInclude Include="update_order.hpp" />
     <ClInclude Include="utility_function.hpp" />
+    <ClInclude Include="vertex_shader.hpp" />
     <ClInclude Include="window_manager.hpp" />
     <ClInclude Include="xinput_controller.hpp" />
     <ClInclude Include="xinput_gamepad.hpp" />
   </ItemGroup>
   <ItemGroup>
+    <ClCompile Include="constant_buffer.cpp" />
     <ClCompile Include="easy_engine.cpp" />
     <ClCompile Include="graphic_manager.cpp" />
     <ClCompile Include="input_manager.cpp" />
     <ClCompile Include="keyboard.cpp" />
     <ClCompile Include="layer.cpp" />
     <ClCompile Include="main.cpp" />
+    <ClCompile Include="pixel_shader.cpp" />
+    <ClCompile Include="shader.cpp" />
     <ClCompile Include="texture.cpp" />
+    <ClCompile Include="vertex_shader.cpp" />
     <ClCompile Include="window_manager.cpp" />
     <ClCompile Include="xinput_gamepad.cpp" />
   </ItemGroup>

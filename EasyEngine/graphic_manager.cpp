@@ -105,7 +105,8 @@ std::unique_ptr<gm_ns::GraphicManager> gm_ns::GraphicManager::create() {
 }
 
 void gm_ns::GraphicManager::capture(const char* FileName, const gm_ns::Texture& Image) {
-
+    // d3dDevice.ResourceCopy(Image.resource());
+    // save to file
 }
 
 void gm_ns::GraphicManager::render(Time) {
