@@ -28,8 +28,5 @@ tex_ns::Texture::Texture(const char* FilePath) {
     //  d3dDevice->CreateTexture2D(&desc, image_data, &tex);
     // ƒrƒ…[ì¬
     //  d3dDevice->CreateShaderResourceView(tex, nullptr, &srv);
-    D3D11_RASTERIZER_DESC;
-    D3D11_SAMPLER_DESC;
-    D3D11_BLEND_DESC;
 }
 // EOF

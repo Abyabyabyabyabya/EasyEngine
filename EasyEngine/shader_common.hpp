@@ -38,7 +38,6 @@ namespace g_lib {
         }
     };
     Blob loadShaderFile(const char* FilePath);
-
   } // namespace shader_impl
 
 } // namespace g_lib

@@ -153,6 +153,7 @@
     <ClInclude Include="id.hpp" />
     <ClInclude Include="layer.hpp" />
     <ClInclude Include="pixel_shader.hpp" />
+    <ClInclude Include="scene_state.hpp" />
     <ClInclude Include="shader_common.hpp" />
     <ClInclude Include="shader_slot.hpp" />
     <ClInclude Include="texture.hpp" />
