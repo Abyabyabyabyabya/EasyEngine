@@ -12,7 +12,7 @@
 #ifndef INCLUDED_EGEG_GLIB_PIXEL_SHADER_HEADER_
 #define INCLUDED_EGEG_GLIB_PIXEL_SHADER_HEADER_
 
-#include "shader.hpp"
+#include "shader_common.hpp"
 
 namespace easy_engine {
 namespace g_lib {
@@ -29,10 +29,8 @@ namespace g_lib {
 ///
 /// \attention  このクラス単体でも使用できますが、シェーダーごとにこのクラスを基底とした詳細クラスを定義した方が\n
 ///             可読性が上がりますし、可搬性も上がると思うのでお勧めします。\n
-///             コピー(orムーブ)を行ったとき、コピーされるのはシェーダーオブジェクトのみです。\n
-///             set○○によって設定されたシェーダーへの入力はコピーされません。
 ///
-class PixelShader : public Shader {
+class PixelShader {
 public :
     PixelShader() = default;
 

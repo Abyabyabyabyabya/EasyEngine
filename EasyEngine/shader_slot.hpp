@@ -1,5 +1,5 @@
 ///
-/// \file   shader.hpp
+/// \file   shader_slot.hpp
 /// \brief  シェーダー基底クラス定義ヘッダ
 ///
 /// \author 板場
@@ -8,15 +8,16 @@
 ///         - 2020/8/28
 ///             - ヘッダ追加
 ///             - Shader 定義
+///         - 2020/8/31
+///             - ヘッダ名変更(shader.hpp -> shader_slot.hpp)
+///             - クラス名変更(Shader -> ShaderSlot)
 ///
-#ifndef INCLUDED_EGEG_GLIB_SHADER_HEADER_
-#define INCLUDED_EGEG_GLIB_SHADER_HEADER_
+#ifndef INCLUDED_EGEG_GLIB_SHADER_SLOT_HEADER_
+#define INCLUDED_EGEG_GLIB_SHADER_SLOT_HEADER_
 
 #include <map>
-#include <array>
 #include <d3d11.h>
 #include <wrl.h>
-#include "noncopyable.hpp"
 #include "constant_buffer.hpp"
 #include "texture.hpp"
 
@@ -24,15 +25,14 @@ namespace easy_engine {
 namespace g_lib {
 
 ///
-/// \class  Shader
-/// \brief  シェーダー基底クラス
+/// \class  ShaderSlot
+/// \brief  シェーダースロット
 ///
+///         シェーダーへの入力を格納します。
 ///
-class Shader : t_lib::Noncopyable<Shader> {
+class ShaderSlot {
 public :
-    virtual ~Shader() = default;
-    Shader(Shader&&) = default;
-    Shader& operator=(Shader&&) = default;
+    virtual ~ShaderSlot() = default;
 
     ///
     /// \brief  定数をセット
@@ -78,28 +78,7 @@ public :
     ///< スロット番号にマップされたサンプラーを取得
     const std::map<UINT, Microsoft::WRL::ComPtr<ID3D11SamplerState>>& samplers() const noexcept { return samplers_; }
 protected :
-    Shader() = default;
-    struct Blob {
-        char* bytecode{};
-        size_t size{};
-
-        operator bool() const noexcept { return bytecode; }
-        Blob() = default;
-        Blob(const size_t Size) : bytecode{new char[Size]}, size{Size} {}
-        ~Blob() { delete[] bytecode; }
-        Blob(const Blob&) = delete;
-        Blob& operator=(const Blob&) = delete;
-        Blob(Blob&& Right) noexcept : bytecode{Right.bytecode}, size{Right.size} {
-            Right.bytecode = nullptr;
-        }
-        Blob& operator=(Blob&& Right) noexcept {
-            bytecode = Right.bytecode;
-            size     = Right.size;
-            Right.bytecode = nullptr;
-            return *this;
-        }
-    };
-    Blob loadShaderFile(const char* FilePath); // 読み込み失敗で bytecode==nullptr, size==0
+    ShaderSlot() = default;
 private :
     void setConstant(const UINT) const noexcept {}
     void setConstant(const UINT Slot, ID3D11Buffer* Buffer) { constants_[Slot] = Buffer; }
@@ -115,5 +94,5 @@ private :
 
 } // namespace g_lib
 } // namespace easy_engine
-#endif // !INCLUDED_EGEG_GLIB_SHADER_HEADER_
+#endif // !INCLUDED_EGEG_GLIB_SHADER_SLOT_HEADER_
 // EOF

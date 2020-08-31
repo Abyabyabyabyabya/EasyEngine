@@ -14,7 +14,7 @@
 
 ******************************************************************************/
 easy_engine::g_lib::PixelShader::PixelShader(const char* FilePath) {
-    auto blob = loadShaderFile(FilePath);
+    auto blob = shader_impl::loadShaderFile(FilePath);
     if(!blob) return;
 
     Microsoft::WRL::ComPtr<ID3D11PixelShader> ps;

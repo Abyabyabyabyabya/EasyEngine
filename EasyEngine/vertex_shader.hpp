@@ -13,7 +13,7 @@
 #define INCLUDED_EGEG_GLIB_VERTEX_SHADER_HEADER_
 
 #include <vector>
-#include "shader.hpp"
+#include "shader_common.hpp"
 
 namespace easy_engine {
 namespace g_lib {
@@ -30,10 +30,8 @@ namespace g_lib {
 ///
 /// \attention  このクラス単体でも使用できますが、シェーダーごとにこのクラスを基底とした詳細クラスを定義した方が\n
 ///             可読性が上がりますし、可搬性も上がると思うのでお勧めします。\n
-///             コピー(orムーブ)を行ったとき、コピーされるのはシェーダーオブジェクトと入力レイアウトのみです。\n
-///             set○○によって設定されたシェーダーへの入力はコピーされません。
 ///
-class VertexShader : public Shader {
+class VertexShader {
 public :
     virtual ~VertexShader() = default;
     VertexShader() = default;

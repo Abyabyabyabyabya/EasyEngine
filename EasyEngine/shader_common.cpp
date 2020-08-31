@@ -4,16 +4,24 @@
     include
 
 ******************************************************************************/
-#include "shader.hpp"
+#include "shader_common.hpp"
 #include <fstream>
 
 
 /******************************************************************************
 
-    Shader::
+    definition & declaration
 
 ******************************************************************************/
-easy_engine::g_lib::Shader::Blob easy_engine::g_lib::Shader::loadShaderFile(const char* FilePath) {
+namespace shader_ns = easy_engine::g_lib::shader_impl;
+
+
+/******************************************************************************
+
+    function
+
+******************************************************************************/
+shader_ns::Blob shader_ns::loadShaderFile(const char* FilePath) {
     std::fstream stream{FilePath, std::ios::binary|std::ios::in};
     if(!stream) return Blob{};
 

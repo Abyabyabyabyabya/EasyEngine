@@ -153,7 +153,8 @@
     <ClInclude Include="id.hpp" />
     <ClInclude Include="layer.hpp" />
     <ClInclude Include="pixel_shader.hpp" />
-    <ClInclude Include="shader.hpp" />
+    <ClInclude Include="shader_common.hpp" />
+    <ClInclude Include="shader_slot.hpp" />
     <ClInclude Include="texture.hpp" />
     <ClInclude Include="update_manager.hpp" />
     <ClInclude Include="input_device.hpp" />
@@ -187,7 +188,7 @@
     <ClCompile Include="layer.cpp" />
     <ClCompile Include="main.cpp" />
     <ClCompile Include="pixel_shader.cpp" />
-    <ClCompile Include="shader.cpp" />
+    <ClCompile Include="shader_common.cpp" />
     <ClCompile Include="texture.cpp" />
     <ClCompile Include="vertex_shader.cpp" />
     <ClCompile Include="window_manager.cpp" />

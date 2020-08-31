@@ -141,7 +141,7 @@ public :
     /// \param[in] SampleQuality : マルチサンプルの画質レベル
     /// \param[in] Format        : テクスチャフォーマット
     ///
-    Layer(UINT Width, UINT Height, UINT SampleCount=1U, UINT SampleQuality=0U, Format TextureFormat=Format::R32G32B32A32_UINT);
+    Layer(UINT Width, UINT Height, UINT SampleCount=1U, UINT SampleQuality=0U, Format TextureFormat=Format::R8G8B8A8_UINT);
 
     ///
     /// \brief  有効なレイヤーかどうか判定

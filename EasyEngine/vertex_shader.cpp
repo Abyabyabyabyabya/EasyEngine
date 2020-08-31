@@ -14,7 +14,7 @@
 
 ******************************************************************************/
 easy_engine::g_lib::VertexShader::VertexShader(const char* FilePath, const std::vector<D3D11_INPUT_ELEMENT_DESC>& Layout) {
-    auto blob = loadShaderFile(FilePath);
+    auto blob = shader_impl::loadShaderFile(FilePath);
     if(!blob) return;
 
     Microsoft::WRL::ComPtr<ID3D11VertexShader> vs;
