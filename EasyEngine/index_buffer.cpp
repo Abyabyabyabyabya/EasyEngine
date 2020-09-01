@@ -14,7 +14,6 @@
 
 ******************************************************************************/
 namespace ibuffer_ns = easy_engine::g_lib;
-namespace ibufimpl_ns = ibuffer_ns::index_buffer_impl;
 
 
 /******************************************************************************
@@ -22,7 +21,7 @@ namespace ibufimpl_ns = ibuffer_ns::index_buffer_impl;
     IndexBufferData::
 
 ******************************************************************************/
-ibufimpl_ns::IndexBufferData::IndexBufferData(
+ibuffer_ns::IndexBuffer::IndexBuffer(
   const UINT Size, const D3D11_SUBRESOURCE_DATA& Data, const DXGI_FORMAT Format) {
     format_ = Format;
 
@@ -33,29 +32,7 @@ ibufimpl_ns::IndexBufferData::IndexBufferData(
     desc.CPUAccessFlags      = UINT{};
     desc.MiscFlags           = UINT{};
     desc.StructureByteStride = UINT{};
-    SUCCEEDED(EasyEngine::graphics().d3d11Device().CreateBuffer(&desc, &Data, &ibuf_));
+
+    EasyEngine::graphics().d3d11Device().CreateBuffer(&desc, &Data, &ibuf_);
 }
-
-
-/******************************************************************************
-
-    IndexBuffer<>::
-
-******************************************************************************/
-ibuffer_ns::IndexBuffer32::IndexBuffer(const std::vector<std::uint32_t>& Data) :
-  IndexBufferData{
-    sizeof(std::uint32_t)*Data.size(),
-    D3D11_SUBRESOURCE_DATA{Data.data(), 0, 0},
-    DXGI_FORMAT::DXGI_FORMAT_R32_UINT} {}
-
-template <>
-ibuffer_ns::IndexBuffer16::IndexBuffer(const std::vector<std::uint16_t>& Data) :
-  IndexBufferData{
-    sizeof(std::uint16_t)*Data.size(),
-    D3D11_SUBRESOURCE_DATA{Data.data(), 0, 0},
-    DXGI_FORMAT::DXGI_FORMAT_R16_UINT} {}
-
-// テンプレートの明示的な宣言
-template class ibuffer_ns::IndexBuffer<std::uint32_t>;
-template class ibuffer_ns::IndexBuffer<std::uint16_t>;
 // EOF

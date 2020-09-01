@@ -99,7 +99,7 @@ std::unique_ptr<gm_ns::GraphicManager> gm_ns::GraphicManager::create() {
     ptr->base_layer_ = BaseLayer{ptr->device_.Get(), back_buffer.Get()};
 
     // •`‰æˆ—‚ð“o˜^
-    ptr->task_ = EasyEngine::updator().registerTask(ptr.get(), &GraphicManager::render, UpdateOrder::kRenderEnd+1);
+    ptr->task_ = EasyEngine::updator().registerTask(ptr.get(), &GraphicManager::render, UpdateOrder::kRenderScreen);
 
     return ptr;
 }

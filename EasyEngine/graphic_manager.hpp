@@ -20,6 +20,8 @@
 #include "layer.hpp"
 #include "scene_state.hpp"
 #include "shader_slot.hpp"
+#include "index_buffer.hpp"
+#include "vertex_buffer.hpp"
 #include "vertex_shader.hpp"
 #include "pixel_shader.hpp"
 
@@ -43,7 +45,7 @@ public :
     void capture(const char* FileName, const Texture& Image);
     Layer baseLayer() const noexcept { return base_layer_; }
 
-    void clearLayer(const Layer& Target);
+    void clearLayer(const Layer& Target, const float(&ClearColor)[4]);
     void clearPipeline();
 
     void setLayer(const Layer& Target);
@@ -54,6 +56,7 @@ public :
     void setPixelShaderSlot(const ShaderSlot& Slot);
 
     void draw(/**/);
+    void drawInstanced(/**/);
 
     ///
     /// \brief  使用しているD3D機能レベルを取得

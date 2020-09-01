@@ -18,21 +18,28 @@
 
 namespace easy_engine {
 enum UpdateOrder {
-    kUpdateBegin = 5,
+  kUpdateBegin = 5,
 // ↓↓↓ 自由に追加、削除してね ↓↓↓
 
-
+    
 
 // ↑↑↑ 自由に追加、削除してね ↑↑↑
-    kUpdateEnd,
+  kUpdateEnd,
 ///////////////////////////////////////////////
-    kRenderBegin,
+  kRenderBegin,
 // ↓↓↓ 自由に追加、削除してね ↓↓↓
 
-
+    
 
 // ↑↑↑ 自由に追加、削除してね ↑↑↑
-    kRenderEnd,
+  kRenderEnd,
+  kRenderScreen,
+///////////////////////////////////////////////
+// ↓↓↓ 自由に追加、削除してね ↓↓↓
+
+    
+
+// ↑↑↑ 自由に追加、削除してね ↑↑↑
 };
 }
 #endif // !INCLUDED_EGEG_UPDATE_ORDER_HEADER_

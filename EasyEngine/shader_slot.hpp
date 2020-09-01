@@ -41,15 +41,13 @@ public :
     ///         その場合、StartSlotから順に1つずつスロットがずれていきます。
     ///         スロットを飛ばしてセットしたい場合、複数の呼び出しに分けてください。
     ///
-    /// \tparam DataTy : セットする定数のデータ型
-    ///
     /// \param[in] StartSlot : セット開始スロット
     /// \param[in] Constant  : StartSlotにセットする定数
     /// \param[in] Constants : 残りの定数リスト
     ///
-    template <class DataTy, class ...Rest>
-    void setConstant(const UINT StartSlot, const ConstantBuffer<DataTy>& Constant, Rest ...Constants) {
-        setConstant(StartSlot, Constant.buffer());
+    template <class ...Rest>
+    void setConstant(const UINT StartSlot, const constant_buffer_impl::ConstantBufferData& Constant, Rest ...Constants) {
+        constants_[StartSlot] = Constant.buffer();
         setConstant(StartSlot+1, Constants...);
     }
     
@@ -64,7 +62,7 @@ public :
     ///
     template <class ...Rest>
     void setTexture(const UINT StartSlot, const Texture& Texture, Rest ...Textures) {
-        setTexture(StartSlot, Texture.texture());
+        textures_[StartSlot] = Texture.texture();
         setTexture(StartSlot+1, Textures...);
     }
 
@@ -81,11 +79,8 @@ protected :
     ShaderSlot() = default;
 private :
     void setConstant(const UINT) const noexcept {}
-    void setConstant(const UINT Slot, ID3D11Buffer* Buffer) { constants_[Slot] = Buffer; }
     void setTexture(const UINT) const noexcept {}
-    void setTexture(const UINT Slot, ID3D11ShaderResourceView* View) { textures_[Slot] = View; }
     void setSampler(const UINT) const noexcept {}
-    void setSampler(const UINT Slot, ID3D11SamplerState* State) { samplers_[Slot] = State; }
 
     std::map<UINT, Microsoft::WRL::ComPtr<ID3D11Buffer>> constants_;
     std::map<UINT, Microsoft::WRL::ComPtr<ID3D11ShaderResourceView>> textures_;

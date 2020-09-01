@@ -9,6 +9,9 @@
 ///             - ヘッダ追加
 ///             - VertexBuffer 定義
 ///
+/// \note   VertexBuffer 必要性を感じないため、デフォルトのコンストラクタを定義していない。
+///         必要に応じて定義してもよい。
+///
 #ifndef INCLUDED_EGEG_GLIB_VERTEX_BUFFER_HEADER_
 #define INCLUDED_EGEG_GLIB_VERTEX_BUFFER_HEADER_
 
@@ -55,7 +58,7 @@ public :
     operator bool() const noexcept { return isValid(); }
 
 
-    ///< バッファを取得
+    ///< バッファオブジェクトを取得
     ID3D11Buffer* buffer() const noexcept { return vbuf_.Get(); }
     ///< 1要素のサイズを取得
     UINT stride() const noexcept { return stride_; }
