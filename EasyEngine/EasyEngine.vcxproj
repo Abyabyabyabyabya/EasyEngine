@@ -151,6 +151,7 @@
     <ClInclude Include="event_container.hpp" />
     <ClInclude Include="graphic_manager.hpp" />
     <ClInclude Include="id.hpp" />
+    <ClInclude Include="index_buffer.hpp" />
     <ClInclude Include="layer.hpp" />
     <ClInclude Include="pixel_shader.hpp" />
     <ClInclude Include="scene_state.hpp" />
@@ -175,6 +176,7 @@
     <ClInclude Include="time.hpp" />
     <ClInclude Include="update_order.hpp" />
     <ClInclude Include="utility_function.hpp" />
+    <ClInclude Include="vertex_buffer.hpp" />
     <ClInclude Include="vertex_shader.hpp" />
     <ClInclude Include="window_manager.hpp" />
     <ClInclude Include="xinput_controller.hpp" />
@@ -184,6 +186,7 @@
     <ClCompile Include="constant_buffer.cpp" />
     <ClCompile Include="easy_engine.cpp" />
     <ClCompile Include="graphic_manager.cpp" />
+    <ClCompile Include="index_buffer.cpp" />
     <ClCompile Include="input_manager.cpp" />
     <ClCompile Include="keyboard.cpp" />
     <ClCompile Include="layer.cpp" />
@@ -191,6 +194,7 @@
     <ClCompile Include="pixel_shader.cpp" />
     <ClCompile Include="shader_common.cpp" />
     <ClCompile Include="texture.cpp" />
+    <ClCompile Include="vertex_buffer.cpp" />
     <ClCompile Include="vertex_shader.cpp" />
     <ClCompile Include="window_manager.cpp" />
     <ClCompile Include="xinput_gamepad.cpp" />

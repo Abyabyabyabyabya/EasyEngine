@@ -1,6 +1,6 @@
 ///
 /// \file   constant_buffer.hpp
-/// \brief  定数バッファハンドラ定義ヘッダ
+/// \brief  定数バッファ定義ヘッダ
 ///
 /// \author 板場
 ///
@@ -34,10 +34,10 @@ namespace g_lib {
 
 
         ID3D11Buffer* buffer() const noexcept { return cbuf_.Get(); }
+
     protected :
         ConstantBufferData(UINT DataSize, const D3D11_SUBRESOURCE_DATA* InitialData);
         bool update(const void* Data, size_t Size);
-
     private: 
         Microsoft::WRL::ComPtr<ID3D11Buffer> cbuf_;
     };
@@ -45,12 +45,12 @@ namespace g_lib {
 
 ///
 /// \class  ConstantBuffer
-/// \brief  定数バッファハンドラ
+/// \brief  定数バッファ
 ///
 /// \tparam DataTy : バッファに保持するデータ型
 ///
 template <class DataTy>
-class ConstantBuffer final : public constant_buffer_impl::ConstantBufferData {
+class ConstantBuffer : public constant_buffer_impl::ConstantBufferData {
 public :
     ///
     /// \brief  デフォルトコンストラクタ

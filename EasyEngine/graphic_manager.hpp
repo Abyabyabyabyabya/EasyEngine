@@ -16,8 +16,12 @@
 #include <d3d11.h>
 #include <wrl.h>
 #include "noncopyable.hpp"
-#include "layer.hpp"
 #include "update_manager.hpp"
+#include "layer.hpp"
+#include "scene_state.hpp"
+#include "shader_slot.hpp"
+#include "vertex_shader.hpp"
+#include "pixel_shader.hpp"
 
 namespace easy_engine {
 class EasyEngine;
@@ -38,6 +42,18 @@ public :
 
     void capture(const char* FileName, const Texture& Image);
     Layer baseLayer() const noexcept { return base_layer_; }
+
+    void clearLayer(const Layer& Target);
+    void clearPipeline();
+
+    void setLayer(const Layer& Target);
+    void setSceneState(const SceneState& State);
+    void setVertexShader(const VertexShader& VS);
+    void setVertexShaderSlot(const ShaderSlot& Slot);
+    void setPixelShader(const PixelShader& PS);
+    void setPixelShaderSlot(const ShaderSlot& Slot);
+
+    void draw(/**/);
 
     ///
     /// \brief  使用しているD3D機能レベルを取得

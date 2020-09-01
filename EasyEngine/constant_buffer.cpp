@@ -41,5 +41,7 @@ bool cbuf_ns::ConstantBufferData::update(const void* Data, const size_t Size) {
     memcpy(mpd.pData, Data, Size);
 
     EasyEngine::graphics().d3d11Context().Unmap(cbuf_.Get(), 0);
+
+    return true;
 }
 // EOF

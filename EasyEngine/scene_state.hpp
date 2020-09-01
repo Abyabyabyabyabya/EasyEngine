@@ -27,10 +27,6 @@ public :
 
 
 private :
-    D3D11_RASTERIZER_DESC;
-    D3D11_SAMPLER_DESC;
-    D3D11_BLEND_DESC;
-    D3D11_DEPTH_STENCIL_DESC;
     Microsoft::WRL::ComPtr<ID3D11BlendState> blend_state_;
     Microsoft::WRL::ComPtr<ID3D11DepthStencilState> depth_stencil_state_;
     Microsoft::WRL::ComPtr<ID3D11RasterizerState> rasterizer_state_;

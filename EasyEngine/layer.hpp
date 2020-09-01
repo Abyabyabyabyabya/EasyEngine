@@ -156,7 +156,7 @@ public :
 
 
     ///< ƒŒƒCƒ„[‚ğæ“¾
-    ID3D11RenderTargetView* layer() const noexcept { layer_.Get(); }
+    ID3D11RenderTargetView* layer() const noexcept { return layer_.Get(); }
 protected :
     Microsoft::WRL::ComPtr<ID3D11RenderTargetView> layer_;
 };

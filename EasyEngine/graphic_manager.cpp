@@ -140,7 +140,7 @@ namespace { DXGI_SWAP_CHAIN_DESC swapChainDesc() {
         DXGI_USAGE_RENDER_TARGET_OUTPUT |   // BufferUsage
         DXGI_USAGE_SHADER_INPUT,
         1U,                                 // BufferCount
-        EasyEngine::window().handle(),      // OutputWindowl
+        EasyEngine::window().handle(),      // OutputWindow
         state::kWindowed,                   // Windowed
         DXGI_SWAP_EFFECT{},                 // SwapEffect
         DXGI_SWAP_CHAIN_FLAG::DXGI_SWAP_CHAIN_FLAG_ALLOW_MODE_SWITCH // Flags
