@@ -1,6 +1,6 @@
 ///
 /// \file   scene_state.hpp
-/// \brief  シーンステートオブジェクト定義ヘッダ
+/// \brief  シーンステート定義クラス定義ヘッダ
 ///
 /// \author 板場
 ///
@@ -28,10 +28,8 @@ public :
 
 private :
     Microsoft::WRL::ComPtr<ID3D11BlendState> blend_state_;
-    Microsoft::WRL::ComPtr<ID3D11DepthStencilState> depth_stencil_state_;
     Microsoft::WRL::ComPtr<ID3D11RasterizerState> rasterizer_state_;
-    Microsoft::WRL::ComPtr<ID3D11SamplerState> sampler_state_;
-    Microsoft::WRL::ComPtr<ID3D11DepthStencilView> depth_stencil_view_;
+    Microsoft::WRL::ComPtr<ID3D11DepthStencilState> depth_stencil_state_;
 };
 
 } // namespace g_lib

@@ -12,6 +12,7 @@
 #ifndef INCLUDED_EGEG_GLIB_GRAPHIC_MANAGER_HEADER_
 #define INCLUDED_EGEG_GLIB_GRAPHIC_MANAGER_HEADER_
 
+#include <vector>
 #include <memory>
 #include <d3d11.h>
 #include <wrl.h>
@@ -44,13 +45,15 @@ public :
 
     ~GraphicManager();
 
-    void capture(const char* FileName, const Texture& Image);
+    TextureResource capture(const TextureResource& Texture);
+    void saveTexture(const char* FileName, const TextureResource& Image);
     Layer baseLayer() const noexcept { return base_layer_; }
 
     void clearLayer(const Layer& Target, const float(&ClearColor)[4]);
     void clearPipeline();
 
-    void setLayer(const Layer& Target);
+    void setLayer(UINT Slot, const Layer& Target);
+    void setLayers(UINT StartSlot, const std::vector<Layer>& Targets);
     void setSceneState(const SceneState& State);
     void setVertexShader(const VertexShader& VS);
     void setVertexShaderSlot(const ShaderSlot& Slot);
@@ -61,6 +64,7 @@ public :
 
     void draw(const RenderMesh& Mesh, UINT IndexCount, UINT BaseIndexLocation=0, INT BaseVertexLocation=0);
     void drawInstanced(UINT InstanceCount, const RenderMesh& Mesh, UINT IndexCountPerMesh, UINT BaseIndexLocation=0, INT BaseVertexLocation=0, UINT StartInstanceLocation=0);
+
 
     ///< 使用しているD3D機能レベルを取得
     D3D_FEATURE_LEVEL d3dFeatureLevel() const noexcept { return feature_level_; }

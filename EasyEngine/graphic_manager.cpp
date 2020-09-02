@@ -21,7 +21,7 @@ namespace gm_ns = easy_engine::g_lib;
 namespace {
     class BaseLayer : public gm_ns::Layer {
     public :
-        BaseLayer(ID3D11Device* D3DDevice, ID3D11Texture2D* BackBuffer) : Layer{} {
+        BaseLayer(ID3D11Device* D3DDevice, ID3D11Texture2D* BackBuffer) {
             // スワップチェインのバックバッファを参照する各種ビューを作成
             Microsoft::WRL::ComPtr<ID3D11RenderTargetView> rtv;
             if(FAILED(D3DDevice->CreateRenderTargetView(BackBuffer, nullptr, &rtv)))
@@ -102,11 +102,6 @@ std::unique_ptr<gm_ns::GraphicManager> gm_ns::GraphicManager::create() {
     ptr->task_ = EasyEngine::updator().registerTask(ptr.get(), &GraphicManager::render, UpdateOrder::kRenderScreen);
 
     return ptr;
-}
-
-void gm_ns::GraphicManager::capture(const char* FileName, const gm_ns::Texture& Image) {
-    // d3dDevice.ResourceCopy(Image.resource());
-    // save to file
 }
 
 void gm_ns::GraphicManager::render(Time) {

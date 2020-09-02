@@ -12,9 +12,7 @@
 #ifndef INCLUDED_EGEG_GLIB_TEXTURE_HEADER_
 #define INCLUDED_EGEG_GLIB_TEXTURE_HEADER_
 
-#include <type_traits>
-#include <d3d11.h>
-#include <wrl.h>
+#include "texture_resource.hpp"
 
 namespace easy_engine {
 namespace g_lib {
@@ -32,7 +30,7 @@ namespace g_lib {
 ///             …
 ///           texture = Texture{"hogehoge.png"};
 ///
-class Texture {
+class Texture : public TextureResource {
 public :
     Texture() = default;
     virtual ~Texture() = default;
@@ -52,16 +50,12 @@ public :
     ///
     /// \return 判定結果
     ///
-    bool isValid() const noexcept { return texture_; }
+    bool isValid() const noexcept { return TextureResource::isValid() && texture_; }
     operator bool() const noexcept { return isValid(); }
 
-
-    ///< リソースを取得
-    ID3D11Texture2D* resource() const noexcept { return resource_.Get(); }
     ///< テクスチャを取得
     ID3D11ShaderResourceView* texture() const noexcept { return texture_.Get(); }
 protected :
-    Microsoft::WRL::ComPtr<ID3D11Texture2D> resource_;
     Microsoft::WRL::ComPtr<ID3D11ShaderResourceView> texture_;
 };
 

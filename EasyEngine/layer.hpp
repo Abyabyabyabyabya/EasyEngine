@@ -12,7 +12,7 @@
 #ifndef INCLUDED_EGEG_GLIB_LAYER_HEADER_
 #define INCLUDED_EGEG_GLIB_LAYER_HEADER_
 
-#include "texture.hpp"
+#include "texture_resource.hpp"
 
 namespace easy_engine {
 namespace g_lib {
@@ -21,7 +21,7 @@ namespace g_lib {
 /// \class  Layer
 /// \brief  レイヤー(シェーダーリソース & レンダーターゲット)
 ///
-class Layer : public Texture {
+class Layer : public TextureResource {
 public :
     ///
     /// \enum   Format
@@ -127,21 +127,21 @@ public :
         BC7_TYPELESS,
         BC7_UNORM,
         BC7_UNORM_SRGB,
-        B4G4R4A4_UNORM,
+        B4G4R4A4_UNORM
     };
 
     Layer() = default;
 
     ///
-    /// \brief  コンストラクタ
+    /// \brief  テクスチャの作成を伴うコンストラクタ
     ///
     /// \param[in] Width         : レイヤー横幅
     /// \param[in] Height        : レイヤー縦幅
+    /// \param[in] Format        : テクスチャフォーマット
     /// \param[in] SampleCount   : 1ピクセル当たりのサンプル数
     /// \param[in] SampleQuality : マルチサンプルの画質レベル
-    /// \param[in] Format        : テクスチャフォーマット
     ///
-    Layer(UINT Width, UINT Height, UINT SampleCount=1U, UINT SampleQuality=0U, Format TextureFormat=Format::R8G8B8A8_UINT);
+    Layer(UINT Width, UINT Height, Format TextureFormat=Format::R8G8B8A8_UINT, UINT SampleCount=1U, UINT SampleQuality=0U);
 
     ///
     /// \brief  有効なレイヤーかどうか判定
@@ -151,13 +151,16 @@ public :
     ///
     /// \return 判定結果
     ///
-    bool isValid() const noexcept { return Texture::isValid() && layer_; }
+    bool isValid() const noexcept { return TextureResource::isValid() && texture_ && layer_; }
     operator bool() const noexcept { return isValid(); }
 
 
+    ///< テクスチャを取得
+    ID3D11ShaderResourceView* texture() const noexcept { return texture_.Get(); }
     ///< レイヤーを取得
     ID3D11RenderTargetView* layer() const noexcept { return layer_.Get(); }
 protected :
+    Microsoft::WRL::ComPtr<ID3D11ShaderResourceView> texture_;
     Microsoft::WRL::ComPtr<ID3D11RenderTargetView> layer_;
 };
 

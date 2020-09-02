@@ -164,6 +164,12 @@
     <ClInclude Include="geometry_shader.hpp">
       <Filter>Source\Graphics</Filter>
     </ClInclude>
+    <ClInclude Include="depth_stencil_texture.hpp">
+      <Filter>Source\Graphics</Filter>
+    </ClInclude>
+    <ClInclude Include="texture_resource.hpp">
+      <Filter>Source\Graphics</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="main.cpp">
@@ -212,6 +218,12 @@
       <Filter>Source\Graphics</Filter>
     </ClCompile>
     <ClCompile Include="geometry_shader.cpp">
+      <Filter>Source\Graphics</Filter>
+    </ClCompile>
+    <ClCompile Include="texture_resource.cpp">
+      <Filter>Source\Graphics</Filter>
+    </ClCompile>
+    <ClCompile Include="depth_stencil_texture.cpp">
       <Filter>Source\Graphics</Filter>
     </ClCompile>
   </ItemGroup>
