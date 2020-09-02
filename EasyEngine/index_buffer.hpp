@@ -9,9 +9,6 @@
 ///             - ヘッダ追加
 ///             - IndexBuffer 定義
 ///
-/// \note   IndexBuffer 必要性を感じないため、デフォルトのコンストラクタを定義していない。
-///         必要に応じて定義してもよい。
-///
 #ifndef INCLUDED_EGEG_GLIB_INDEX_BUFFER_HEADER_
 #define INCLUDED_EGEG_GLIB_INDEX_BUFFER_HEADER_
 
@@ -25,8 +22,27 @@ namespace g_lib {
 
 class IndexBuffer {
 public :
+    ///
+    /// \brief  デフォルトのコンストラクタ
+    ///
+    ///         バッファは生成しません。
+    ///
+    IndexBuffer() = default;
+
+    ///
+    /// \brief  バッファを生成するコンストラクタ
+    ///
+    ///         引数のデータを持つバッファを生成します。
+    ///         インデックスを表す型のサイズは16bitです。
+    ///
     IndexBuffer(const std::vector<std::uint16_t>& Data) : 
       IndexBuffer{16U*Data.size(), D3D11_SUBRESOURCE_DATA{Data.data(), 0, 0}, DXGI_FORMAT::DXGI_FORMAT_R16_UINT} {}
+    ///
+    /// \brief  バッファを生成するコンストラクタ
+    ///
+    ///         引数のデータを持つバッファを生成します。
+    ///         インデックスを表す型のサイズは32bitです。
+    ///
     IndexBuffer(const std::vector<std::uint32_t>& Data) :
       IndexBuffer{32U*Data.size(), D3D11_SUBRESOURCE_DATA{Data.data(), 0, 0}, DXGI_FORMAT::DXGI_FORMAT_R32_UINT} {}
 

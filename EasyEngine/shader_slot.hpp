@@ -37,33 +37,46 @@ public :
     ///
     /// \brief  定数をセット
     ///
-    ///         複数の定数を一度にセットすることができます。
-    ///         その場合、StartSlotから順に1つずつスロットがずれていきます。
-    ///         スロットを飛ばしてセットしたい場合、複数の呼び出しに分けてください。
+    /// \param[in] Slot     : セットするスロット番号
+    /// \param[in] Constant : セットする定数
     ///
-    /// \param[in] StartSlot : セット開始スロット
-    /// \param[in] Constant  : StartSlotにセットする定数
-    /// \param[in] Constants : 残りの定数リスト
+    void setConstant(const UINT Slot, const ConstantBufferData& Constant) {
+        constants_[Slot] = Constant.buffer();
+    }
     ///
-    template <class ...Rest>
-    void setConstant(const UINT StartSlot, const constant_buffer_impl::ConstantBufferData& Constant, Rest ...Constants) {
-        constants_[StartSlot] = Constant.buffer();
-        setConstant(StartSlot+1, Constants...);
+    /// \brief  複数の、スロット番号が連続した定数をセット
+    ///
+    ///         リストの先頭要素が、スロット番号StartSlotにセットされます。
+    ///         残りの要素は順に1ずつ加算されたスロット番号にセットされます。
+    ///
+    /// \param[in] StartSlot : スロット開始番号
+    /// \param[in] Constants : セットする定数リスト
+    ///
+    void setConstants(UINT StartSlot, const std::vector<ConstantBufferData>& Constants) {
+        for(auto& constant : Constants)
+            setConstant(StartSlot++, constant);
     }
     
     ///
     /// \brief  テクスチャをセット
     ///
-    ///         詳細は setConstant と同様です。
+    /// \param[in] Slot    : セットするスロット番号
+    /// \param[in] Texture : セットするテクスチャ
     ///
-    /// \param[in] StartSlot : セット開始スロット
-    /// \param[in] Texture   : StartSlotにセットするテクスチャ
-    /// \param[in] Textures  : 残りのテクスチャリスト
+    void setTexture(const UINT Slot, const Texture& Texture) {
+        textures_[Slot] = Texture.texture();
+    }
     ///
-    template <class ...Rest>
-    void setTexture(const UINT StartSlot, const Texture& Texture, Rest ...Textures) {
-        textures_[StartSlot] = Texture.texture();
-        setTexture(StartSlot+1, Textures...);
+    /// \brief  複数の、スロット番号が連続した定数をセット
+    ///
+    ///         詳細はsetConstantsと同様です。
+    ///
+    /// \param[in] StartSlot : スロット開始番号
+    /// \param[in] Textures  : セットするテクスチャリスト
+    ///
+    void setTextures(UINT StartSlot, const std::vector<Texture>& Textures) {
+        for(auto& texture : Textures)
+            setTexture(StartSlot++, texture.texture);
     }
 
     // TODO : sampler
@@ -75,7 +88,7 @@ public :
     const std::map<UINT, Microsoft::WRL::ComPtr<ID3D11ShaderResourceView>>& textures() const noexcept { return textures_; }
     ///< スロット番号にマップされたサンプラーを取得
     const std::map<UINT, Microsoft::WRL::ComPtr<ID3D11SamplerState>>& samplers() const noexcept { return samplers_; }
-protected :
+//protected :
     ShaderSlot() = default;
 private :
     void setConstant(const UINT) const noexcept {}

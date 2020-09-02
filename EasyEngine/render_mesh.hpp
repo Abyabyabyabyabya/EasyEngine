@@ -12,6 +12,7 @@
 #ifndef INCLUDED_EGEG_GLIB_RENDER_MESH_HEADER_
 #define INCLUDED_EGEG_GLIB_RENDER_MESH_HEADER_
 
+#include <vector>
 #include <map>
 #include "index_buffer.hpp"
 #include "vertex_buffer.hpp"
@@ -21,26 +22,56 @@ namespace g_lib {
 
 class RenderMesh {
 public :
-    struct IndexData {
-        ID3D11Buffer* buffer;
-        DXGI_FORMAT format;
+    struct Index {
+        IndexBuffer indices;
         UINT offset;
     };
-    struct VertexData {
-        ID3D11Buffer* buffer;
-        UINT stride;
+    struct Vertex {
+        VertexBuffer vertices;
         UINT offset;
     };
 
-    void setIndices(const IndexBuffer& Buffer);
-    template <class ...Rest>
-    void setVertices(UINT StartSlot, const VertexBuffer& Buffer, Rest ...Buffers);
+    ///
+    /// \brief  頂点インデックスバッファをセット
+    ///
+    /// \param[in] Buffer : セットするインデックスバッファ
+    /// \param[in] Offset : 使用する要素までのオフセット
+    ///
+    void setIndex(const IndexBuffer& Buffer, const UINT Offset) noexcept { setIndex(Index{Buffer, Offset}); }
+    void setIndex(const Index& Index) noexcept { index_ = Index; }
 
-    IndexData indices() const noexcept { return indices_; }
-    const std::map<UINT, VertexData>& vertices() const noexcept { return vertices_; }
+    ///
+    /// \brief  頂点バッファをセット
+    ///
+    /// \param[in] Slot   : セットするスロット番号
+    /// \param[in] Buffer : セットする頂点バッファ
+    /// \param[in] Offset : 使用する要素までのオフセット
+    ///
+    void setVertex(const UINT Slot, const VertexBuffer& Buffer, const UINT Offset) {
+        setVertex(Slot, Vertex{Buffer, Offset});
+    }
+    void setVertex(const UINT Slot, const Vertex& Vertex) {
+        vertices_[Slot] = Vertex;
+    }
+    ///
+    /// \brief  スロット番号が連続した頂点バッファリストをセット
+    ///
+    ///         Verticesの先頭要素がスロット番号StartSlotにセットされます。
+    ///         残りのデータは、順に1ずつ加算されたスロット番号にセットされます。
+    ///
+    /// \param[in] StartSlot : スロット開始番号
+    /// \param[in] Vertices  : セットする頂点バッファリスト
+    ///
+    void setVertices(UINT StartSlot, const std::vector<Vertex>& Vertices) {
+        for(auto& vertex : Vertices)
+            setVertex(StartSlot++, vertex);
+    }
+
+    Index index() const noexcept { return index_; }
+    const std::map<UINT, Vertex>& vertices() const noexcept { return vertices_; }
 private :
-    IndexData indices_;
-    std::map<UINT, VertexData> vertices_;
+    Index index_;
+    std::map<UINT, Vertex> vertices_;
 };
 
 } // namespace g_lib

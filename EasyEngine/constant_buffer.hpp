@@ -18,30 +18,37 @@
 
 namespace easy_engine {
 namespace g_lib {
-  namespace constant_buffer_impl {
-    class ConstantBufferData { // 非テンプレート部抽出
-    public :
-        ///
-        /// \brief  有効な定数バッファかどうか判定
-        ///
-        ///         true  : 有効
-        ///         false : 無効
-        ///
-        /// \return 判定結果
-        ///
-        bool isValid() const noexcept { return cbuf_; }
-        operator bool() const noexcept { return isValid(); }
+
+///
+/// \class  ConstantBufferData
+/// \brief  ConstantBuffer<> 非テンプレート部抽出
+///
+///         異なる型を保持するConstantBuffer<>をvector等のコンテナで管理する際に使用できます。
+///         このクラスをインスタンス化することはできません。
+///         定数バッファを表す型はConstantBuffer<>です。
+///
+class ConstantBufferData {
+public :
+    ///
+    /// \brief  有効な定数バッファかどうか判定
+    ///
+    ///         true  : 有効
+    ///         false : 無効
+    ///
+    /// \return 判定結果
+    ///
+    bool isValid() const noexcept { return cbuf_; }
+    operator bool() const noexcept { return isValid(); }
 
 
-        ID3D11Buffer* buffer() const noexcept { return cbuf_.Get(); }
-
-    protected :
-        ConstantBufferData(UINT DataSize, const D3D11_SUBRESOURCE_DATA* InitialData);
-        bool update(const void* Data, size_t Size);
-    private: 
-        Microsoft::WRL::ComPtr<ID3D11Buffer> cbuf_;
-    };
-  } // namespace constant_buffer_impl
+    ///< バッファオブジェクトを取得
+    ID3D11Buffer* buffer() const noexcept { return cbuf_.Get(); }
+protected :
+    ConstantBufferData(UINT DataSize, const D3D11_SUBRESOURCE_DATA* InitialData);
+    bool update(const void* Data, size_t Size);
+private: 
+    Microsoft::WRL::ComPtr<ID3D11Buffer> cbuf_;
+};
 
 ///
 /// \class  ConstantBuffer
