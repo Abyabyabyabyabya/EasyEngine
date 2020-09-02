@@ -57,7 +57,7 @@ private:
 /// \tparam DataTy : バッファに保持するデータ型
 ///
 template <class DataTy>
-class ConstantBuffer : public constant_buffer_impl::ConstantBufferData {
+class ConstantBuffer : public ConstantBufferData {
 public :
     ///
     /// \brief  デフォルトコンストラクタ

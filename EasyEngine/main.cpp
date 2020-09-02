@@ -5,9 +5,4 @@
 
 int WINAPI WinMain(HINSTANCE, HINSTANCE, LPSTR, int) {
     easy_engine::EasyEngine::run();
-
-    using namespace easy_engine::g_lib;
-
-    ShaderSlot slot;
-    slot.setConstant(0, {ConstantBuffer<int>{}, ConstantBuffer<float>{}});
 }

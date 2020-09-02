@@ -1,20 +1,20 @@
- // çÏê¨é“ : î¬èÍ
+// çÏê¨é“ : î¬èÍ
 /******************************************************************************
 
     include
 
 ******************************************************************************/
-#include "pixel_shader.hpp"
+#include "geometry_shader.hpp"
 #include "easy_engine.hpp"
 
 
 /******************************************************************************
 
-    PixelShader::
+    GeometryShader::
 
 ******************************************************************************/
-easy_engine::g_lib::PixelShader::PixelShader(const char* FilePath) {
+easy_engine::g_lib::GeometryShader::GeometryShader(const char* FilePath) {
     if(auto blob = shader_impl::loadShaderFile(FilePath))
-        EasyEngine::graphics().d3d11Device().CreatePixelShader(blob.bytecode, blob.size, nullptr, &shader_);
+        EasyEngine::graphics().d3d11Device().CreateGeometryShader(blob.bytecode, blob.size, nullptr, &shader_);
 }
 // EOF

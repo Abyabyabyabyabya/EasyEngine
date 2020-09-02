@@ -161,6 +161,9 @@
     <ClInclude Include="render_mesh.hpp">
       <Filter>Source\Graphics</Filter>
     </ClInclude>
+    <ClInclude Include="geometry_shader.hpp">
+      <Filter>Source\Graphics</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="main.cpp">
@@ -206,6 +209,9 @@
       <Filter>Source\Graphics</Filter>
     </ClCompile>
     <ClCompile Include="index_buffer.cpp">
+      <Filter>Source\Graphics</Filter>
+    </ClCompile>
+    <ClCompile Include="geometry_shader.cpp">
       <Filter>Source\Graphics</Filter>
     </ClCompile>
   </ItemGroup>

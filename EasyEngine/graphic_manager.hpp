@@ -23,7 +23,9 @@
 #include "index_buffer.hpp"
 #include "vertex_buffer.hpp"
 #include "vertex_shader.hpp"
+#include "geometry_shader.hpp"
 #include "pixel_shader.hpp"
+#include "render_mesh.hpp"
 
 namespace easy_engine {
 class EasyEngine;
@@ -52,33 +54,20 @@ public :
     void setSceneState(const SceneState& State);
     void setVertexShader(const VertexShader& VS);
     void setVertexShaderSlot(const ShaderSlot& Slot);
+    void setGeometryShader(const GeometryShader& GS);
+    void setGeometryShaderSlot(const ShaderSlot& Slot);
     void setPixelShader(const PixelShader& PS);
     void setPixelShaderSlot(const ShaderSlot& Slot);
 
-    void draw(/**/);
-    void drawInstanced(/**/);
+    void draw(const RenderMesh& Mesh, UINT IndexCount, UINT BaseIndexLocation=0, INT BaseVertexLocation=0);
+    void drawInstanced(UINT InstanceCount, const RenderMesh& Mesh, UINT IndexCountPerMesh, UINT BaseIndexLocation=0, INT BaseVertexLocation=0, UINT StartInstanceLocation=0);
 
-    ///
-    /// \brief  使用しているD3D機能レベルを取得
-    ///
-    /// \return 機能レベル
-    ///
+    ///< 使用しているD3D機能レベルを取得
     D3D_FEATURE_LEVEL d3dFeatureLevel() const noexcept { return feature_level_; }
-    
-    ///
-    /// \brief  D3Dデバイスを取得
-    ///
-    /// \return D3Dデバイス
-    ///
+    ///< D3Dデバイスを取得
     ID3D11Device& d3d11Device() const noexcept { return *device_.Get(); }
-
-    ///
-    /// \brief  D3Dコンテキストを取得
-    ///
-    /// \return D3Dコンテキスト
-    ///
+    ///< D3Dイミディエイトコンテキストを取得
     ID3D11DeviceContext& d3d11Context() const noexcept { return *context_.Get(); }
-
 private :
     static std::unique_ptr<GraphicManager> create(); // EasyEngineクラスにより呼び出される関数
     GraphicManager() = default;
@@ -94,5 +83,5 @@ private :
 
 } // namespace g_lib
 } // namespace easy_engine
-#endif  // !INCLUDED_EGEG_GLIB_GRAPHIC_MANAGER_HEADER_
+#endif // !INCLUDED_EGEG_GLIB_GRAPHIC_MANAGER_HEADER_
 // EOF

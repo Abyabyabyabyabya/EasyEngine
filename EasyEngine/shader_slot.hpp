@@ -76,7 +76,7 @@ public :
     ///
     void setTextures(UINT StartSlot, const std::vector<Texture>& Textures) {
         for(auto& texture : Textures)
-            setTexture(StartSlot++, texture.texture);
+            setTexture(StartSlot++, texture);
     }
 
     // TODO : sampler

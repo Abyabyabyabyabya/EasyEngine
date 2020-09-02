@@ -13,7 +13,7 @@
     definition & declaration
 
 ******************************************************************************/
-namespace cbuf_ns = easy_engine::g_lib::constant_buffer_impl;
+namespace cbuf_ns = easy_engine::g_lib;
 
 
 /******************************************************************************

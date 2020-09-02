@@ -149,6 +149,7 @@
     <ClInclude Include="egeg_math.hpp" />
     <ClInclude Include="egeg_state.hpp" />
     <ClInclude Include="event_container.hpp" />
+    <ClInclude Include="geometry_shader.hpp" />
     <ClInclude Include="graphic_manager.hpp" />
     <ClInclude Include="id.hpp" />
     <ClInclude Include="index_buffer.hpp" />
@@ -186,6 +187,7 @@
   <ItemGroup>
     <ClCompile Include="constant_buffer.cpp" />
     <ClCompile Include="easy_engine.cpp" />
+    <ClCompile Include="geometry_shader.cpp" />
     <ClCompile Include="graphic_manager.cpp" />
     <ClCompile Include="index_buffer.cpp" />
     <ClCompile Include="input_manager.cpp" />
