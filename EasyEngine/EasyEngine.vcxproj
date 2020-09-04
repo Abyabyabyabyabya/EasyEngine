@@ -146,6 +146,7 @@
     <ClInclude Include="color.hpp" />
     <ClInclude Include="constant_buffer.hpp" />
     <ClInclude Include="controller.hpp" />
+    <ClInclude Include="depth_stencil_state.hpp" />
     <ClInclude Include="depth_stencil_texture.hpp" />
     <ClInclude Include="easy_engine.hpp" />
     <ClInclude Include="egeg.hpp" />

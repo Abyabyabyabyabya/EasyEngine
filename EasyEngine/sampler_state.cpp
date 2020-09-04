@@ -85,4 +85,14 @@ namespace {
 sampler_ns::SamplerState::SamplerState(const sampler_ns::SamplerDesc& Desc) {
     EasyEngine::graphics().d3d11Device().CreateSamplerState(&convertToD3DDesc(Desc), &state_);
 }
+
+
+/******************************************************************************
+
+    others
+
+******************************************************************************/
+namespace { D3D11_SAMPLER_DESC convertToD3DDesc(const sampler_ns::SamplerDesc& Desc) {
+    return D3D11_SAMPLER_DESC{};
+}}
 // EOF
