@@ -17,10 +17,10 @@
 namespace dstexture_ns = easy_engine::g_lib;
 namespace {
     constexpr DXGI_FORMAT kFormatMap[] {
-        DXGI_FORMAT_D32_FLOAT_S8X24_UINT, // D32_FLOAT_S8X24_UINT
-        DXGI_FORMAT_D32_FLOAT,            // D32_FLOAT
-        DXGI_FORMAT_D24_UNORM_S8_UINT,    // D24_UNORM_S8_UINT
-        DXGI_FORMAT_D16_UNORM             // D16_UNORM
+        DXGI_FORMAT_D32_FLOAT_S8X24_UINT, // kD32FloatS8X24Uint
+        DXGI_FORMAT_D32_FLOAT,            // kD32Float
+        DXGI_FORMAT_D24_UNORM_S8_UINT,    // kD24UnormS8Uint
+        DXGI_FORMAT_D16_UNORM             // kD16Unorm
     };
 } // unnamed namespace
 
@@ -30,7 +30,7 @@ namespace {
     DepthStencilTexture::
 
 ******************************************************************************/
-dstexture_ns::DepthStencilTexture::DepthStencilTexture(const UINT Width, const UINT Height, const DepthStencilTexture::Format TexFormat, const UINT SCount, const UINT SQuality) :
+dstexture_ns::DepthStencilTexture::DepthStencilTexture(const unsigned Width, const unsigned Height, const DepthStencilTexture::Format TexFormat, const UINT SCount, const UINT SQuality) :
   TextureResource {
     D3D11_TEXTURE2D_DESC {
       Width, Height,
@@ -43,7 +43,7 @@ dstexture_ns::DepthStencilTexture::DepthStencilTexture(const UINT Width, const U
       D3D11_BIND_FLAG::D3D11_BIND_DEPTH_STENCIL,
       0U,
       0U}
-  } {
+} {
     if(!TextureResource::isValid()) return;
 
     // ÉrÉÖÅ[ÇçÏê¨

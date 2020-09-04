@@ -20,6 +20,14 @@
 namespace easy_engine {
 namespace g_lib {
 
+/******************************************************************************
+
+    IndexBuffer
+
+******************************************************************************/
+///
+/// \brief  頂点インデックスバッファ
+///
 class IndexBuffer {
 public :
     ///
@@ -57,9 +65,9 @@ public :
     bool isValid() const noexcept { return ibuf_; }
     operator bool() const noexcept { return isValid(); }
 
-    ///< バッファオブジェクトを取得
+    /// バッファオブジェクトを取得
     ID3D11Buffer* buffer() const noexcept { return ibuf_.Get(); } 
-    ///< インデックスフォーマットを取得
+    /// インデックスフォーマットを取得
     DXGI_FORMAT format() const noexcept { return format_; }
 protected :
     IndexBuffer(UINT, const D3D11_SUBRESOURCE_DATA&, DXGI_FORMAT);

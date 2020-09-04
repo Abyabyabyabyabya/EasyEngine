@@ -24,8 +24,12 @@
 namespace easy_engine {
 namespace g_lib {
 
+/******************************************************************************
+
+    ShaderSlot
+
+******************************************************************************/
 ///
-/// \class  ShaderSlot
 /// \brief  シェーダースロット
 ///
 ///         シェーダーへの入力を格納します。
@@ -82,11 +86,11 @@ public :
     // TODO : sampler
 
 
-    ///< スロット番号にマップされた定数バッファを取得
+    /// スロット番号にマップされた定数バッファを取得
     const std::map<UINT, Microsoft::WRL::ComPtr<ID3D11Buffer>>& constants() const noexcept { return constants_; }
-    ///< スロット番号にマップされたテクスチャを取得
+    /// スロット番号にマップされたテクスチャを取得
     const std::map<UINT, Microsoft::WRL::ComPtr<ID3D11ShaderResourceView>>& textures() const noexcept { return textures_; }
-    ///< スロット番号にマップされたサンプラーを取得
+    /// スロット番号にマップされたサンプラーを取得
     const std::map<UINT, Microsoft::WRL::ComPtr<ID3D11SamplerState>>& samplers() const noexcept { return samplers_; }
 //protected :
     ShaderSlot() = default;

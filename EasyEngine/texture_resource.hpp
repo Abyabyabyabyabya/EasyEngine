@@ -18,8 +18,12 @@
 namespace easy_engine {
 namespace g_lib {
 
+/******************************************************************************
+
+    TextureResource
+
+******************************************************************************/
 ///
-/// \class  TextureResource
 /// \brief  テクスチャリソース
 ///
 class TextureResource {
@@ -54,7 +58,7 @@ public :
     operator bool() const noexcept { return isValid(); }
 
 
-    ///< リソースを取得
+    /// リソースを取得
     ID3D11Texture2D* resource() const noexcept { return resource_.Get(); }
 protected :
     Microsoft::WRL::ComPtr<ID3D11Texture2D> resource_;

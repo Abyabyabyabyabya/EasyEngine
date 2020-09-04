@@ -18,8 +18,12 @@
 namespace easy_engine {
 namespace g_lib {
 
+/******************************************************************************
+
+    VertexShader
+
+******************************************************************************/
 ///
-/// \class  VertexShader
 /// \brief  頂点シェーダー
 ///
 /// \par    読み込みを遅延させたい場合
@@ -56,9 +60,9 @@ public :
     operator bool() const noexcept { return isValid(); }
 
     
-    ///< シェーダーオブジェクトを取得
+    /// シェーダーオブジェクトを取得
     ID3D11VertexShader* shader() const noexcept { return shader_.Get(); }
-    ///< 入力レイアウトオブジェクトを取得
+    /// 入力レイアウトオブジェクトを取得
     ID3D11InputLayout* layout() const noexcept { return layout_.Get(); }
 protected :
     Microsoft::WRL::ComPtr<ID3D11VertexShader> shader_;

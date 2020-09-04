@@ -20,6 +20,14 @@
 namespace easy_engine {
 namespace g_lib {
 
+/******************************************************************************
+
+    RenderMesh
+
+******************************************************************************/
+///
+/// \brief  描画単位のメッシュ
+///
 class RenderMesh {
 public :
     struct Index {
@@ -68,9 +76,9 @@ public :
     }
 
 
-    ///< 頂点インデックスを取得
+    /// 頂点インデックスを取得
     Index index() const noexcept { return index_; }
-    ///< スロット番号にマップされた頂点データを取得
+    /// スロット番号にマップされた頂点データを取得
     const std::map<UINT, Vertex>& vertices() const noexcept { return vertices_; }
 private :
     Index index_;

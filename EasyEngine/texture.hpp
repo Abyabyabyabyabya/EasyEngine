@@ -17,8 +17,12 @@
 namespace easy_engine {
 namespace g_lib {
 
+/******************************************************************************
+
+    Texture
+
+******************************************************************************/
 ///
-/// \class  Texture
 /// \brief  テクスチャ(シェーダーリソース)
 ///
 ///         コンストラクタで指定した画像ファイルをテクスチャとして保持します。
@@ -53,7 +57,7 @@ public :
     bool isValid() const noexcept { return TextureResource::isValid() && texture_; }
     operator bool() const noexcept { return isValid(); }
 
-    ///< テクスチャを取得
+    /// テクスチャを取得
     ID3D11ShaderResourceView* texture() const noexcept { return texture_.Get(); }
 protected :
     Microsoft::WRL::ComPtr<ID3D11ShaderResourceView> texture_;

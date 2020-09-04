@@ -17,6 +17,11 @@ namespace easy_engine {
 namespace g_lib {
 
   namespace shader_impl {
+    /******************************************************************************
+
+        Blob
+
+    ******************************************************************************/
     struct Blob {
         char* bytecode{};
         size_t size{};
@@ -37,6 +42,7 @@ namespace g_lib {
             return *this;
         }
     };
+    /// シェーダーファイルを展開
     Blob loadShaderFile(const char* FilePath);
   } // namespace shader_impl
 

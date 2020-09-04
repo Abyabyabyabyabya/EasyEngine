@@ -22,8 +22,12 @@
 namespace easy_engine {
 namespace g_lib {
 
+/******************************************************************************
+
+    VertexBuffer
+
+******************************************************************************/
 ///
-/// \class  VertexBuffer
 /// \brief  頂点バッファ
 ///
 class VertexBuffer {
@@ -58,9 +62,9 @@ public :
     operator bool() const noexcept { return isValid(); }
 
 
-    ///< バッファオブジェクトを取得
+    /// バッファオブジェクトを取得
     ID3D11Buffer* buffer() const noexcept { return vbuf_.Get(); }
-    ///< 1要素のサイズを取得
+    /// 1要素のサイズを取得
     UINT stride() const noexcept { return stride_; }
 private :
     VertexBuffer(UINT, const D3D11_SUBRESOURCE_DATA&, UINT);

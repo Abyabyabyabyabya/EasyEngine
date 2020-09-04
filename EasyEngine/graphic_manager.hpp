@@ -33,8 +33,12 @@ class EasyEngine;
    
 namespace g_lib {
 
+/******************************************************************************
+
+    GraphicManager
+
+******************************************************************************/
 ///
-/// \class  GraphicManager
 /// \brief  描画マネージャー
 ///
 ///         このクラスへのアクセスは、EasyEngine::graphics()を使用してください。
@@ -66,11 +70,11 @@ public :
     void drawInstanced(UINT InstanceCount, const RenderMesh& Mesh, UINT IndexCountPerMesh, UINT BaseIndexLocation=0, INT BaseVertexLocation=0, UINT StartInstanceLocation=0);
 
 
-    ///< 使用しているD3D機能レベルを取得
+    /// 使用しているD3D機能レベルを取得
     D3D_FEATURE_LEVEL d3dFeatureLevel() const noexcept { return feature_level_; }
-    ///< D3Dデバイスを取得
+    /// D3Dデバイスを取得
     ID3D11Device& d3d11Device() const noexcept { return *device_.Get(); }
-    ///< D3Dイミディエイトコンテキストを取得
+    /// D3Dイミディエイトコンテキストを取得
     ID3D11DeviceContext& d3d11Context() const noexcept { return *context_.Get(); }
 private :
     static std::unique_ptr<GraphicManager> create(); // EasyEngineクラスにより呼び出される関数

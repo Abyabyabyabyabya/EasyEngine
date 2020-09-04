@@ -142,6 +142,8 @@
   </ItemDefinitionGroup>
   <ItemGroup>
     <ClInclude Include="angle.hpp" />
+    <ClInclude Include="blend_state.hpp" />
+    <ClInclude Include="color.hpp" />
     <ClInclude Include="constant_buffer.hpp" />
     <ClInclude Include="controller.hpp" />
     <ClInclude Include="depth_stencil_texture.hpp" />
@@ -157,6 +159,7 @@
     <ClInclude Include="layer.hpp" />
     <ClInclude Include="render_mesh.hpp" />
     <ClInclude Include="pixel_shader.hpp" />
+    <ClInclude Include="sampler_state.hpp" />
     <ClInclude Include="scene_state.hpp" />
     <ClInclude Include="shader_common.hpp" />
     <ClInclude Include="shader_slot.hpp" />
@@ -187,6 +190,7 @@
     <ClInclude Include="xinput_gamepad.hpp" />
   </ItemGroup>
   <ItemGroup>
+    <ClCompile Include="blend_state.cpp" />
     <ClCompile Include="constant_buffer.cpp" />
     <ClCompile Include="depth_stencil_texture.cpp" />
     <ClCompile Include="easy_engine.cpp" />
@@ -198,6 +202,7 @@
     <ClCompile Include="layer.cpp" />
     <ClCompile Include="main.cpp" />
     <ClCompile Include="pixel_shader.cpp" />
+    <ClCompile Include="sampler_state.cpp" />
     <ClCompile Include="shader_common.cpp" />
     <ClCompile Include="texture.cpp" />
     <ClCompile Include="texture_resource.cpp" />

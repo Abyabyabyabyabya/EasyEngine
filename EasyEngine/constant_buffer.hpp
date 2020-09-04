@@ -19,8 +19,12 @@
 namespace easy_engine {
 namespace g_lib {
 
+/******************************************************************************
+
+    ConstantBufferData
+
+******************************************************************************/
 ///
-/// \class  ConstantBufferData
 /// \brief  ConstantBuffer<> 非テンプレート部抽出
 ///
 ///         異なる型を保持するConstantBuffer<>をvector等のコンテナで管理する際に使用できます。
@@ -41,7 +45,7 @@ public :
     operator bool() const noexcept { return isValid(); }
 
 
-    ///< バッファオブジェクトを取得
+    /// バッファオブジェクトを取得
     ID3D11Buffer* buffer() const noexcept { return cbuf_.Get(); }
 protected :
     ConstantBufferData(UINT DataSize, const D3D11_SUBRESOURCE_DATA* InitialData);
@@ -50,8 +54,12 @@ private:
     Microsoft::WRL::ComPtr<ID3D11Buffer> cbuf_;
 };
 
+/******************************************************************************
+
+    ConstantBuffer
+
+******************************************************************************/
 ///
-/// \class  ConstantBuffer
 /// \brief  定数バッファ
 ///
 /// \tparam DataTy : バッファに保持するデータ型

@@ -36,6 +36,9 @@
     <Filter Include="Source\Windows">
       <UniqueIdentifier>{0518a580-a6b3-42ff-ba73-d5a116d80ec4}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Source\Physics">
+      <UniqueIdentifier>{1bc8ad90-51f4-4e05-a03d-1ff085ec0f79}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="event_container.hpp">
@@ -170,6 +173,15 @@
     <ClInclude Include="texture_resource.hpp">
       <Filter>Source\Graphics</Filter>
     </ClInclude>
+    <ClInclude Include="blend_state.hpp">
+      <Filter>Source\Graphics</Filter>
+    </ClInclude>
+    <ClInclude Include="color.hpp">
+      <Filter>Source\Graphics</Filter>
+    </ClInclude>
+    <ClInclude Include="sampler_state.hpp">
+      <Filter>Source\Graphics</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="main.cpp">
@@ -224,6 +236,12 @@
       <Filter>Source\Graphics</Filter>
     </ClCompile>
     <ClCompile Include="depth_stencil_texture.cpp">
+      <Filter>Source\Graphics</Filter>
+    </ClCompile>
+    <ClCompile Include="blend_state.cpp">
+      <Filter>Source\Graphics</Filter>
+    </ClCompile>
+    <ClCompile Include="sampler_state.cpp">
       <Filter>Source\Graphics</Filter>
     </ClCompile>
   </ItemGroup>

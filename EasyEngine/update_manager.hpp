@@ -31,7 +31,6 @@ using UpdateTaskInfo = t_lib::TaskManager<impl::UpdateFunctorType>::TaskInfo;
 
 ******************************************************************************/
 ///
-/// \class  UpdateManager
 /// \brief  更新マネージャー
 ///
 ///         ゲーム更新処理に関するマネージャーです。

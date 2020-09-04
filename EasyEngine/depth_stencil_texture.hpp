@@ -17,8 +17,12 @@
 namespace easy_engine {
 namespace g_lib {
 
+/******************************************************************************
+
+    DepthStencilTexture
+
+******************************************************************************/
 ///
-/// \class  DepthStencilTexture
 /// \brief  深度ステンシル用テクスチャ
 ///
 class DepthStencilTexture : public TextureResource {
@@ -31,10 +35,10 @@ public :
     ///         https://docs.microsoft.com/en-us/windows/win32/api/dxgiformat/ne-dxgiformat-dxgi_format
     ///
     enum class Format {
-        D32_FLOAT_S8X24_UINT,
-        D32_FLOAT,
-        D24_UNORM_S8_UINT,
-        D16_UNORM
+        kD32FloatS8X24Uint,
+        kD32Float,
+        kD24UnormS8Uint,
+        kD16Unorm
     };
 
     DepthStencilTexture() = default;
@@ -48,7 +52,7 @@ public :
     /// \param[in] SampleCount   : 1ピクセル当たりのサンプル数
     /// \param[in] SampleQuality : マルチサンプルの画質レベル
     ///
-    DepthStencilTexture(UINT Width, UINT Height, Format TextureFormat=Format::D32_FLOAT, UINT SampleCount=1U, UINT SampleQuality=0U);
+    DepthStencilTexture(unsigned Width, unsigned Height, Format TextureFormat=Format::kD32Float, UINT SampleCount=1U, UINT SampleQuality=0U);
 
     ///
     /// \brief  有効な深度ステンシルテクスチャかどうか判定
@@ -60,7 +64,7 @@ public :
     operator bool() const noexcept { return isValid(); }
 
 
-    ///< テクスチャを取得
+    /// テクスチャを取得
     ID3D11DepthStencilView* texture() const noexcept { return texture_.Get(); }
 private :
     Microsoft::WRL::ComPtr<ID3D11DepthStencilView> texture_;

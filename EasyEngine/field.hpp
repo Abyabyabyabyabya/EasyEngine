@@ -49,7 +49,6 @@ using FieldTag = Field<ETy, field_impl::TypeIndex<NIndex, TIndex>, PredTy>;
 
 ******************************************************************************/
 ///
-/// \class  Field
 /// \brief  フィールド
 ///
 ///         メンバ的オブジェクトです。

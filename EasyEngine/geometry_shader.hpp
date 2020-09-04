@@ -17,8 +17,12 @@
 namespace easy_engine {
 namespace g_lib {
 
+/******************************************************************************
+
+    GeometryShader
+
+******************************************************************************/
 ///
-/// \class  GeometryShader
 /// \brief  ジオメトリシェーダー
 ///
 /// \par    読み込みを遅延させたい場合
@@ -53,7 +57,7 @@ public :
     operator bool() const noexcept { return isValid(); }
 
 
-    ///< シェーダーオブジェクトを取得
+    /// シェーダーオブジェクトを取得
     ID3D11GeometryShader* shader() const noexcept { return shader_.Get(); }
 private :
     Microsoft::WRL::ComPtr<ID3D11GeometryShader> shader_;
