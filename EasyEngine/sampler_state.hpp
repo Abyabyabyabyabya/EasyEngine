@@ -8,6 +8,25 @@
 ///         - 2020/9/4
 ///             - ヘッダ追加
 ///             - SamplerState 定義
+///             - SamplerDesc 定義
+///                 - SamplerFilter 定義
+///                 - SamplerAddressMode 定義
+///                 - SamplerComparison 定義
+///                 - PointWrapSampler 定義
+///                 - PointMirrorSampler 定義
+///                 - PointClampSampler 定義
+///                 - PointBorderSampler 定義
+///                 - PointMirrorOnceSampler 定義
+///                 - LinearWrapSampler 定義
+///                 - LinearMirrorSampler 定義
+///                 - LinearClampSampler 定義
+///                 - LinearBorderSampler 定義
+///                 - LinearMirrorOnceSampler 定義
+///                 - AnisotropicWrapSampler 定義
+///                 - AnisotropicMirrorSampler 定義
+///                 - AnisotropicClampSampler 定義
+///                 - AnisotropicBorderSampler 定義
+///                 - AnisotropicMirrorOnceSampler 定義
 ///
 #ifndef INCLUDED_EGEG_GLIB_SAMPLER_STATE_HEADER_
 #define INCLUDED_EGEG_GLIB_SAMPLER_STATE_HEADER_
@@ -105,6 +124,53 @@ struct SamplerDesc {
     float max_lod;                ///< アクセスをクランプするミップマップの上限値
 };
 
+
+/******************************************************************************
+
+    SamplerState
+
+******************************************************************************/
+///
+/// \brief  サンプラー状態定義クラス
+///
+///         下に定義してあるプリセットから構築することもできます。
+///         例) SamplerState sampler = DefaultSampler{};
+///
+class SamplerState {
+public :
+    ///
+    /// \brief  デフォルトのコンストラクタ
+    ///
+    ///         状態の定義を持ちません。。
+    ///
+    SamplerState() = default;
+
+    ///
+    /// \brief  サンプラーステートの作成を伴うコンストラクタ
+    ///
+    /// \param[in] Desc : サンプラー状態定義構造体
+    ///
+    SamplerState(const SamplerDesc& Desc);
+
+    ///
+    /// \brief  有効なサンプラー状態定義クラスかどうか判定
+    ///
+    ///         true  : 有効
+    ///         false : 無効
+    ///
+    /// \return 判定結果
+    ///
+    bool isValid() const noexcept { return state_.Get(); }
+    operator bool() const noexcept { return isValid(); }
+
+
+    /// サンプラーステートオブジェクトを取得
+    ID3D11SamplerState* state() const noexcept { return state_.Get(); }
+private :
+    Microsoft::WRL::ComPtr<ID3D11SamplerState> state_;
+};
+
+
 /******************************************************************************
 
     Sampler Presets
@@ -114,10 +180,10 @@ struct SamplerDesc {
 //        https://github.com/microsoft/DirectXTK/blob/master/Src/CommonStates.cpp
 
   namespace sampler_impl {
-    struct SamplerPresetCommon : SamplerDesc {
+    struct SamplerPresetCommon : SamplerState {
         SamplerPresetCommon(
           const SamplerFilter Filter, const SamplerAddressMode AddressMode, const Color BorderColor=Color{0}) : 
-            SamplerDesc {
+            SamplerState {SamplerDesc {
               Filter,
               AddressMode,
               AddressMode,
@@ -127,7 +193,7 @@ struct SamplerDesc {
               SamplerComparison::kNever,
               Color{0},
               0.0F,
-              D3D11_FLOAT32_MAX} {}
+              D3D11_FLOAT32_MAX}} {}
     };
   } // namespace sampler_impl
 
@@ -198,49 +264,6 @@ struct AnisotropicMirrorOnceSampler : sampler_impl::SamplerPresetCommon {
 };
 
 using DefaultSampler = LinearClampSampler; ///< デフォルトのサンプラー
-
-
-/******************************************************************************
-
-    SamplerState
-
-******************************************************************************/
-///
-/// \brief  サンプラー状態定義クラス
-///
-class SamplerState {
-public :
-    ///
-    /// \brief  デフォルトのコンストラクタ
-    ///
-    ///         状態の定義を持ちません。。
-    ///
-    SamplerState() = default;
-
-    ///
-    /// \brief  サンプラーステートの作成を伴うコンストラクタ
-    ///
-    /// \param[in] Desc : サンプラー状態定義構造体
-    ///
-    SamplerState(const SamplerDesc& Desc);
-
-    ///
-    /// \brief  有効なサンプラー状態定義クラスかどうか判定
-    ///
-    ///         true  : 有効
-    ///         false : 無効
-    ///
-    /// \return 判定結果
-    ///
-    bool isValid() const noexcept { return state_.Get(); }
-    operator bool() const noexcept { return isValid(); }
-
-
-    /// サンプラーステートオブジェクトを取得
-    ID3D11SamplerState* state() const noexcept { return state_.Get(); }
-private :
-    Microsoft::WRL::ComPtr<ID3D11SamplerState> state_;
-};
 
 } // namespace g_lib
 } // namespace easy_engine

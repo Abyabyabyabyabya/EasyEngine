@@ -77,78 +77,14 @@ struct BlendDesc {
 
 /******************************************************************************
 
-    Blend Presets
-
-******************************************************************************/
-// 参考 : https://github.com/microsoft/DirectXTK
-//        https://github.com/microsoft/DirectXTK/blob/master/Src/CommonStates.cpp
-
-/// ブレンドなし
-struct OpaqueBlend : BlendDesc {
-    OpaqueBlend() : BlendDesc {
-      false,
-      BlendCoefficient::kOne,
-      BlendCoefficient::kZero,
-      BlendOperation::kAdd,
-      BlendCoefficient::kOne,
-      BlendCoefficient::kZero,
-      BlendOperation::kAdd,
-      kColorBitMask<1,1,1,1>
-    } {}
-};
-
-/// αブレンド
-struct AlphaBlend : BlendDesc {
-    AlphaBlend() : BlendDesc {
-      true,
-      BlendCoefficient::kOne,
-      BlendCoefficient::kInvSrcAlpha,
-      BlendOperation::kAdd,
-      BlendCoefficient::kOne,
-      BlendCoefficient::kInvSrcAlpha,
-      BlendOperation::kAdd,
-      kColorBitMask<1,1,1,1>
-    } {}
-};
-
-/// 加算合成
-struct AddtiveBlend : BlendDesc {
-    AddtiveBlend() : BlendDesc {
-      true,
-      BlendCoefficient::kSrcAlpha,
-      BlendCoefficient::kOne,
-      BlendOperation::kAdd,
-      BlendCoefficient::kSrcAlpha,
-      BlendCoefficient::kOne,
-      BlendOperation::kAdd,
-      kColorBitMask<1,1,1,1>
-    } {}
-};
-
-/// 事前乗算なし
-struct NonPremultipliedBlend : BlendDesc {
-    NonPremultipliedBlend() : BlendDesc {
-      true,
-      BlendCoefficient::kSrcAlpha,
-      BlendCoefficient::kInvSrcAlpha,
-      BlendOperation::kAdd,
-      BlendCoefficient::kSrcAlpha,
-      BlendCoefficient::kInvSrcAlpha,
-      BlendOperation::kAdd,
-      kColorBitMask<1,1,1,1>
-    } {}
-};
-
-using DefaultBlend = NonPremultipliedBlend; ///< デフォルトのブレンド
-
-
-/******************************************************************************
-
     BlendState
 
 ******************************************************************************/
 ///
 /// \brief  ブレンド状態定義クラス
+///
+///         下に定義してあるプリセットから構築することもできます。
+///         例) BlendState blend = DefaultBlend{};
 ///
 class BlendState {
 public :
@@ -162,7 +98,7 @@ public :
     ///
     /// \brief  ブレンドステートの作成を伴うコンストラクタ
     ///
-    ///         第2引数には出力ターゲット毎のブレンド状態を設定できる。
+    ///         第2引数には出力ターゲット毎のブレンド状態を設定できます。
     ///         複数のターゲットを設定する場合はstd::array<…>に格納して渡してください。
     ///
     /// \param[in] Desc : ブレンド状態定義構造体
@@ -190,6 +126,75 @@ public :
 private :
     Microsoft::WRL::ComPtr<ID3D11BlendState> state_;
 };
+
+
+/******************************************************************************
+
+    Blend Presets
+
+******************************************************************************/
+// 参考 : https://github.com/microsoft/DirectXTK
+//        https://github.com/microsoft/DirectXTK/blob/master/Src/CommonStates.cpp
+
+  namespace blend_impl {
+    struct BlendPresetCommon : BlendState {
+        BlendPresetCommon(
+          const bool BlendEnable,
+          const BlendCoefficient SrcBlend,
+          const BlendCoefficient DestBlend,
+          const BlendOperation BlendOp) : BlendState { BlendDesc {
+            BlendEnable,
+            SrcBlend,
+            DestBlend,
+            BlendOp,
+            SrcBlend,
+            DestBlend,
+            BlendOp,
+            kColorBitMask<1,1,1,1>}} {}
+    };
+  } // namespace blend_impl
+
+/// ブレンドなし
+struct OpaqueBlend : blend_impl::BlendPresetCommon {
+    OpaqueBlend() : BlendPresetCommon {
+      false,
+      BlendCoefficient::kOne,
+      BlendCoefficient::kZero,
+      BlendOperation::kAdd,
+    } {}
+};
+
+/// αブレンド
+struct AlphaBlend : blend_impl::BlendPresetCommon {
+    AlphaBlend() : BlendPresetCommon {
+      true,
+      BlendCoefficient::kOne,
+      BlendCoefficient::kInvSrcAlpha,
+      BlendOperation::kAdd,
+    } {}
+};
+
+/// 加算合成
+struct AddtiveBlend : blend_impl::BlendPresetCommon {
+    AddtiveBlend() : BlendPresetCommon {
+      true,
+      BlendCoefficient::kSrcAlpha,
+      BlendCoefficient::kOne,
+      BlendOperation::kAdd,
+    } {}
+};
+
+/// 事前乗算なし
+struct NonPremultipliedBlend : blend_impl::BlendPresetCommon {
+    NonPremultipliedBlend() : BlendPresetCommon {
+      true,
+      BlendCoefficient::kSrcAlpha,
+      BlendCoefficient::kInvSrcAlpha,
+      BlendOperation::kAdd,
+    } {}
+};
+
+using DefaultBlend = NonPremultipliedBlend; ///< デフォルトのブレンド
 
 } // namespace g_lib
 } // namespace easy_engine
