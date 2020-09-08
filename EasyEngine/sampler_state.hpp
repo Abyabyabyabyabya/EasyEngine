@@ -27,6 +27,8 @@
 ///                 - AnisotropicClampSampler 定義
 ///                 - AnisotropicBorderSampler 定義
 ///                 - AnisotropicMirrorOnceSampler 定義
+///         - 2020/9/8
+///             - プリセットを関数に置き換えた
 ///
 #ifndef INCLUDED_EGEG_GLIB_SAMPLER_STATE_HEADER_
 #define INCLUDED_EGEG_GLIB_SAMPLER_STATE_HEADER_
@@ -98,7 +100,7 @@ enum class SamplerAddressMode {
     kMirrorOnce
 };
 
-/// サンプリングされたデータと既存のサンプリング済みデータの比較オプション
+/// サンプリングされたデータと既存のサンプリング済みデータの比較操作
 // 詳細 : https://docs.microsoft.com/en-us/windows/win32/api/d3d11/ne-d3d11-d3d11_comparison_func
 enum class SamplerComparison {
     kNever,
@@ -133,9 +135,6 @@ struct SamplerDesc {
 ///
 /// \brief  サンプラー状態定義クラス
 ///
-///         下に定義してあるプリセットから構築することもできます。
-///         例) SamplerState sampler = DefaultSampler{};
-///
 class SamplerState {
 public :
     ///
@@ -153,7 +152,7 @@ public :
     SamplerState(const SamplerDesc& Desc);
 
     ///
-    /// \brief  有効なサンプラー状態定義クラスかどうか判定
+    /// \brief  有効なサンプラー状態定義オブジェクトかどうか判定
     ///
     ///         true  : 有効
     ///         false : 無効
@@ -173,97 +172,47 @@ private :
 
 /******************************************************************************
 
-    Sampler Presets
+    sampler presets
 
 ******************************************************************************/
 // 参考 : https://github.com/microsoft/DirectXTK
 //        https://github.com/microsoft/DirectXTK/blob/master/Src/CommonStates.cpp
-
-  namespace sampler_impl {
-    struct SamplerPresetCommon : SamplerState {
-        SamplerPresetCommon(
-          const SamplerFilter Filter, const SamplerAddressMode AddressMode, const Color BorderColor=Color{0}) : 
-            SamplerState {SamplerDesc {
-              Filter,
-              AddressMode,
-              AddressMode,
-              AddressMode,
-              0.0F,
-              D3D11_MAX_MAXANISOTROPY,
-              SamplerComparison::kNever,
-              Color{0},
-              0.0F,
-              D3D11_FLOAT32_MAX}} {}
-    };
+  namespace sampler_impl { 
+      inline SamplerState createSampler(const SamplerFilter F, const SamplerAddressMode A, const Color C=Color{0}) {
+          return SamplerState {
+              SamplerDesc {
+                F,
+                A, A, A,
+                0.0F,
+                D3D11_MAX_MAXANISOTROPY,
+                SamplerComparison::kNever,
+                Color{0},
+                0.0F, D3D11_FLOAT32_MAX
+              }
+          };
+      }
   } // namespace sampler_impl
 
-// ポイントラップ
-struct PointWrapSampler : sampler_impl::SamplerPresetCommon {
-    PointWrapSampler() : SamplerPresetCommon {SamplerFilter::kMinMagMipPoint, SamplerAddressMode::kWrap} {}
-};
-// ポイントミラー
-struct PointMirrorSampler : sampler_impl::SamplerPresetCommon {
-    PointMirrorSampler() : SamplerPresetCommon {SamplerFilter::kMinMagMipPoint, SamplerAddressMode::kMirror} {}
-};
-// ポイントクランプ
-struct PointClampSampler : sampler_impl::SamplerPresetCommon {
-    PointClampSampler() : SamplerPresetCommon {SamplerFilter::kMinMagMipPoint, SamplerAddressMode::kClamp} {}
-};
-// ポイントボーダー
-struct PointBorderSampler : sampler_impl::SamplerPresetCommon {
-    PointBorderSampler(const Color BorderColor=kWhite) : 
-      SamplerPresetCommon {SamplerFilter::kMinMagMipPoint, SamplerAddressMode::kBorder, BorderColor} {}
-};
-// ポイントミラーワンス
-struct PointMirrorOnceSampler : sampler_impl::SamplerPresetCommon {
-    PointMirrorOnceSampler() : SamplerPresetCommon{SamplerFilter::kMinMagMipPoint, SamplerAddressMode::kMirrorOnce} {}
-};
-
-// リニアラップ
-struct LinearWrapSampler : sampler_impl::SamplerPresetCommon {
-    LinearWrapSampler() : SamplerPresetCommon {SamplerFilter::kMinMagMipLinear, SamplerAddressMode::kWrap} {}
-};
-// リニアミラー
-struct LinearMirrorSampler : sampler_impl::SamplerPresetCommon {
-    LinearMirrorSampler() : SamplerPresetCommon {SamplerFilter::kMinMagMipLinear, SamplerAddressMode::kMirror} {}
-};
-// リニアクランプ
-struct LinearClampSampler : sampler_impl::SamplerPresetCommon {
-    LinearClampSampler() : SamplerPresetCommon {SamplerFilter::kMinMagMipLinear, SamplerAddressMode::kClamp} {}
-};
-// リニアボーダー
-struct LinearBorderSampler : sampler_impl::SamplerPresetCommon {
-    LinearBorderSampler(const Color BorderColor=kWhite) :
-      SamplerPresetCommon {SamplerFilter::kMinMagMipLinear, SamplerAddressMode::kBorder, BorderColor} {}
-};
-// リニアミラーワンス
-struct LinearMirrorOnceSampler : sampler_impl::SamplerPresetCommon {
-    LinearMirrorOnceSampler() : SamplerPresetCommon{SamplerFilter::kMinMagMipLinear, SamplerAddressMode::kMirrorOnce}{}
-};
-
-// アニソトロピックラップ
-struct AnisotropicWrapSampler : sampler_impl::SamplerPresetCommon {
-    AnisotropicWrapSampler() : SamplerPresetCommon {SamplerFilter::kAnisotropic, SamplerAddressMode::kWrap} {}
-};
-// アニソトロピックミラー
-struct AnisotropicMirrorSampler : sampler_impl::SamplerPresetCommon {
-    AnisotropicMirrorSampler() : SamplerPresetCommon {SamplerFilter::kAnisotropic, SamplerAddressMode::kMirror} {}
-};
-// アニソトロピッククランプ
-struct AnisotropicClampSampler : sampler_impl::SamplerPresetCommon {
-    AnisotropicClampSampler() : SamplerPresetCommon {SamplerFilter::kAnisotropic, SamplerAddressMode::kClamp} {}
-};
-// アニソトロピックボーダー
-struct AnisotropicBorderSampler : sampler_impl::SamplerPresetCommon {
-    AnisotropicBorderSampler(const Color BorderColor=kWhite) :
-      SamplerPresetCommon {SamplerFilter::kAnisotropic, SamplerAddressMode::kBorder, BorderColor} {}
-};
-// アニソトロピックミラーワンス
-struct AnisotropicMirrorOnceSampler : sampler_impl::SamplerPresetCommon {
-    AnisotropicMirrorOnceSampler() : SamplerPresetCommon{SamplerFilter::kAnisotropic,SamplerAddressMode::kMirrorOnce}{}
-};
-
-using DefaultSampler = LinearClampSampler; ///< デフォルトのサンプラー
+namespace sampler_presets {
+// point
+inline SamplerState pointWrap() { return sampler_impl::createSampler(SamplerFilter::kMinMagMipPoint, SamplerAddressMode::kWrap); }
+inline SamplerState pointMirror() { return sampler_impl::createSampler(SamplerFilter::kMinMagMipPoint, SamplerAddressMode::kMirror); }
+inline SamplerState pointClamp() { return sampler_impl::createSampler(SamplerFilter::kMinMagMipPoint, SamplerAddressMode::kClamp); }
+inline SamplerState pointBorder(const Color BorderColor) { return sampler_impl::createSampler(SamplerFilter::kMinMagMipPoint, SamplerAddressMode::kBorder, BorderColor); }
+inline SamplerState pointMirrorOnce() { return sampler_impl::createSampler(SamplerFilter::kMinMagMipPoint, SamplerAddressMode::kMirrorOnce); }
+// linear
+inline SamplerState linearWrap() { return sampler_impl::createSampler(SamplerFilter::kMinMagMipLinear, SamplerAddressMode::kWrap); }
+inline SamplerState linearMirror() { return sampler_impl::createSampler(SamplerFilter::kMinMagMipLinear, SamplerAddressMode::kMirror); }
+inline SamplerState linearClamp() { return sampler_impl::createSampler(SamplerFilter::kMinMagMipLinear, SamplerAddressMode::kClamp); }
+inline SamplerState linearBorder(const Color BorderColor) { return sampler_impl::createSampler(SamplerFilter::kMinMagMipLinear, SamplerAddressMode::kBorder, BorderColor);}
+inline SamplerState linearMirrorOnce() { return sampler_impl::createSampler(SamplerFilter::kMinMagMipLinear, SamplerAddressMode::kMirrorOnce); }
+// anisotropic
+inline SamplerState anisotropicWrap() { return sampler_impl::createSampler(SamplerFilter::kAnisotropic, SamplerAddressMode::kWrap); }
+inline SamplerState anisotropicMirror() { return sampler_impl::createSampler(SamplerFilter::kAnisotropic, SamplerAddressMode::kMirror); }
+inline SamplerState anisotropicClamp() { return sampler_impl::createSampler(SamplerFilter::kAnisotropic, SamplerAddressMode::kClamp); }
+inline SamplerState anisotropicBorder(const Color BorderColor) { return sampler_impl::createSampler(SamplerFilter::kAnisotropic, SamplerAddressMode::kBorder, BorderColor); }
+inline SamplerState anisotropicMirrorOnce() { return sampler_impl::createSampler(SamplerFilter::kAnisotropic, SamplerAddressMode::kMirrorOnce); }
+} // namespace sampler_presets
 
 } // namespace g_lib
 } // namespace easy_engine

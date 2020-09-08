@@ -17,31 +17,31 @@
 namespace blend_ns = easy_engine::g_lib;
 namespace {
     constexpr D3D11_BLEND kBlendCoefficientMap[] {
-        D3D11_BLEND::D3D11_BLEND_ZERO,              // kZero
-        D3D11_BLEND::D3D11_BLEND_ONE,               // kOne
-        D3D11_BLEND::D3D11_BLEND_SRC_COLOR,         // kSrcColor
-        D3D11_BLEND::D3D11_BLEND_INV_SRC_COLOR,     // kInvSrcColor
-        D3D11_BLEND::D3D11_BLEND_SRC_ALPHA,         // kSrcAlpha
-        D3D11_BLEND::D3D11_BLEND_INV_SRC_ALPHA,     // kInvSrcAlpha
-        D3D11_BLEND::D3D11_BLEND_DEST_ALPHA,        // kDestAlpha
-        D3D11_BLEND::D3D11_BLEND_INV_DEST_ALPHA,    // kInvDestAlpha
-        D3D11_BLEND::D3D11_BLEND_DEST_COLOR,        // kDestColor
-        D3D11_BLEND::D3D11_BLEND_INV_DEST_COLOR,    // kInvDestColor
-        D3D11_BLEND::D3D11_BLEND_SRC_ALPHA_SAT,     // kSrcAlphaSat
-        D3D11_BLEND::D3D11_BLEND_BLEND_FACTOR,      // kBlendFactor
-        D3D11_BLEND::D3D11_BLEND_INV_BLEND_FACTOR,  // kInvBlendFactor
-        D3D11_BLEND::D3D11_BLEND_SRC1_COLOR,        // kSrc1Color
-        D3D11_BLEND::D3D11_BLEND_INV_SRC1_COLOR,    // kInvSrc1Color
-        D3D11_BLEND::D3D11_BLEND_SRC1_ALPHA,        // kSrc1Alpha
-        D3D11_BLEND::D3D11_BLEND_INV_SRC1_ALPHA,    // kInvSrc1Alpha
+        D3D11_BLEND_ZERO,              // kZero
+        D3D11_BLEND_ONE,               // kOne
+        D3D11_BLEND_SRC_COLOR,         // kSrcColor
+        D3D11_BLEND_INV_SRC_COLOR,     // kInvSrcColor
+        D3D11_BLEND_SRC_ALPHA,         // kSrcAlpha
+        D3D11_BLEND_INV_SRC_ALPHA,     // kInvSrcAlpha
+        D3D11_BLEND_DEST_ALPHA,        // kDestAlpha
+        D3D11_BLEND_INV_DEST_ALPHA,    // kInvDestAlpha
+        D3D11_BLEND_DEST_COLOR,        // kDestColor
+        D3D11_BLEND_INV_DEST_COLOR,    // kInvDestColor
+        D3D11_BLEND_SRC_ALPHA_SAT,     // kSrcAlphaSat
+        D3D11_BLEND_BLEND_FACTOR,      // kBlendFactor
+        D3D11_BLEND_INV_BLEND_FACTOR,  // kInvBlendFactor
+        D3D11_BLEND_SRC1_COLOR,        // kSrc1Color
+        D3D11_BLEND_INV_SRC1_COLOR,    // kInvSrc1Color
+        D3D11_BLEND_SRC1_ALPHA,        // kSrc1Alpha
+        D3D11_BLEND_INV_SRC1_ALPHA,    // kInvSrc1Alpha
     };
 
     constexpr D3D11_BLEND_OP kBlendOperationMap[] {
-        D3D11_BLEND_OP::D3D11_BLEND_OP_ADD,          // kAdd
-        D3D11_BLEND_OP::D3D11_BLEND_OP_SUBTRACT,     // kSubtract
-        D3D11_BLEND_OP::D3D11_BLEND_OP_REV_SUBTRACT, // kRevSubtract
-        D3D11_BLEND_OP::D3D11_BLEND_OP_MIN,          // kMin
-        D3D11_BLEND_OP::D3D11_BLEND_OP_MAX           // kMax
+        D3D11_BLEND_OP_ADD,          // kAdd
+        D3D11_BLEND_OP_SUBTRACT,     // kSubtract
+        D3D11_BLEND_OP_REV_SUBTRACT, // kRevSubtract
+        D3D11_BLEND_OP_MIN,          // kMin
+        D3D11_BLEND_OP_MAX           // kMax
     };
 
     D3D11_RENDER_TARGET_BLEND_DESC convertToD3DDesc(const blend_ns::BlendDesc&);

@@ -6,6 +6,7 @@
 ******************************************************************************/
 #include "sampler_state.hpp"
 #include "easy_engine.hpp"
+#include "utility_function.hpp"
 
 
 /******************************************************************************
@@ -92,7 +93,28 @@ sampler_ns::SamplerState::SamplerState(const sampler_ns::SamplerDesc& Desc) {
     others
 
 ******************************************************************************/
-namespace { D3D11_SAMPLER_DESC convertToD3DDesc(const sampler_ns::SamplerDesc& Desc) {
-    return D3D11_SAMPLER_DESC{};
-}}
+namespace { 
+  constexpr float toNormal(const std::uint8_t Color) { return Color * (1.0F/255.0F); }
+  D3D11_SAMPLER_DESC convertToD3DDesc(const sampler_ns::SamplerDesc& Desc) {
+    using namespace easy_engine::t_lib;
+    float kBorderColor[4] {
+        toNormal(Desc.border_color.red()),
+        toNormal(Desc.border_color.green()),
+        toNormal(Desc.border_color.blue()),
+        toNormal(Desc.border_color.alpha()),
+    };
+    return D3D11_SAMPLER_DESC {
+        kSamplerFilterMap[enumValue(Desc.filter)],
+        kSamplerAddressModeMap[enumValue(Desc.address_u)],
+        kSamplerAddressModeMap[enumValue(Desc.address_v)],
+        kSamplerAddressModeMap[enumValue(Desc.address_w)],
+        Desc.mip_lod_bias,
+        Desc.max_anisotropy,
+        kSamplerComparisonMap[enumValue(Desc.comparison)],
+        *kBorderColor,
+        Desc.min_lod,
+        Desc.max_lod
+    };
+  }
+}
 // EOF

@@ -39,6 +39,18 @@
     <Filter Include="Source\Physics">
       <UniqueIdentifier>{1bc8ad90-51f4-4e05-a03d-1ff085ec0f79}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Source\Graphics\State">
+      <UniqueIdentifier>{44a5ce3f-08df-4d5c-ad34-bbcdfe120a2a}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source\Graphics\Texture">
+      <UniqueIdentifier>{f15fc76c-dbf4-4066-af1a-f917fee8a394}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source\Graphics\Shader">
+      <UniqueIdentifier>{6e375c9d-eaa7-4065-af81-f258d4963897}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source\Graphics\Shader\Buffer">
+      <UniqueIdentifier>{d74f7dbb-2a98-4084-a64c-55e6012b0e9b}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="event_container.hpp">
@@ -119,9 +131,6 @@
     <ClInclude Include="update_manager.hpp">
       <Filter>Source\EGEG</Filter>
     </ClInclude>
-    <ClInclude Include="texture.hpp">
-      <Filter>Source\Graphics</Filter>
-    </ClInclude>
     <ClInclude Include="graphic_manager.hpp">
       <Filter>Source\Graphics</Filter>
     </ClInclude>
@@ -131,59 +140,62 @@
     <ClInclude Include="egeg_state.hpp">
       <Filter>Source\EGEG</Filter>
     </ClInclude>
-    <ClInclude Include="layer.hpp">
-      <Filter>Source\Graphics</Filter>
-    </ClInclude>
     <ClInclude Include="update_order.hpp">
       <Filter>Source\EGEG</Filter>
-    </ClInclude>
-    <ClInclude Include="constant_buffer.hpp">
-      <Filter>Source\Graphics</Filter>
-    </ClInclude>
-    <ClInclude Include="vertex_shader.hpp">
-      <Filter>Source\Graphics</Filter>
-    </ClInclude>
-    <ClInclude Include="pixel_shader.hpp">
-      <Filter>Source\Graphics</Filter>
-    </ClInclude>
-    <ClInclude Include="shader_slot.hpp">
-      <Filter>Source\Graphics</Filter>
-    </ClInclude>
-    <ClInclude Include="shader_common.hpp">
-      <Filter>Source\Graphics</Filter>
-    </ClInclude>
-    <ClInclude Include="scene_state.hpp">
-      <Filter>Source\Graphics</Filter>
-    </ClInclude>
-    <ClInclude Include="vertex_buffer.hpp">
-      <Filter>Source\Graphics</Filter>
-    </ClInclude>
-    <ClInclude Include="index_buffer.hpp">
-      <Filter>Source\Graphics</Filter>
-    </ClInclude>
-    <ClInclude Include="render_mesh.hpp">
-      <Filter>Source\Graphics</Filter>
-    </ClInclude>
-    <ClInclude Include="geometry_shader.hpp">
-      <Filter>Source\Graphics</Filter>
-    </ClInclude>
-    <ClInclude Include="depth_stencil_texture.hpp">
-      <Filter>Source\Graphics</Filter>
-    </ClInclude>
-    <ClInclude Include="texture_resource.hpp">
-      <Filter>Source\Graphics</Filter>
-    </ClInclude>
-    <ClInclude Include="blend_state.hpp">
-      <Filter>Source\Graphics</Filter>
     </ClInclude>
     <ClInclude Include="color.hpp">
       <Filter>Source\Graphics</Filter>
     </ClInclude>
-    <ClInclude Include="sampler_state.hpp">
-      <Filter>Source\Graphics</Filter>
+    <ClInclude Include="blend_state.hpp">
+      <Filter>Source\Graphics\State</Filter>
     </ClInclude>
     <ClInclude Include="depth_stencil_state.hpp">
-      <Filter>Source\Graphics</Filter>
+      <Filter>Source\Graphics\State</Filter>
+    </ClInclude>
+    <ClInclude Include="sampler_state.hpp">
+      <Filter>Source\Graphics\State</Filter>
+    </ClInclude>
+    <ClInclude Include="rasterizer_state.hpp">
+      <Filter>Source\Graphics\State</Filter>
+    </ClInclude>
+    <ClInclude Include="depth_stencil_texture.hpp">
+      <Filter>Source\Graphics\Texture</Filter>
+    </ClInclude>
+    <ClInclude Include="texture.hpp">
+      <Filter>Source\Graphics\Texture</Filter>
+    </ClInclude>
+    <ClInclude Include="texture_resource.hpp">
+      <Filter>Source\Graphics\Texture</Filter>
+    </ClInclude>
+    <ClInclude Include="layer.hpp">
+      <Filter>Source\Graphics\Texture</Filter>
+    </ClInclude>
+    <ClInclude Include="vertex_shader.hpp">
+      <Filter>Source\Graphics\Shader</Filter>
+    </ClInclude>
+    <ClInclude Include="shader_common.hpp">
+      <Filter>Source\Graphics\Shader</Filter>
+    </ClInclude>
+    <ClInclude Include="pixel_shader.hpp">
+      <Filter>Source\Graphics\Shader</Filter>
+    </ClInclude>
+    <ClInclude Include="geometry_shader.hpp">
+      <Filter>Source\Graphics\Shader</Filter>
+    </ClInclude>
+    <ClInclude Include="constant_buffer.hpp">
+      <Filter>Source\Graphics\Shader\Buffer</Filter>
+    </ClInclude>
+    <ClInclude Include="index_buffer.hpp">
+      <Filter>Source\Graphics\Shader\Buffer</Filter>
+    </ClInclude>
+    <ClInclude Include="render_mesh.hpp">
+      <Filter>Source\Graphics\Shader\Buffer</Filter>
+    </ClInclude>
+    <ClInclude Include="shader_slot.hpp">
+      <Filter>Source\Graphics\Shader\Buffer</Filter>
+    </ClInclude>
+    <ClInclude Include="vertex_buffer.hpp">
+      <Filter>Source\Graphics\Shader\Buffer</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
@@ -208,44 +220,50 @@
     <ClCompile Include="window_manager.cpp">
       <Filter>Source\Windows</Filter>
     </ClCompile>
-    <ClCompile Include="texture.cpp">
-      <Filter>Source\Graphics</Filter>
-    </ClCompile>
-    <ClCompile Include="layer.cpp">
-      <Filter>Source\Graphics</Filter>
-    </ClCompile>
-    <ClCompile Include="constant_buffer.cpp">
-      <Filter>Source\Graphics</Filter>
-    </ClCompile>
-    <ClCompile Include="vertex_shader.cpp">
-      <Filter>Source\Graphics</Filter>
-    </ClCompile>
-    <ClCompile Include="pixel_shader.cpp">
-      <Filter>Source\Graphics</Filter>
-    </ClCompile>
-    <ClCompile Include="shader_common.cpp">
-      <Filter>Source\Graphics</Filter>
-    </ClCompile>
-    <ClCompile Include="vertex_buffer.cpp">
-      <Filter>Source\Graphics</Filter>
-    </ClCompile>
-    <ClCompile Include="index_buffer.cpp">
-      <Filter>Source\Graphics</Filter>
-    </ClCompile>
-    <ClCompile Include="geometry_shader.cpp">
-      <Filter>Source\Graphics</Filter>
-    </ClCompile>
-    <ClCompile Include="texture_resource.cpp">
-      <Filter>Source\Graphics</Filter>
-    </ClCompile>
-    <ClCompile Include="depth_stencil_texture.cpp">
-      <Filter>Source\Graphics</Filter>
-    </ClCompile>
     <ClCompile Include="blend_state.cpp">
-      <Filter>Source\Graphics</Filter>
+      <Filter>Source\Graphics\State</Filter>
+    </ClCompile>
+    <ClCompile Include="depth_stencil_state.cpp">
+      <Filter>Source\Graphics\State</Filter>
     </ClCompile>
     <ClCompile Include="sampler_state.cpp">
-      <Filter>Source\Graphics</Filter>
+      <Filter>Source\Graphics\State</Filter>
+    </ClCompile>
+    <ClCompile Include="depth_stencil_texture.cpp">
+      <Filter>Source\Graphics\Texture</Filter>
+    </ClCompile>
+    <ClCompile Include="texture.cpp">
+      <Filter>Source\Graphics\Texture</Filter>
+    </ClCompile>
+    <ClCompile Include="texture_resource.cpp">
+      <Filter>Source\Graphics\Texture</Filter>
+    </ClCompile>
+    <ClCompile Include="layer.cpp">
+      <Filter>Source\Graphics\Texture</Filter>
+    </ClCompile>
+    <ClCompile Include="vertex_shader.cpp">
+      <Filter>Source\Graphics\Shader</Filter>
+    </ClCompile>
+    <ClCompile Include="shader_common.cpp">
+      <Filter>Source\Graphics\Shader</Filter>
+    </ClCompile>
+    <ClCompile Include="pixel_shader.cpp">
+      <Filter>Source\Graphics\Shader</Filter>
+    </ClCompile>
+    <ClCompile Include="geometry_shader.cpp">
+      <Filter>Source\Graphics\Shader</Filter>
+    </ClCompile>
+    <ClCompile Include="constant_buffer.cpp">
+      <Filter>Source\Graphics\Shader\Buffer</Filter>
+    </ClCompile>
+    <ClCompile Include="index_buffer.cpp">
+      <Filter>Source\Graphics\Shader\Buffer</Filter>
+    </ClCompile>
+    <ClCompile Include="vertex_buffer.cpp">
+      <Filter>Source\Graphics\Shader\Buffer</Filter>
+    </ClCompile>
+    <ClCompile Include="rasterizer_state.cpp">
+      <Filter>Source\Graphics\State</Filter>
     </ClCompile>
   </ItemGroup>
 </Project>

@@ -15,6 +15,8 @@
 ///                 - AlphaBlend 定義
 ///                 - AddtiveBlend 定義
 ///                 - NonPremultipliedBlend 定義
+///         - 2020/9/8
+///             - プリセットを関数に置き換えた
 ///
 #ifndef INCLUDED_EGEG_GLIB_BLEND_STATE_HEADER_
 #define INCLUDED_EGEG_GLIB_BLEND_STATE_HEADER_
@@ -83,9 +85,6 @@ struct BlendDesc {
 ///
 /// \brief  ブレンド状態定義クラス
 ///
-///         下に定義してあるプリセットから構築することもできます。
-///         例) BlendState blend = DefaultBlend{};
-///
 class BlendState {
 public :
     ///
@@ -110,7 +109,7 @@ public :
     BlendState(const std::array<BlendDesc, 8U>& Descs, bool AlphaToCaverageEnable=false);
 
     ///
-    /// \brief  有効なブレンド状態定義クラスかどうか判定
+    /// \brief  有効なブレンド状態定義オブジェクトかどうか判定
     ///
     ///         true  : 有効
     ///         false : 無効
@@ -130,71 +129,34 @@ private :
 
 /******************************************************************************
 
-    Blend Presets
+    blend presets
 
 ******************************************************************************/
 // 参考 : https://github.com/microsoft/DirectXTK
 //        https://github.com/microsoft/DirectXTK/blob/master/Src/CommonStates.cpp
-
   namespace blend_impl {
-    struct BlendPresetCommon : BlendState {
-        BlendPresetCommon(
-          const bool BlendEnable,
-          const BlendCoefficient SrcBlend,
-          const BlendCoefficient DestBlend,
-          const BlendOperation BlendOp) : BlendState { BlendDesc {
-            BlendEnable,
-            SrcBlend,
-            DestBlend,
-            BlendOp,
-            SrcBlend,
-            DestBlend,
-            BlendOp,
-            kColorBitMask<1,1,1,1>}} {}
-    };
-  } // namespace blend_impl
+      inline BlendState createBlend(const bool E, const BlendCoefficient Src, const BlendCoefficient Dest, const BlendOperation Op) {
+          return BlendState {
+              BlendDesc {
+                E,
+                Src, Dest, Op,
+                Src, Dest, Op,
+                kColorBitMask<1,1,1,1>
+              }
+          };
+      }
+  }
 
-/// ブレンドなし
-struct OpaqueBlend : blend_impl::BlendPresetCommon {
-    OpaqueBlend() : BlendPresetCommon {
-      false,
-      BlendCoefficient::kOne,
-      BlendCoefficient::kZero,
-      BlendOperation::kAdd,
-    } {}
-};
-
+namespace blend_presets {
+/// ブレンド無し
+inline BlendState opaque() { return blend_impl::createBlend(false, BlendCoefficient::kOne, BlendCoefficient::kZero, BlendOperation::kAdd); }
 /// αブレンド
-struct AlphaBlend : blend_impl::BlendPresetCommon {
-    AlphaBlend() : BlendPresetCommon {
-      true,
-      BlendCoefficient::kOne,
-      BlendCoefficient::kInvSrcAlpha,
-      BlendOperation::kAdd,
-    } {}
-};
-
+inline BlendState alpha() { return blend_impl::createBlend(true, BlendCoefficient::kOne, BlendCoefficient::kInvSrcAlpha, BlendOperation::kAdd); }
 /// 加算合成
-struct AddtiveBlend : blend_impl::BlendPresetCommon {
-    AddtiveBlend() : BlendPresetCommon {
-      true,
-      BlendCoefficient::kSrcAlpha,
-      BlendCoefficient::kOne,
-      BlendOperation::kAdd,
-    } {}
-};
-
-/// 事前乗算なし
-struct NonPremultipliedBlend : blend_impl::BlendPresetCommon {
-    NonPremultipliedBlend() : BlendPresetCommon {
-      true,
-      BlendCoefficient::kSrcAlpha,
-      BlendCoefficient::kInvSrcAlpha,
-      BlendOperation::kAdd,
-    } {}
-};
-
-using DefaultBlend = NonPremultipliedBlend; ///< デフォルトのブレンド
+inline BlendState addtive() { return blend_impl::createBlend(true, BlendCoefficient::kSrcAlpha, BlendCoefficient::kOne, BlendOperation::kAdd); }
+/// 事前乗算無し
+inline BlendState nonPremultiplied() { return blend_impl::createBlend(true, BlendCoefficient::kSrcAlpha, BlendCoefficient::kInvSrcAlpha, BlendOperation::kAdd); }
+} // namespace blend_preset
 
 } // namespace g_lib
 } // namespace easy_engine

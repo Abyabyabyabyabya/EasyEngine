@@ -19,7 +19,10 @@
 #include "noncopyable.hpp"
 #include "update_manager.hpp"
 #include "layer.hpp"
-#include "scene_state.hpp"
+#include "depth_stencil_state.hpp"
+#include "blend_state.hpp"
+//#include "rasterizer_state.hpp"
+#include "sampler_state.hpp"
 #include "shader_slot.hpp"
 #include "index_buffer.hpp"
 #include "vertex_buffer.hpp"
@@ -58,7 +61,7 @@ public :
 
     void setLayer(UINT Slot, const Layer& Target);
     void setLayers(UINT StartSlot, const std::vector<Layer>& Targets);
-    void setSceneState(const SceneState& State);
+    //void setSceneState(const SceneState& State);
     void setVertexShader(const VertexShader& VS);
     void setVertexShaderSlot(const ShaderSlot& Slot);
     void setGeometryShader(const GeometryShader& GS);
