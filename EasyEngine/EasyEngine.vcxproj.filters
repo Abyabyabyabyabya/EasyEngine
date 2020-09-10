@@ -197,6 +197,9 @@
     <ClInclude Include="vertex_buffer.hpp">
       <Filter>Source\Graphics\Shader\Buffer</Filter>
     </ClInclude>
+    <ClInclude Include="draw_context.hpp">
+      <Filter>Source\Graphics</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="main.cpp">
@@ -264,6 +267,9 @@
     </ClCompile>
     <ClCompile Include="rasterizer_state.cpp">
       <Filter>Source\Graphics\State</Filter>
+    </ClCompile>
+    <ClCompile Include="draw_context.cpp">
+      <Filter>Source\Graphics</Filter>
     </ClCompile>
   </ItemGroup>
 </Project>

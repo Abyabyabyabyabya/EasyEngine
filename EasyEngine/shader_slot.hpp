@@ -15,6 +15,7 @@
 #ifndef INCLUDED_EGEG_GLIB_SHADER_SLOT_HEADER_
 #define INCLUDED_EGEG_GLIB_SHADER_SLOT_HEADER_
 
+#include <vector>
 #include <map>
 #include <d3d11.h>
 #include <wrl.h>

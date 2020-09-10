@@ -127,7 +127,7 @@ private :
 
 namespace rasterizer_preset {
 /// fill:kSolidÅ@cull:kNone
-inline RasterizerState cullNone() { return rasterizer_impl::createRS(RasterizerFillMode::kSolid, RasterizerCullMode::kNone); }
+inline RasterizerState nonCulling() { return rasterizer_impl::createRS(RasterizerFillMode::kSolid, RasterizerCullMode::kNone); }
 // fill:kSolidÅ@cull:kBack
 inline RasterizerState solid() { return rasterizer_impl::createRS(RasterizerFillMode::kSolid, RasterizerCullMode::kBack); }
 // fill:kWireframe cull:kBack

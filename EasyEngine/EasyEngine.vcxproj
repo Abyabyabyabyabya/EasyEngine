@@ -148,6 +148,7 @@
     <ClInclude Include="controller.hpp" />
     <ClInclude Include="depth_stencil_state.hpp" />
     <ClInclude Include="depth_stencil_texture.hpp" />
+    <ClInclude Include="draw_context.hpp" />
     <ClInclude Include="easy_engine.hpp" />
     <ClInclude Include="egeg.hpp" />
     <ClInclude Include="egeg_math.hpp" />
@@ -195,6 +196,7 @@
     <ClCompile Include="constant_buffer.cpp" />
     <ClCompile Include="depth_stencil_state.cpp" />
     <ClCompile Include="depth_stencil_texture.cpp" />
+    <ClCompile Include="draw_context.cpp" />
     <ClCompile Include="easy_engine.cpp" />
     <ClCompile Include="geometry_shader.cpp" />
     <ClCompile Include="graphic_manager.cpp" />

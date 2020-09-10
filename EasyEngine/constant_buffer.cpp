@@ -33,6 +33,7 @@ cbuf_ns::ConstantBufferData::ConstantBufferData(const UINT Size, const D3D11_SUB
     EasyEngine::graphics().d3d11Device().CreateBuffer(&desc, Data, &cbuf_);
 }
 
+// note : ここのコンテキストへのアクセスは、スレッドセーフでない
 bool cbuf_ns::ConstantBufferData::update(const void* Data, const size_t Size) {
     D3D11_MAPPED_SUBRESOURCE mpd{};
     if(FAILED(EasyEngine::graphics().d3d11Context().Map(cbuf_.Get(), 0, D3D11_MAP::D3D11_MAP_WRITE_DISCARD, 0, &mpd)))
