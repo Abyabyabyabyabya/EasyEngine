@@ -19,6 +19,8 @@
 namespace easy_engine {
 namespace g_lib {
 
+class DrawContext;  ///< 描画コンテキスト前方宣言　※循環参照回避
+
 /******************************************************************************
 
     ConstantBufferData
@@ -49,7 +51,7 @@ public :
     ID3D11Buffer* buffer() const noexcept { return cbuf_.Get(); }
 protected :
     ConstantBufferData(UINT DataSize, const D3D11_SUBRESOURCE_DATA* InitialData);
-    bool update(const void* Data, size_t Size);
+    bool update(const void* Data, size_t Size, const DrawContext&);
 private: 
     Microsoft::WRL::ComPtr<ID3D11Buffer> cbuf_;
 };
@@ -91,12 +93,13 @@ public :
     ///         true  : 成功
     ///         false : 失敗
     ///
-    /// \param[in] Data : 変更後のデータ
+    /// \param[in] Data    : 変更後のデータ
+    /// \param[in] Context : 変更を行うコンテキスト
     ///
     /// \return 書き換え結果
     ///
-    bool setData(const DataTy& Data) {
-        return update(&Data, sizeof(DataTy));
+    bool setData(const DataTy& Data, const DrawContext& Context) {
+        return update(&Data, sizeof(DataTy), Context);
     }
 };
 

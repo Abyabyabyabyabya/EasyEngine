@@ -19,6 +19,11 @@
 ******************************************************************************/
 namespace gm_ns = easy_engine::g_lib;
 namespace {
+    class ImmediateContext : public gm_ns::DrawContext {
+    public :
+        ImmediateContext(Microsoft::WRL::ComPtr<ID3D11DeviceContext>& Context) noexcept : DrawContext{Context} {}
+    };
+
     class BaseLayer : public gm_ns::Layer {
     public :
         BaseLayer(ID3D11Device* D3DDevice, ID3D11Texture2D* BackBuffer) {
@@ -62,6 +67,7 @@ std::unique_ptr<gm_ns::GraphicManager> gm_ns::GraphicManager::create() {
     std::unique_ptr<GraphicManager> ptr{new GraphicManager{}};
     
     // DirectXを初期化
+    Microsoft::WRL::ComPtr<ID3D11DeviceContext> context;
     if(FAILED(D3D11CreateDeviceAndSwapChain(
                 nullptr,
                 D3D_DRIVER_TYPE::D3D_DRIVER_TYPE_HARDWARE,
@@ -74,7 +80,7 @@ std::unique_ptr<gm_ns::GraphicManager> gm_ns::GraphicManager::create() {
                 &ptr->swap_chain_,
                 &ptr->device_,
                 &ptr->feature_level_,
-                &ptr->context_))) {
+                &context))) {
         if(FAILED(D3D11CreateDeviceAndSwapChain(
                     nullptr,
                     D3D_DRIVER_TYPE::D3D_DRIVER_TYPE_WARP,
@@ -87,10 +93,11 @@ std::unique_ptr<gm_ns::GraphicManager> gm_ns::GraphicManager::create() {
                     &ptr->swap_chain_,
                     &ptr->device_,
                     &ptr->feature_level_,
-                    &ptr->context_))) {
+                    &context))) {
             return nullptr;
         }
     }
+    ptr->context_ = ImmediateContext{context};
     
     // ベースレイヤーを初期化
     Microsoft::WRL::ComPtr<ID3D11Texture2D> back_buffer;

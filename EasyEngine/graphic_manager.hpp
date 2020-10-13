@@ -46,6 +46,10 @@ public :
     void saveTexture(const char* FileName, const TextureResource& Image);
     Layer baseLayer() const noexcept { return base_layer_; }
 
+    DrawContext immediateContext() const noexcept { return context_; }
+
+
+
     // note : スレッドセーフに実装
     void executeContext(const DrawContext& Context);
 
@@ -54,8 +58,6 @@ public :
     D3D_FEATURE_LEVEL d3dFeatureLevel() const noexcept { return feature_level_; }
     /// D3Dデバイスを取得
     ID3D11Device& d3d11Device() const noexcept { return *device_.Get(); }
-    /// D3Dイミディエイトコンテキストを取得
-    ID3D11DeviceContext& d3d11Context() const noexcept { return *context_.Get(); }
 private :
     static std::unique_ptr<GraphicManager> create(); // EasyEngineクラスにより呼び出される関数
     GraphicManager() = default;
@@ -63,8 +65,8 @@ private :
 
     D3D_FEATURE_LEVEL feature_level_;
     Microsoft::WRL::ComPtr<ID3D11Device> device_;
-    Microsoft::WRL::ComPtr<ID3D11DeviceContext> context_;
     Microsoft::WRL::ComPtr<IDXGISwapChain> swap_chain_;
+    DrawContext context_;
     Layer base_layer_;
     typename UpdateManager<EasyEngine>::TaskInfo task_;
     std::mutex drawing_;

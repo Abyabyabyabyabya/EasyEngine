@@ -21,6 +21,7 @@
 #include <wrl.h>
 #include "constant_buffer.hpp"
 #include "texture.hpp"
+#include "sampler_state.hpp"
 
 namespace easy_engine {
 namespace g_lib {
@@ -72,7 +73,7 @@ public :
         textures_[Slot] = Texture.texture();
     }
     ///
-    /// \brief  複数の、スロット番号が連続した定数をセット
+    /// \brief  複数の、スロット番号が連続したテクスチャをセット
     ///
     ///         詳細はsetConstantsと同様です。
     ///
@@ -84,7 +85,27 @@ public :
             setTexture(StartSlot++, texture);
     }
 
-    // TODO : sampler
+    ///
+    /// \brief  サンプラーステートをセット
+    ///
+    /// \param[in] Slot    : セットするスロット番号
+    /// \param[in] Sampler : セットするサンプラーステート
+    ///
+    void setSampler(const UINT Slot, const SamplerState& Sampler) {
+        samplers_[Slot] = Sampler.state();
+    }
+    ///
+    /// \brief  複数の、スロット番号が連続したサンプラーステートをセット
+    ///
+    ///         詳細はSetConstantsと同様です
+    ///
+    /// \param[in] StartSlot : スロット開始番号
+    /// \param[in] Samplers  : セットするサンプラーステートリスト
+    ///
+    void setSamplers(UINT StartSlot, const std::vector<SamplerState>& Samplers) {
+        for(auto& sampler : Samplers)
+            setSampler(StartSlot++, sampler);
+    }
 
 
     /// スロット番号にマップされた定数バッファを取得
